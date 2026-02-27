@@ -18,8 +18,8 @@ Sistem ini menggunakan **Role-Based Access Control (RBAC)** sehingga tiap penggu
 
 ### 🏰 Administrator / Owner
 - 📊 **Dashboard Visual** – Statistik & grafik real-time.
-- 🔑 **Manajemen Perms** – Atur izin petugas secara fleksibel.
-- 📝 **Pengawasan Pengajuan Buku** – Setujui/tolak usulan buku anggota.
+- 🔑 **Manajemen Perms** – Atur izin secara fleksibel.
+- 📝 **Pengawasan Pengajuan Buku** – Setujui/tolak request buku anggota.
 - 📂 **Laporan Cepat** – Generate laporan PDF & Excel.
 - 🔔 **Notifikasi** – Semua update penting langsung muncul.
 
@@ -34,7 +34,8 @@ Sistem ini menggunakan **Role-Based Access Control (RBAC)** sehingga tiap penggu
 - 🗓️ **Reservasi Mandiri** – Booking buku agar tidak kehabisan.
 - 📖 **Koleksi Saya** – Lihat daftar buku favorit dan yang sedang dipinjam.
 - ✏️ **Ulasan Buku** – Tulis review untuk buku yang sudah dibaca.
-- 📨 **Usulan Buku Baru** – Ajukan buku dan pantau status lewat notifikasi.
+- 📨 **Request Buku Baru** – Ajukan buku dan pantau status lewat notifikasi.
+
 - 💳 **Riwayat & Denda Transparan** – Semua catatan jelas terlihat.
 - 🔔 **Notifikasi Real-time** – Update peminjaman, pengembalian, dan pesan sistem.
 
