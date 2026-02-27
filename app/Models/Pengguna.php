@@ -1,0 +1,210 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
+
+class Pengguna extends Authenticatable implements CanResetPassword
+{
+    use HasFactory, Notifiable;
+
+    protected $table = 'pengguna';
+    protected $primaryKey = 'id_pengguna';
+
+    const CREATED_AT = 'dibuat_pada';
+    const UPDATED_AT = 'diperbarui_pada';
+    // public $timestamps = false; // Removed as Authenticatable typically uses timestamps
+
+    protected $fillable = [
+        'nama_pengguna',
+        'email',
+        'kata_sandi',
+        'level_akses',
+        'status',
+        'nomor_anggota',
+        'foto_profil',
+    ];
+
+    protected $hidden = [
+        'kata_sandi',
+        'remember_token',
+    ];
+
+    public function getAuthPassword()
+    {
+        return $this->kata_sandi;
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'kata_sandi' => 'hashed',
+        ];
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->level_akses === 'admin';
+    }
+
+    /**
+     * Check if user is petugas (officer)
+     */
+    public function isPetugas(): bool
+    {
+        return $this->level_akses === 'petugas';
+    }
+
+    /**
+     * Check if user is anggota (member)
+     */
+    public function isAnggota(): bool
+    {
+        return $this->level_akses === 'anggota';
+    }
+
+    /**
+     * Check if user is regular user (anggota or petugas)
+     */
+    public function isUser(): bool
+    {
+        return in_array($this->level_akses, ['anggota', 'petugas']);
+    }
+
+    /**
+     * Cek apakah user boleh mengakses fitur tertentu.
+     * Admin selalu boleh akses semua, petugas hanya yang diberikan izin.
+     */
+    public function canAccess(string $fitur): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->hakAkses->pluck('fitur')->contains($fitur);
+    }
+
+    /**
+     * Ambil daftar nama fitur yang dimiliki petugas ini.
+     */
+    public function daftarFiturAkses(): Collection
+    {
+        return $this->hakAkses->pluck('fitur');
+    }
+
+    // ----------- RELATIONSHIPS -----------
+
+    public function anggota()
+    {
+        return $this->hasOne(Anggota::class, 'id_pengguna');
+    }
+
+    public function peminjaman()
+    {
+        return $this->hasMany(Peminjaman::class, 'id_pengguna');
+    }
+
+    public function hakAkses()
+    {
+        return $this->hasMany(HakAkses::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    /**
+     * Relasi ke Ulasan (reviews yang ditulis user ini)
+     */
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    /**
+     * Cek apakah user sudah pernah meminjam buku tertentu (untuk validasi boleh kasih ulasan)
+     */
+    public function sudahMeminjamBuku(int $idBuku): bool
+    {
+        return $this->peminjaman()
+            ->where('id_buku', $idBuku)
+            ->where('status_transaksi', 'dikembalikan')
+            ->exists();
+    }
+
+    /**
+     * Cek apakah user sudah pernah menulis ulasan untuk buku tertentu
+     */
+    public function sudahMengulasBuku(int $idBuku): bool
+    {
+        return $this->ulasan()
+            ->where('id_buku', $idBuku)
+            ->exists();
+    }
+
+    /**
+     * Check if user is pending verification
+     */
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    /**
+     * Check if user is active
+     */
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
+
+    /**
+     * Check if user is rejected
+     */
+    public function isRejected(): bool
+    {
+        return $this->status === 'rejected';
+    }
+
+    /**
+     * Generate unique member number
+     */
+    public static function generateNomorAnggota(): string
+    {
+        $year = date('Y');
+        $lastMember = self::whereNotNull('nomor_anggota')
+            ->orderBy('id_pengguna', 'desc')
+            ->first();
+        
+        if ($lastMember) {
+            $lastNumber = explode('-', $lastMember->nomor_anggota)[1] ?? 0;
+            $newNumber = (int)$lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        
+        return "ID-{$newNumber}-PX-{$year}";
+    }
+
+    /**
+     * Approve member and generate member number
+     */
+    public function approve(): void
+    {
+        $this->status = 'active';
+        $this->nomor_anggota = self::generateNomorAnggota();
+        $this->save();
+    }
+
+    /**
+     * Reject member
+     */
+    public function reject(): void
+    {
+        $this->status = 'rejected';
+        $this->save();
+    }
+}
