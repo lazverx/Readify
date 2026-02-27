@@ -14,7 +14,7 @@ Readify adalah platform perpustakaan digital berbasis web yang memudahkan pengel
 
 ## 🧩 Fitur Berdasarkan Peran
 
-Sistem ini menggunakan **Role-Based Access Control (RBAC)** sehingga tiap pengguna hanya melihat fitur yang relevan.
+Sistem ini menggunakan Multi Role sehingga tiap pengguna hanya melihat fitur yang relevan.
 
 ### 🏰 Administrator / Owner
 - 📊 **Dashboard Visual** – Statistik & grafik real-time.
