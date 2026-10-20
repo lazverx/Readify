@@ -123,7 +123,7 @@
                                         Tahun Terbit <span class="text-gray-400 font-normal text-xs">(opsional)</span>
                                     </label>
                                     <input type="number" id="tahun_terbit" name="tahun_terbit" value="{{ old('tahun_terbit') }}"
-                                        placeholder="Contoh: {{ date('Y') }}" min="1800" max="{{ date('Y') }}"
+                                        placeholder="Contoh: {{ date('Y') }}" min="1901" max="{{ date('Y') }}"
                                         class="w-full rounded-xl border px-4 py-2.5 text-sm text-gray-800 outline-none focus:ring-2 transition-all {{ $errors->has('tahun_terbit') ? 'border-red-400 focus:border-red-400 focus:ring-red-200' : 'border-gray-200 focus:border-[#004236] focus:ring-[#004236]/20' }}">
                                     @error('tahun_terbit')
                                         <p class="mt-1 text-xs text-red-500">{{ $message }}</p>

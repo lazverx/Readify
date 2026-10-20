@@ -228,12 +228,15 @@ class PetugasController extends Controller
 
                     // Cek sudah ada denda atau belum
                     $dendaExist = Denda::where('id_peminjaman', $peminjaman->id_peminjaman)->first();
+                    $statusBayar = request()->boolean('bayar_langsung') ? 'lunas' : 'belum_bayar';
                     if (!$dendaExist) {
                         Denda::create([
                             'id_peminjaman' => $peminjaman->id_peminjaman,
                             'jumlah_denda' => $dendaAmount,
-                            'status_pembayaran' => 'belum_bayar',
+                            'status_pembayaran' => $statusBayar,
                         ]);
+                    } elseif (request()->boolean('bayar_langsung')) {
+                        $dendaExist->update(['status_pembayaran' => 'lunas']);
                     }
                 }
             }

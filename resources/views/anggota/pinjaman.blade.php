@@ -141,6 +141,11 @@
                                             ({{ abs($sisaHari) }} hari)
                                         @endif
                                     </span>
+                                    @if($sisaHari !== null)
+                                        <span class="text-[11px] font-bold text-red-600 bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full">
+                                            Denda: Rp {{ number_format(abs($sisaHari) * 2000, 0, ',', '.') }}
+                                        </span>
+                                    @endif
                                 @elseif($status == 'dipinjam')
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-700">
                                         <span class="h-2 w-2 rounded-full bg-yellow-500 animate-pulse"></span>
@@ -216,6 +221,16 @@
                                         </div>
                                     </div>
                                 @endif
+
+                                {{-- Tombol Cetak Struk Bukti --}}
+                                <a href="{{ route('peminjaman.struk', $item->id_peminjaman) }}" target="_blank"
+                                    class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-2xs"
+                                    title="Cetak Bukti Transaksi Struk">
+                                    <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                    </svg>
+                                    Struk
+                                </a>
                             </div>
                         </div>
                     @endforeach

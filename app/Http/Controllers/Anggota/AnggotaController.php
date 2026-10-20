@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Services\DueNotificationService;
+use App\Services\GamifikasiService;
 
 class AnggotaController extends Controller
 {
@@ -40,6 +42,11 @@ class AnggotaController extends Controller
             });
         }
 
+        // Filter Hanya Buku Tersedia
+        if ($request->boolean('hanya_tersedia')) {
+            $query->where('stok', '>', 0);
+        }
+
         // Sorting
         $sort = $request->get('sort', 'terbaru');
         match ($sort) {
@@ -59,10 +66,52 @@ class AnggotaController extends Controller
             return response()->json([
                 'html' => $gridHtml,
                 'pagination' => $paginationHtml,
+                'total' => $buku->total(),
             ]);
         }
 
-        return view('anggota.dashboard', compact('buku', 'kategori'));
+        // Cek pengingat jatuh tempo otomatis untuk anggota saat membuka katalog
+        DueNotificationService::checkDueDates(Auth::id());
+        $bukuJatuhTempo = DueNotificationService::getUpcomingDueForUser(Auth::id());
+
+        // Leaderboard pembaca & statistik gamifikasi
+        $leaderboard = GamifikasiService::getLeaderboard(5);
+        $userStats = GamifikasiService::getUserStats(Auth::id());
+
+        return view('anggota.dashboard', compact('buku', 'kategori', 'bukuJatuhTempo', 'leaderboard', 'userStats'));
+    }
+
+    /**
+     * Quick Preview Data Buku (JSON untuk Modal Preview Instan)
+     */
+    public function quickPreview($id)
+    {
+        $buku = Buku::with('kategori')->findOrFail($id);
+        $user = Auth::user();
+
+        $sedangMeminjam = Peminjaman::where('id_pengguna', $user->id_pengguna)
+            ->where('id_buku', $id)
+            ->whereIn('status_transaksi', ['booking', 'dipinjam'])
+            ->exists();
+
+        return response()->json([
+            'id_buku' => $buku->id_buku,
+            'judul_buku' => $buku->judul_buku,
+            'penulis' => $buku->penulis,
+            'penerbit' => $buku->penerbit ?? '-',
+            'tahun_terbit' => $buku->tahun_terbit ?? '-',
+            'isbn' => $buku->isbn ?? '-',
+            'rak' => $buku->rak ?? 'Rak Utama',
+            'stok' => (int) $buku->stok,
+            'sinopsis' => $buku->sinopsis ?? 'Sinopsis lengkap belum tersedia untuk buku ini.',
+            'sampul_url' => $buku->sampul ? Storage::url($buku->sampul) : null,
+            'kategori' => $buku->kategori->pluck('nama_kategori')->toArray(),
+            'kategori_utama' => $buku->kategori->first()?->nama_kategori ?? 'Umum',
+            'sedang_meminjam' => $sedangMeminjam,
+            'akun_aktif' => $user->status === 'active',
+            'detail_url' => route('anggota.buku.detail', $buku->id_buku),
+            'booking_url' => route('anggota.booking.store'),
+        ]);
     }
 
 
@@ -273,7 +322,10 @@ class AnggotaController extends Controller
     {
         $user = Auth::user();
         $anggota = $user->anggota;
-        return view('anggota.profile', compact('user', 'anggota'));
+        $badges = GamifikasiService::getUserBadges($user->id_pengguna);
+        $userStats = GamifikasiService::getUserStats($user->id_pengguna);
+
+        return view('anggota.profile', compact('user', 'anggota', 'badges', 'userStats'));
     }
 
     public function updateProfile(Request $request)

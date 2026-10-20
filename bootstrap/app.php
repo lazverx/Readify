@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'akses' => \App\Http\Middleware\CekHakAkses::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
+
         $middleware->redirectUsersTo(function () {
             if (auth()->user()->isAdmin())
                 return route('dashboard');

@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Readify - Sistem Perpustakaan Digital</title>
 
     <!-- Fonts -->
@@ -425,7 +426,7 @@
                 </div>
             </div>
 
-            <!-- Bagian 2: Tim Profesional -->
+            <!-- Bagian 2: Dev -->
             <div class="reveal-on-scroll delay-200 text-center mb-16 relative">
                 <!-- Decorative Asterisk/Flower -->
                 <div class="absolute left-[10%] -top-10 hidden md:block animate-spin-slow"
@@ -441,7 +442,7 @@
 
             <!-- Team Cards Grid -->
             <div class="flex justify-center py-12">
-                <!-- Card 1: Faiz Akhrian -->
+                <!-- Card: Faiz Akhrian -->
                 <div class="reveal-on-scroll delay-300 flex flex-col items-center group max-w-[280px]">
                     <div
                         class="w-full bg-gray-200 rounded-t-xl rounded-b-xl overflow-hidden shadow-lg relative aspect-3/4 mb-6">
@@ -642,6 +643,8 @@
 
         });
     </script>
+
+    @include('components.ai-chat-bubble')
 </body>
 
 </html>

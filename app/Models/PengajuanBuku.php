@@ -26,6 +26,7 @@ class PengajuanBuku extends Model
         'status',
         'catatan_admin',
         'sudah_dibaca',
+        'id_buku',
     ];
 
     protected $casts = [
@@ -82,5 +83,13 @@ class PengajuanBuku extends Model
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    /**
+     * Relasi ke buku katalog yang terbit dari pengajuan ini
+     */
+    public function buku()
+    {
+        return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
     }
 }

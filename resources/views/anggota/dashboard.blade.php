@@ -1,181 +1,343 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+    <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10" x-data="katalogManager()">
 
-        {{-- Header --}}
-        <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-                <h2 class="text-title-md2 font-bold text-black">Katalog Buku</h2>
-                <p class="text-sm text-gray-500 mt-1">Klik pada buku untuk melihat detail dan meminjam</p>
+        {{-- ========================================================= --}}
+        {{-- FEATURE 3: ALERT PENGINGAT JATUH TEMPO (H-2 / H-1 / OVERDUE) --}}
+        {{-- ========================================================= --}}
+        @if(isset($bukuJatuhTempo) && $bukuJatuhTempo->isNotEmpty())
+            <div class="mb-6 space-y-3">
+                @foreach($bukuJatuhTempo as $itemTempo)
+                    @php
+                        $isOverdue = $itemTempo->sisa_hari < 0;
+                        $isToday = $itemTempo->sisa_hari === 0;
+                        $tglFormat = \Carbon\Carbon::parse($itemTempo->tgl_jatuh_tempo)->format('d M Y');
+                    @endphp
+                    <div class="relative overflow-hidden rounded-2xl border {{ $isOverdue ? 'border-red-200 bg-red-50/80 text-red-900' : 'border-amber-200 bg-amber-50/80 text-amber-900' }} p-4 sm:p-5 shadow-sm">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-start gap-3.5">
+                                <div class="shrink-0 rounded-xl p-2.5 {{ $isOverdue ? 'bg-red-500 text-white' : 'bg-amber-500 text-white' }}">
+                                    @if($isOverdue)
+                                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                        </svg>
+                                    @else
+                                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    @endif
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider {{ $isOverdue ? 'bg-red-200 text-red-800' : 'bg-amber-200 text-amber-800' }}">
+                                            {{ $isOverdue ? 'Terlambat ' . abs($itemTempo->sisa_hari) . ' Hari' : ($isToday ? 'Jatuh Tempo Hari Ini!' : 'Jatuh Tempo H-' . $itemTempo->sisa_hari) }}
+                                        </span>
+                                        <span class="text-xs font-semibold opacity-75">Batas: {{ $tglFormat }}</span>
+                                    </div>
+                                    <h4 class="text-sm sm:text-base font-bold mt-1">
+                                        Buku: "{{ $itemTempo->buku->judul_buku ?? 'Buku Perpustakaan' }}"
+                                    </h4>
+                                    <p class="text-xs mt-0.5 opacity-90">
+                                        {{ $isOverdue ? 'Denda berjalan Rp 1.000/hari. Harap segera kembalikan buku ke perpustakaan untuk menghindari akumulasi denda.' : 'Segera lakukan perpanjangan peminjaman atau kembalikan buku sebelum tanggal jatuh tempo agar terbebas dari denda.' }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                                <a href="{{ route('anggota.pinjaman') }}"
+                                    class="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold shadow-sm transition-all {{ $isOverdue ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-amber-600 hover:bg-amber-700 text-white' }}">
+                                    <span>Kelola Pinjaman</span>
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
+        {{-- ========================================================= --}}
+        {{-- FEATURE 4: HEADER & GAMIFIKASI HIGHLIGHT BANNER --}}
+        {{-- ========================================================= --}}
+        <div class="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+            {{-- Welcome & Stats Card --}}
+            <div class="rounded-2xl border border-gray-100 bg-linear-to-br from-[#0f4c3a] to-[#1a6650] p-6 text-white shadow-sm lg:col-span-2 relative overflow-hidden">
+                <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col justify-between h-full">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs font-medium backdrop-blur-sm mb-3">
+                            <span>✨ Selamat Datang di Readify</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>Katalog Terpadu</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                            Jelajahi Koleksi Literasi Digital
+                        </h2>
+                        <p class="mt-1 text-sm text-emerald-100/90 max-w-xl">
+                            Temukan ribuan buku pilihan, manga, novel, sains, dan teknologi. Pinjam dengan mudah dan raih lencana literasi!
+                        </p>
+                    </div>
+
+                    {{-- Member Quick Stats --}}
+                    <div class="mt-6 pt-4 border-t border-white/10 grid grid-cols-3 gap-3">
+                        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
+                            <span class="text-[11px] text-emerald-200 block">Total Dipinjam</span>
+                            <span class="text-lg font-bold">{{ $userStats['total_pinjam'] ?? 0 }} Buku</span>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
+                            <span class="text-[11px] text-emerald-200 block">Peringkat Kamu</span>
+                            <span class="text-lg font-bold">#{{ $userStats['rank'] ?? '-' }}</span>
+                        </div>
+                        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
+                            <span class="text-[11px] text-emerald-200 block">Lencana Pembaca</span>
+                            <a href="{{ route('anggota.profile') }}" class="text-xs font-bold text-amber-300 hover:text-white inline-flex items-center gap-1 mt-1">
+                                Lihat Lencana →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Leaderboard Preview Card --}}
+            <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🏆</span>
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-900">Top Pembaca Bulan Ini</h3>
+                                <p class="text-[11px] text-gray-500">Anggota paling aktif meminjam buku</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">Leaderboard</span>
+                    </div>
+
+                    <div class="space-y-2 mt-2">
+                        @forelse(array_slice($leaderboard, 0, 3) as $userTop)
+                            <div class="flex items-center justify-between p-2 rounded-xl {{ $userTop['rank'] === 1 ? 'bg-amber-50/70 border border-amber-100' : 'bg-gray-50' }}">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <span class="w-6 text-center font-extrabold text-sm {{ $userTop['rank'] === 1 ? 'text-amber-500' : ($userTop['rank'] === 2 ? 'text-gray-400' : 'text-amber-700') }}">
+                                        @if($userTop['rank'] === 1) 🥇 @elseif($userTop['rank'] === 2) 🥈 @else 🥉 @endif
+                                    </span>
+                                    <div class="w-7 h-7 rounded-full bg-[#0f4c3a] text-white flex items-center justify-center text-xs font-bold shrink-0 overflow-hidden">
+                                        @if($userTop['foto'])
+                                            <img src="{{ $userTop['foto'] }}" class="w-full h-full object-cover">
+                                        @else
+                                            {{ $userTop['initials'] }}
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-xs font-bold text-gray-900 truncate">{{ $userTop['nama'] }}</p>
+                                        <p class="text-[10px] text-gray-500">{{ $userTop['badge_title'] }}</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-[#0f4c3a] shrink-0 bg-white px-2 py-0.5 rounded-lg border border-gray-100">
+                                    {{ $userTop['total_pinjam'] }} buku
+                                </span>
+                            </div>
+                        @empty
+                            <p class="text-xs text-gray-400 text-center py-4">Belum ada data peminjaman</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                    <span class="text-[11px] text-gray-500">Tingkatkan terus pinjamanmu!</span>
+                    <a href="{{ route('anggota.profile') }}" class="text-xs font-bold text-[#0f4c3a] hover:underline">
+                        Profil & Lencana
+                    </a>
+                </div>
             </div>
         </div>
 
-        {{-- Filter & Search Box (sama dengan admin data buku) --}}
-        <div class="rounded-[20px] border border-gray-100 bg-white px-5 pb-5 pt-6 shadow-sm sm:px-7.5 xl:pb-1 mb-6">
-            <form id="filter-form" method="GET" action="{{ route('anggota.dashboard') }}"
-                class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center">
-
-                {{-- Search Bar --}}
+        {{-- ========================================================= --}}
+        {{-- FEATURE 6: LIVE SEARCH, CATEGORY PILLS & AVAILABILITY FILTER --}}
+        {{-- ========================================================= --}}
+        <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm mb-6">
+            
+            {{-- Top Controls: Search Bar, Availability Toggle, Sort --}}
+            <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-4">
+                {{-- Search Box --}}
                 <div class="relative flex-1">
-                    <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2">
-                        <svg class="fill-current text-black hover:text-primary transition-colors" width="20"
-                            height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M9.16666 3.33332C5.945 3.33332 3.33332 5.945 3.33332 9.16666C3.33332 12.3883 5.945 15 9.16666 15C12.3883 15 15 12.3883 15 9.16666C15 5.945 12.3883 3.33332 9.16666 3.33332ZM1.66666 9.16666C1.66666 5.02452 5.02452 1.66666 9.16666 1.66666C13.3088 1.66666 16.6667 5.02452 16.6667 9.16666C16.6667 13.3088 13.3088 16.6667 9.16666 16.6667C5.02452 16.6667 1.66666 13.3088 1.66666 9.16666Z"
-                                fill="currentColor" />
-                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                d="M13.2857 13.2857C13.6112 12.9603 14.1388 12.9603 14.4642 13.2857L18.0892 16.9107C18.4147 17.2362 18.4147 17.7638 18.0892 18.0892C17.7638 18.4147 17.2362 18.4147 16.9107 18.0892L13.2857 14.4642C12.9603 14.1388 12.9603 13.6112 13.2857 13.2857Z"
-                                fill="currentColor" />
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                    </button>
-                    <input type="text" id="katalog-search" name="search" value="{{ request('search') }}"
-                        placeholder="Cari Judul, Penulis, Sinopsis, atau ISBN..."
-                        class="w-full rounded-lg border border-stroke bg-transparent pl-12 pr-4 py-2 font-medium outline-none focus:border-primary dark:border-strokedark dark:text-white"
+                    </span>
+                    <input type="text" id="katalog-search"
+                        placeholder="Ketik judul buku, penulis, ISBN, atau sinopsis..."
+                        value="{{ request('search') }}"
+                        class="w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-10 py-2.5 text-sm font-medium outline-none transition-all focus:border-[#0f4c3a] focus:bg-white focus:ring-2 focus:ring-[#0f4c3a]/15"
                         autocomplete="off" />
+                    
                     {{-- Spinner --}}
                     <span id="search-spinner" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
-                        <svg class="h-4 w-4 animate-spin text-gray-400" fill="none" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 animate-spin text-[#0f4c3a]" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
                         </svg>
                     </span>
                 </div>
 
-                {{-- Filter Kategori --}}
-                <div class="relative w-full sm:w-48">
-                    <select id="filter-kategori" name="kategori" onchange="document.getElementById('filter-form').submit()"
-                        class="w-full appearance-none rounded-lg border border-stroke bg-transparent px-4 py-2 pr-10 font-medium outline-none focus:border-primary dark:border-strokedark dark:bg-form-input dark:text-white">
-                        <option value="">Semua Kategori</option>
-                        @foreach($kategori as $kat)
-                            <option value="{{ $kat->nama_kategori }}"
-                                {{ request('kategori') == $kat->nama_kategori ? 'selected' : '' }}>
-                                {{ $kat->nama_kategori }}
-                            </option>
-                        @endforeach
+                {{-- Toggle: Hanya Buku Tersedia --}}
+                <label class="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-gray-100/60 cursor-pointer select-none transition-colors shrink-0">
+                    <input type="checkbox" id="filter-tersedia" class="w-4 h-4 rounded text-[#0f4c3a] focus:ring-[#0f4c3a] border-gray-300">
+                    <span class="text-xs font-semibold text-gray-700">Hanya Tersedia</span>
+                </label>
+
+                {{-- Sort Dropdown --}}
+                <div class="relative w-full md:w-44 shrink-0">
+                    <select id="filter-sort"
+                        class="w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/50 px-3.5 py-2.5 pr-8 text-xs font-semibold text-gray-700 outline-none transition-all focus:border-[#0f4c3a] focus:bg-white">
+                        <option value="terbaru">Terbaru</option>
+                        <option value="terlama">Terlama</option>
+                        <option value="az">Judul (A - Z)</option>
+                        <option value="za">Judul (Z - A)</option>
                     </select>
-                    <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
-                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.47072 1.08816C0.47072 1.02932 0.50072 0.97048 0.559553 0.911642C0.677219 0.793976 0.912552 0.793976 1.03022 0.911642L4.99988 4.8813L8.96954 0.911642C9.0872 0.793976 9.32254 0.793976 9.44021 0.911642C9.55787 1.02931 9.55787 1.26464 9.44021 1.38231L5.23522 5.5873C5.11756 5.70497 4.88222 5.70497 4.76456 5.5873L0.559553 1.38231C0.50072 1.32348 0.47072 1.26464 0.47072 1.08816Z" fill="currentColor" />
+                    <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
                 </div>
 
-                {{-- Sort --}}
-                <div class="relative w-full sm:w-48">
-                    <select id="filter-sort" name="sort" onchange="document.getElementById('filter-form').submit()"
-                        class="w-full appearance-none rounded-lg border border-stroke bg-transparent px-4 py-2 pr-10 font-medium outline-none focus:border-primary dark:border-strokedark dark:bg-form-input dark:text-white">
-                        <option value="terbaru" {{ request('sort', 'terbaru') == 'terbaru' ? 'selected' : '' }}>Terbaru</option>
-                        <option value="terlama" {{ request('sort') == 'terlama' ? 'selected' : '' }}>Terlama</option>
-                        <option value="az" {{ request('sort') == 'az' ? 'selected' : '' }}>A - Z</option>
-                        <option value="za" {{ request('sort') == 'za' ? 'selected' : '' }}>Z - A</option>
-                    </select>
-                    <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
-                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.47072 1.08816C0.47072 1.02932 0.50072 0.97048 0.559553 0.911642C0.677219 0.793976 0.912552 0.793976 1.03022 0.911642L4.99988 4.8813L8.96954 0.911642C9.0872 0.793976 9.32254 0.793976 9.44021 0.911642C9.55787 1.02931 9.55787 1.26464 9.44021 1.38231L5.23522 5.5873C5.11756 5.70497 4.88222 5.70497 4.76456 5.5873L0.559553 1.38231C0.50072 1.32348 0.47072 1.26464 0.47072 1.08816Z" fill="currentColor" />
-                        </svg>
-                    </div>
-                </div>
+                {{-- Reset Button --}}
+                <button type="button" onclick="window.resetKatalogFilter()"
+                    class="rounded-xl border border-gray-200 px-3.5 py-2.5 text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors shrink-0 flex items-center justify-center gap-1.5">
+                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span>Reset</span>
+                </button>
+            </div>
 
-                {{-- Tombol Reset --}}
-                @if(request('search') || request('kategori') || (request('sort') && request('sort') != 'terbaru'))
-                    <a href="{{ route('anggota.dashboard') }}"
-                        class="flex items-center gap-1 rounded-lg border border-stroke px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {{-- Category Filter Pills --}}
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1 no-scrollbar">
+                <button type="button" data-kategori=""
+                    class="kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-sm">
+                    ✨ Semua
+                </button>
+                @foreach($kategori as $kat)
+                    <button type="button" data-kategori="{{ $kat->nama_kategori }}"
+                        class="kat-pill px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        {{ $kat->nama_kategori }}
+                    </button>
+                @endforeach
+            </div>
+
+            {{-- Result Count & Active Filters Indicator --}}
+            <div class="mt-3 flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-100">
+                <span id="katalog-count">Menampilkan koleksi buku perpustakaan</span>
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Live Search Aktif</span>
+                </span>
+            </div>
+        </div>
+
+        {{-- ========================================================= --}}
+        {{-- BUKU GRID CONTAINER --}}
+        {{-- ========================================================= --}}
+        <div id="buku-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            @include('anggota.partials.buku-grid', ['buku' => $buku])
+        </div>
+
+        {{-- Pagination --}}
+        <div id="pagination-container" class="mt-8">
+            {{ $buku->links() }}
+        </div>
+
+        {{-- ========================================================= --}}
+        {{-- FEATURE 6: QUICK PREVIEW MODAL --}}
+        {{-- ========================================================= --}}
+        <div id="quick-preview-modal" class="fixed inset-0 z-99999 hidden overflow-y-auto" role="dialog" aria-modal="true">
+            {{-- Backdrop --}}
+            <div id="modal-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-200"></div>
+
+            {{-- Modal Content Box --}}
+            <div class="flex min-h-screen items-center justify-center p-4">
+                <div id="modal-box" class="relative w-full max-w-2xl transform rounded-2xl bg-white p-6 shadow-2xl transition-all duration-200 scale-95 opacity-0">
+                    
+                    {{-- Close Button --}}
+                    <button type="button" onclick="window.closeQuickPreview()"
+                        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-black flex items-center justify-center transition-colors z-10"
+                        title="Tutup (Esc)">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                        Reset Filter
-                    </a>
-                @endif
-            </form>
+                    </button>
 
-            {{-- Grid Buku --}}
-            <div id="buku-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                @forelse($buku as $item)
-                    <a href="{{ route('anggota.buku.detail', $item->id_buku) }}"
-                        class="group flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer"
-                        title="Lihat detail: {{ $item->judul_buku }}">
+                    {{-- Modal Body --}}
+                    <div id="modal-loading" class="py-16 flex flex-col items-center justify-center">
+                        <svg class="h-8 w-8 animate-spin text-[#0f4c3a]" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                        <p class="text-xs text-gray-500 mt-2 font-medium">Memuat pratinjau buku...</p>
+                    </div>
 
-                        {{-- Image --}}
-                        <div class="relative aspect-2/3 w-full overflow-hidden bg-gray-100">
-                            @if($item->sampul)
-                                <img src="{{ Storage::url($item->sampul) }}" alt="{{ $item->judul_buku }}"
-                                    loading="lazy"
-                                    class="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
-                            @else
-                                <div class="flex h-full w-full items-center justify-center bg-linear-to-br from-[#e8f4f0] to-[#c8e6d8]">
-                                    <svg class="h-12 w-12 text-[#0f4c3a] opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25">
-                                        </path>
-                                    </svg>
+                    <div id="modal-content" class="hidden">
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            {{-- Cover Image --}}
+                            <div class="w-full sm:w-48 shrink-0">
+                                <div class="relative aspect-2/3 w-full overflow-hidden rounded-xl bg-gray-100 shadow-md">
+                                    <img id="modal-sampul" src="" alt="Cover Buku" class="w-full h-full object-cover">
+                                    <div id="modal-sampul-fallback" class="hidden w-full h-full bg-linear-to-br from-[#e8f4f0] to-[#c8e6d8] flex items-center justify-center">
+                                        <svg class="h-16 w-16 text-[#0f4c3a] opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <span id="modal-stok-badge" class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white shadow"></span>
                                 </div>
-                            @endif
-
-                            {{-- Status overlay --}}
-                            <div class="absolute top-2 left-2">
-                                @if($item->stok > 0)
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-green-500/90 px-2 py-0.5 text-[10px] font-bold uppercase text-white backdrop-blur-sm">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
-                                        Tersedia
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-red-500/90 px-2 py-0.5 text-[10px] font-bold uppercase text-white backdrop-blur-sm">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
-                                        Habis
-                                    </span>
-                                @endif
                             </div>
 
-                            {{-- Hover overlay --}}
-                            <div class="absolute inset-0 bg-[#0f4c3a]/0 group-hover:bg-[#0f4c3a]/20 transition-all duration-300 flex items-center justify-center">
-                                <div class="opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-100 scale-90">
-                                    <div class="rounded-full bg-white/90 px-3 py-1.5 text-xs font-bold text-[#0f4c3a] shadow-lg backdrop-blur-sm">
-                                        Lihat Detail →
+                            {{-- Book Details --}}
+                            <div class="flex-1 flex flex-col justify-between min-w-0">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                                        <span id="modal-kategori" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200"></span>
+                                        <span id="modal-rak" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700"></span>
+                                    </div>
+
+                                    <h3 id="modal-judul" class="text-lg sm:text-xl font-extrabold text-gray-900 leading-snug"></h3>
+                                    <p id="modal-penulis" class="text-xs font-semibold text-gray-600 mt-1"></p>
+
+                                    {{-- Info Grid --}}
+                                    <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600 py-2 border-y border-gray-100">
+                                        <div><span class="font-medium text-gray-400">Penerbit:</span> <span id="modal-penerbit" class="font-bold text-gray-800"></span></div>
+                                        <div><span class="font-medium text-gray-400">Tahun:</span> <span id="modal-tahun" class="font-bold text-gray-800"></span></div>
+                                        <div class="col-span-2"><span class="font-medium text-gray-400">ISBN:</span> <span id="modal-isbn" class="font-mono text-gray-800"></span></div>
+                                    </div>
+
+                                    {{-- Synopsis --}}
+                                    <div class="mt-3">
+                                        <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Sinopsis Ringkas</h4>
+                                        <div id="modal-sinopsis" class="text-xs text-gray-700 leading-relaxed max-h-32 overflow-y-auto pr-1"></div>
+                                    </div>
+                                </div>
+
+                                {{-- Action Buttons --}}
+                                <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between gap-3">
+                                    <a id="modal-detail-btn" href="#"
+                                        class="rounded-xl border border-gray-200 px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors">
+                                        Lihat Halaman Penuh →
+                                    </a>
+
+                                    <div id="modal-action-container">
+                                        {{-- Dynamic Borrow Button or Status Badge --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        {{-- Content --}}
-                        <div class="flex flex-col flex-1 p-2.5">
-                            <p class="mb-0.5 text-[10px] text-[#0f4c3a] font-medium uppercase tracking-wide">
-                                {{ $item->kategori->first()?->nama_kategori ?? 'Umum' }}
-                            </p>
-                            <h4 class="text-xs font-bold text-black line-clamp-2 leading-snug mb-1"
-                                title="{{ $item->judul_buku }}">
-                                {{ $item->judul_buku }}
-                            </h4>
-                            <p class="text-[10px] text-gray-500 line-clamp-1">{{ $item->penulis }}</p>
-                        </div>
-                    </a>
-                @empty
-                    <div class="col-span-full py-20 text-center">
-                        <div class="flex flex-col items-center justify-center gap-4">
-                            <div class="rounded-full bg-gray-100 p-6">
-                                <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-black">Buku tidak ditemukan</h3>
-                                <p class="mt-1 text-gray-500">Coba gunakan kata kunci lain atau ubah filter.</p>
-                            </div>
-                            <a href="{{ route('anggota.dashboard') }}"
-                                class="mt-2 inline-flex items-center text-primary hover:underline text-sm font-medium">
-                                Bersihkan semua filter
-                            </a>
-                        </div>
                     </div>
-                @endforelse
-            </div>
-
-            <div id="pagination-container" class="mt-6">
-                {{ $buku->links() }}
+                </div>
             </div>
         </div>
+
     </div>
 
     @push('scripts')
@@ -185,13 +347,23 @@
             let currentSearch = @json(request('search', ''));
             let currentKategori = @json(request('kategori', ''));
             let currentSort = @json(request('sort', 'terbaru'));
+            let currentHanyaTersedia = false;
 
             const searchInput = document.getElementById('katalog-search');
             const spinner = document.getElementById('search-spinner');
             const grid = document.getElementById('buku-grid');
             const paginationContainer = document.getElementById('pagination-container');
-            const selectKategori = document.getElementById('filter-kategori');
             const selectSort = document.getElementById('filter-sort');
+            const toggleTersedia = document.getElementById('filter-tersedia');
+            const katPills = document.querySelectorAll('.kat-pill');
+            const countLabel = document.getElementById('katalog-count');
+
+            // Quick Preview Modal Elements
+            const modal = document.getElementById('quick-preview-modal');
+            const modalBox = document.getElementById('modal-box');
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const modalLoading = document.getElementById('modal-loading');
+            const modalContent = document.getElementById('modal-content');
 
             // Fetch buku via AJAX
             function fetchBuku(page) {
@@ -202,15 +374,18 @@
                 if (currentSearch) params.set('search', currentSearch);
                 if (currentKategori) params.set('kategori', currentKategori);
                 if (currentSort) params.set('sort', currentSort);
+                if (currentHanyaTersedia) params.set('hanya_tersedia', '1');
                 params.set('page', page);
                 params.set('ajax', '1');
 
-                // Update URL bar tanpa reload
+                // Update URL bar
                 const displayParams = new URLSearchParams();
                 if (currentSearch) displayParams.set('search', currentSearch);
                 if (currentKategori) displayParams.set('kategori', currentKategori);
                 if (currentSort && currentSort !== 'terbaru') displayParams.set('sort', currentSort);
+                if (currentHanyaTersedia) displayParams.set('hanya_tersedia', '1');
                 if (page > 1) displayParams.set('page', page);
+                
                 const newUrl = window.location.pathname + (displayParams.toString() ? '?' + displayParams.toString() : '');
                 history.replaceState(null, '', newUrl);
 
@@ -227,25 +402,27 @@
                 .then(function(data) {
                     grid.innerHTML = data.html;
                     paginationContainer.innerHTML = data.pagination;
+                    if (countLabel && typeof data.total !== 'undefined') {
+                        countLabel.textContent = 'Ditemukan ' + data.total + ' buku sesuai kriteria pencarian';
+                    }
                     bindPaginationLinks();
                     if (spinner) spinner.classList.add('hidden');
                 })
                 .catch(function() {
                     if (spinner) spinner.classList.add('hidden');
-                    window.location.reload();
                 });
             }
 
-            // Bind pagination links agar tidak reload
+            // Bind pagination links
             function bindPaginationLinks() {
                 paginationContainer.querySelectorAll('a[href]').forEach(function(link) {
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
                         try {
-                            var url = new URL(this.href);
-                            var page = url.searchParams.get('page') || 1;
+                            const url = new URL(this.href);
+                            const page = url.searchParams.get('page') || 1;
                             fetchBuku(page);
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            window.scrollTo({ top: grid.offsetTop - 100, behavior: 'smooth' });
                         } catch(err) {
                             window.location.href = this.href;
                         }
@@ -253,35 +430,180 @@
                 });
             }
 
-            // Live search dengan debounce 400ms
+            // Live search dengan debounce 350ms
             if (searchInput) {
                 searchInput.addEventListener('input', function() {
                     clearTimeout(searchTimeout);
                     searchTimeout = setTimeout(function() {
                         currentSearch = searchInput.value.trim();
                         fetchBuku(1);
-                    }, 400);
+                    }, 350);
                 });
             }
 
-            // Kategori & sort: AJAX saat berubah (bukan submit form)
-            if (selectKategori) {
-                selectKategori.onchange = function() {
-                    currentKategori = this.value;
+            // Toggle hanya buku tersedia
+            if (toggleTersedia) {
+                toggleTersedia.addEventListener('change', function() {
+                    currentHanyaTersedia = this.checked;
                     fetchBuku(1);
-                };
+                });
             }
 
+            // Sort change
             if (selectSort) {
-                selectSort.onchange = function() {
+                selectSort.addEventListener('change', function() {
                     currentSort = this.value;
                     fetchBuku(1);
-                };
+                });
             }
 
-            // Init: bind pagination yang sudah di-render server
+            // Category pills handler
+            katPills.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const selectedKat = this.getAttribute('data-kategori');
+                    currentKategori = selectedKat;
+
+                    // Update UI active state
+                    katPills.forEach(function(p) {
+                        p.className = 'kat-pill px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 bg-gray-100 text-gray-700 hover:bg-gray-200';
+                    });
+                    this.className = 'kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-sm';
+
+                    fetchBuku(1);
+                });
+            });
+
+            // Global Reset Filter
+            window.resetKatalogFilter = function() {
+                if (searchInput) searchInput.value = '';
+                if (toggleTersedia) toggleTersedia.checked = false;
+                if (selectSort) selectSort.value = 'terbaru';
+                currentSearch = '';
+                currentKategori = '';
+                currentSort = 'terbaru';
+                currentHanyaTersedia = false;
+
+                katPills.forEach(function(p, idx) {
+                    if (idx === 0) {
+                        p.className = 'kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-sm';
+                    } else {
+                        p.className = 'kat-pill px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 bg-gray-100 text-gray-700 hover:bg-gray-200';
+                    }
+                });
+
+                fetchBuku(1);
+            };
+
+            // Quick Preview Modal Handler
+            window.openQuickPreview = function(idBuku) {
+                modal.classList.remove('hidden');
+                modalLoading.classList.remove('hidden');
+                modalContent.classList.add('hidden');
+
+                // Animate entrance
+                setTimeout(function() {
+                    modalBox.classList.remove('scale-95', 'opacity-0');
+                    modalBox.classList.add('scale-100', 'opacity-100');
+                }, 10);
+
+                fetch('/anggota/buku/' + idBuku + '/quick-preview', {
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(function(res) {
+                    if (!res.ok) throw new Error('Gagal memuat detail buku');
+                    return res.json();
+                })
+                .then(function(data) {
+                    // Populate fields
+                    document.getElementById('modal-judul').textContent = data.judul_buku;
+                    document.getElementById('modal-penulis').textContent = 'Oleh: ' + data.penulis;
+                    document.getElementById('modal-penerbit').textContent = data.penerbit;
+                    document.getElementById('modal-tahun').textContent = data.tahun_terbit;
+                    document.getElementById('modal-isbn').textContent = data.isbn;
+                    document.getElementById('modal-kategori').textContent = data.kategori_utama;
+                    document.getElementById('modal-rak').textContent = '📍 ' + data.rak;
+                    document.getElementById('modal-sinopsis').textContent = data.sinopsis;
+                    document.getElementById('modal-detail-btn').href = data.detail_url;
+
+                    // Cover
+                    const imgCover = document.getElementById('modal-sampul');
+                    const fallbackCover = document.getElementById('modal-sampul-fallback');
+                    if (data.sampul_url) {
+                        imgCover.src = data.sampul_url;
+                        imgCover.classList.remove('hidden');
+                        fallbackCover.classList.add('hidden');
+                    } else {
+                        imgCover.classList.add('hidden');
+                        fallbackCover.classList.remove('hidden');
+                    }
+
+                    // Stock badge
+                    const stokBadge = document.getElementById('modal-stok-badge');
+                    if (data.stok > 0) {
+                        stokBadge.textContent = 'Tersedia (' + data.stok + ')';
+                        stokBadge.className = 'absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white shadow bg-emerald-600';
+                    } else {
+                        stokBadge.textContent = 'Stok Habis';
+                        stokBadge.className = 'absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white shadow bg-rose-600';
+                    }
+
+                    // Action Container
+                    const actionContainer = document.getElementById('modal-action-container');
+                    if (data.sedang_meminjam) {
+                        actionContainer.innerHTML = '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 text-xs font-bold">⏳ Sedang Kamu Pinjam</span>';
+                    } else if (data.stok <= 0) {
+                        actionContainer.innerHTML = '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gray-100 text-gray-500 text-xs font-bold">Stok Belum Tersedia</span>';
+                    } else if (!data.akun_aktif) {
+                        actionContainer.innerHTML = '<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-100 text-red-700 text-xs font-bold">Akun Belum Aktif</span>';
+                    } else {
+                        actionContainer.innerHTML = `
+                            <form method="POST" action="${data.booking_url}">
+                                <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]')?.content || ''}">
+                                <input type="hidden" name="id_buku" value="${data.id_buku}">
+                                <input type="hidden" name="durasi_pinjam" value="7">
+                                <button type="submit" class="inline-flex items-center gap-1.5 rounded-xl bg-[#0f4c3a] px-4 py-2 text-xs font-bold text-white shadow hover:bg-emerald-900 transition-colors">
+                                    <span>Pinjam Sekarang (7 Hari)</span>
+                                </button>
+                            </form>
+                        `;
+                    }
+
+                    modalLoading.classList.add('hidden');
+                    modalContent.classList.remove('hidden');
+                })
+                .catch(function(err) {
+                    modalLoading.innerHTML = '<p class="text-xs text-red-500 font-medium">Terjadi kesalahan saat memuat data buku.</p>';
+                });
+            };
+
+            window.closeQuickPreview = function() {
+                modalBox.classList.remove('scale-100', 'opacity-100');
+                modalBox.classList.add('scale-95', 'opacity-0');
+                setTimeout(function() {
+                    modal.classList.add('hidden');
+                }, 150);
+            };
+
+            // Backdrop click to close
+            if (modalBackdrop) {
+                modalBackdrop.addEventListener('click', window.closeQuickPreview);
+            }
+
+            // Escape key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    window.closeQuickPreview();
+                }
+            });
+
+            // Init pagination binding
             bindPaginationLinks();
         })();
+
+        // Alpine placeholder to satisfy x-data="katalogManager()"
+        function katalogManager() {
+            return {};
+        }
     </script>
     @endpush
 @endsection

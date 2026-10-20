@@ -30,7 +30,7 @@ class PengajuanBukuPublikController extends Controller
             'nama_penulis' => 'required|string|max:255',
             'isbn' => 'nullable|string|max:20',
             'penerbit' => 'nullable|string|max:255',
-            'tahun_terbit' => 'nullable|integer|min:1800|max:' . date('Y'),
+            'tahun_terbit' => 'nullable|integer|digits:4|min:1901|max:' . date('Y'),
             'kategori' => 'nullable|string|max:100',
             'nama_pengusul' => 'required|string|max:255',
             'alasan_pengusulan' => 'required|string|min:10',
@@ -40,7 +40,7 @@ class PengajuanBukuPublikController extends Controller
             'nama_pengusul.required' => 'Nama pengusul wajib diisi.',
             'alasan_pengusulan.required' => 'Alasan pengusulan wajib diisi.',
             'alasan_pengusulan.min' => 'Alasan pengusulan minimal 10 karakter.',
-            'tahun_terbit.min' => 'Tahun terbit tidak valid.',
+            'tahun_terbit.min' => 'Tahun terbit minimal tahun 1901.',
             'tahun_terbit.max' => 'Tahun terbit tidak boleh melebihi tahun ini.',
         ]);
 

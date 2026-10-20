@@ -45,12 +45,15 @@ class AuthController extends Controller
 
         if (Auth::attempt($authCredentials)) {
             $request->session()->regenerate();
+            $user = Auth::user();
 
-            if (Auth::user()->isAdmin()) {
+            \App\Models\LogAktivitas::catat('login', "Pengguna '{$user->nama_pengguna}' ({$user->level_akses}) berhasil masuk ke sistem.");
+
+            if ($user->isAdmin()) {
                 return redirect()->intended(route('dashboard'));
-            } elseif (Auth::user()->isPetugas()) {
+            } elseif ($user->isPetugas()) {
                 return redirect()->intended(route('petugas.dashboard'));
-            } elseif (Auth::user()->isAnggota()) {
+            } elseif ($user->isAnggota()) {
                 return redirect()->intended(route('anggota.dashboard'));
             } else {
                 return redirect()->intended('/');
@@ -106,6 +109,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $userName = Auth::user() ? Auth::user()->nama_pengguna : 'Pengguna';
+        \App\Models\LogAktivitas::catat('logout', "Pengguna '{$userName}' keluar dari sistem.");
+
         Auth::logout();
 
         $request->session()->invalidate();

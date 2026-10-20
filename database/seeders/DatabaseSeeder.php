@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
 
         // Create dummy data for books, categories, etc.
         $this->call(DummyDataSeeder::class);
+
+        // Tambah 120 buku baru (54 manga & 66 novel english)
+        $this->call(Buku120Seeder::class);
     }
 }

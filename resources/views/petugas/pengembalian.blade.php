@@ -294,6 +294,16 @@
                     <form action="{{ route('petugas.pengembalian.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="id_peminjaman" :value="id">
+
+                        <div x-show="terlambat" class="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-3">
+                            <label class="flex items-center gap-2.5 cursor-pointer">
+                                <input type="checkbox" name="bayar_langsung" value="1" class="h-4 w-4 rounded text-[#004236] focus:ring-[#004236]">
+                                <span class="text-xs font-bold text-amber-900">
+                                    Denda langsung dibayar lunas sekarang di meja petugas
+                                </span>
+                            </label>
+                        </div>
+
                         <div class="flex gap-3">
                             <button type="button" @click="show = false"
                                 class="flex-1 rounded-xl border border-gray-300 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">Batal</button>

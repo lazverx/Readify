@@ -106,6 +106,16 @@ class Pengguna extends Authenticatable implements CanResetPassword
         return $this->hasOne(Anggota::class, 'id_pengguna');
     }
 
+    public function postinganKomunitas()
+    {
+        return $this->hasMany(PostinganKomunitas::class, 'id_pengguna');
+    }
+
+    public function komentarKomunitas()
+    {
+        return $this->hasMany(KomentarKomunitas::class, 'id_pengguna');
+    }
+
     public function peminjaman()
     {
         return $this->hasMany(Peminjaman::class, 'id_pengguna');

@@ -48,6 +48,7 @@
                                         <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide hidden sm:table-cell">Tgl Pinjam</th>
                                         <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide hidden sm:table-cell">Tgl Kembali</th>
                                         <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Status</th>
+                                        <th class="text-right py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-50">
@@ -107,6 +108,16 @@
                                                         </span>
                                                     @endif
                                                 </div>
+                                            </td>
+                                            <td class="py-4 px-3 text-right">
+                                                <a href="{{ route('peminjaman.struk', $loan->id_peminjaman) }}" target="_blank"
+                                                    class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition shadow-2xs"
+                                                    title="Cetak Struk Pengembalian">
+                                                    <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                                    </svg>
+                                                    Struk
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -43,6 +43,11 @@ class Buku extends Model
         return $this->hasMany(Peminjaman::class, 'id_buku')->whereIn('status_transaksi', ['booking', 'dipinjam']);
     }
 
+    public function postinganKomunitas()
+    {
+        return $this->hasMany(PostinganKomunitas::class, 'id_buku');
+    }
+
     public function getFormattedTahunTerbitAttribute()
     {
         return $this->tahun_terbit ? $this->tahun_terbit : 'Tidak diketahui';

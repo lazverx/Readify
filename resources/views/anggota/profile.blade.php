@@ -3,6 +3,88 @@
 @section('content')
     <div class="mx-auto max-w-270">
         <div class="grid grid-cols-1 gap-9">
+            {{-- ========================================================= --}}
+            {{-- FEATURE 4: PRESTASI & LENCANA PEMBACA (GAMIFIKASI) --}}
+            {{-- ========================================================= --}}
+            <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-strokedark dark:bg-boxdark">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-gray-100 dark:border-strokedark">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-2xl shrink-0">
+                            🎖️
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-extrabold text-gray-900 dark:text-white">
+                                Lencana & Prestasi Literasi
+                            </h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                Koleksi pencapaian membaca dan aktivitas perpustakaanmu
+                            </p>
+                        </div>
+                    </div>
+
+                    {{-- Quick Stats Pills --}}
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#0f4c3a]/10 text-[#0f4c3a]">
+                            <span>🏆 Peringkat:</span>
+                            <span class="text-sm font-extrabold">#{{ $userStats['rank'] ?? '-' }}</span>
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">
+                            <span>📚 {{ $userStats['total_pinjam'] ?? 0 }} Dipinjam</span>
+                        </span>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
+                            <span>⚡ {{ $userStats['pinjaman_tepat_waktu'] ?? 0 }} Tepat Waktu</span>
+                        </span>
+                    </div>
+                </div>
+
+                {{-- Badges Grid --}}
+                <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    @foreach($badges ?? [] as $badge)
+                        <div class="relative rounded-2xl border p-4 transition-all duration-300 {{ $badge['tercapai'] ? 'border-emerald-200 bg-linear-to-b from-emerald-50/50 to-white shadow-sm hover:shadow-md hover:-translate-y-0.5' : 'border-gray-200 bg-gray-50/60 opacity-70' }}">
+                            
+                            {{-- Header Badge --}}
+                            <div class="flex items-start justify-between gap-2 mb-3">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-xs {{ $badge['tercapai'] ? 'bg-linear-to-br ' . $badge['bg_gradient'] . ' text-white' : 'bg-gray-200 text-gray-400' }}">
+                                    {{ $badge['icon'] }}
+                                </div>
+                                @if($badge['tercapai'])
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                                        <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Terbuka
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-200 text-gray-600">
+                                        🔒 Terkunci
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Badge Info --}}
+                            <h4 class="text-sm font-bold text-gray-900 dark:text-white leading-snug">
+                                {{ $badge['nama'] }}
+                            </h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
+                                {{ $badge['deskripsi'] }}
+                            </p>
+
+                            {{-- Progress Bar --}}
+                            <div class="mt-4 pt-3 border-t border-gray-100 dark:border-strokedark">
+                                <div class="flex items-center justify-between text-[11px] font-medium text-gray-500 mb-1">
+                                    <span>Progres</span>
+                                    <span class="font-bold text-gray-700 dark:text-gray-300">{{ $badge['progres'] }}</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                                    <div class="h-1.5 rounded-full transition-all duration-500 {{ $badge['tercapai'] ? 'bg-emerald-500' : 'bg-gray-400' }}"
+                                        style="width: {{ $badge['persen'] }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
             <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                 <div class="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                     <h3 class="font-medium text-black dark:text-white">

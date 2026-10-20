@@ -161,8 +161,10 @@
                         fill="currentColor" />
                 </svg>
             </button>
-        </div>
     @endif
+
+    {{-- AI Librarian Floating Chat Bubble (Bottom Right) --}}
+    @include('components.ai-chat-bubble')
 </body>
 
 @stack('scripts')
