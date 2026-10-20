@@ -305,8 +305,9 @@
                                                             ? 'bg-brand-primary border-brand-primary text-white' 
                                                             : 'bg-white border-stroke text-gray-600 hover:border-brand-primary dark:bg-boxdark dark:border-strokedark dark:text-gray-300'">
                                                 {{ $kat->nama_kategori }}
-                                                <span x-show="form.kategori.includes({{ $kat->id_kategori }})"
-                                                    class="ml-1 inline-block">✓</span>
+                                                <svg x-show="form.kategori.includes({{ $kat->id_kategori }})" class="w-3.5 h-3.5 ml-1 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                                </svg>
                                             </div>
                                         @endforeach
                                     </div>

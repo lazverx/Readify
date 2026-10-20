@@ -17,21 +17,20 @@
             <h1 class="mb-6 text-4xl font-bold leading-tight text-gray-900 md:text-5xl lg:text-6xl animate-fade-in-up"
                 style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
                 Akses Literasi Jadi<br>
-                Lebih <span class="text-[#87D800]">Sat-set dan</span><br>
-                <span class="text-[#87D800]">Anti Ribet.</span>
+                Lebih <span class="text-[#87D800]">Praktis dan</span><br>
+                <span class="text-[#87D800]">Terintegrasi.</span>
             </h1>
 
             <p class="mb-8 max-w-lg text-lg text-gray-600 animate-fade-in-up"
                 style="animation-delay: 0.6s; opacity: 0; animation-fill-mode: forwards;">
-                Kartu fisik tertinggal? Tidak masalah. Tunjukkan kartu digitalmu dari HP, ambil bukumu, dan mulai
-                berpetualang.
+                Kartu fisik tertinggal? Tidak masalah. Tunjukkan kartu digital dari ponsel, ambil buku di loket, dan nikmati bacaan favoritmu.
             </p>
 
             <div class="flex flex-col gap-3 sm:flex-row animate-fade-in-up"
                 style="animation-delay: 0.8s; opacity: 0; animation-fill-mode: forwards;">
                 <a href="{{ route('register') }}"
-                    class="group inline-flex items-center justify-center gap-2 rounded-full bg-[#064e3b] px-8 py-3.5 text-base font-semibold text-white transition hover:bg-[#064e3b]/90">
-                    Coba Readify Sekarang Gratis
+                    class="group inline-flex items-center justify-center gap-2 rounded-full bg-[#004236] px-8 py-3.5 text-base font-semibold text-white transition hover:bg-[#00362b]">
+                    Mulai Jelajahi Katalog
                     <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -53,22 +52,19 @@
                 </div>
 
                 <!-- Card 1: Statistik (Top Left - White) -->
-                <div class="animate-float absolute left-2 top-4 z-30 w-44 md:left-0 md:top-24 md:w-[400px]"
-                    style="animation-delay: 0s;">
+                <div class="absolute left-2 top-4 z-30 w-44 md:left-0 md:top-24 md:w-[400px]">
                     <img src="{{ asset('img/Card-statistik.webp') }}" alt="Statistik Card"
                         class="h-auto w-full drop-shadow-xl">
                 </div>
 
                 <!-- Card 2: Anggota (Bottom Right - Bright Green) -->
-                <div class="animate-float absolute bottom-8 -right-2 z-20 w-48 md:-right-16 md:bottom-24 md:w-[450px]"
-                    style="animation-delay: 0.8s;">
+                <div class="absolute bottom-8 -right-2 z-20 w-48 md:-right-16 md:bottom-24 md:w-[450px]">
                     <img src="{{ asset('img/Card-Anggota.webp') }}" alt="Anggota Card"
                         class="h-auto w-full drop-shadow-2xl">
                 </div>
 
                 <!-- Card 3: Verify (Bottom Left - Dark Green) -->
-                <div class="animate-float absolute bottom-2 left-0 z-10 w-48 md:bottom-16 md:left-4 md:w-96"
-                    style="animation-delay: 1.5s;">
+                <div class="absolute bottom-2 left-0 z-10 w-48 md:bottom-16 md:left-4 md:w-96">
                     <img src="{{ asset('img/Card-Verify.webp') }}" alt="Verify Card"
                         class="h-auto w-full drop-shadow-xl">
                 </div>

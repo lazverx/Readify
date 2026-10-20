@@ -69,11 +69,11 @@ class Notifikasi extends Model
         $tglTempo = $peminjaman->tgl_jatuh_tempo ? \Carbon\Carbon::parse($peminjaman->tgl_jatuh_tempo)->format('d M Y') : 'segera';
 
         if ($sisaHari > 0) {
-            $pesan = "⚠️ Pengingat: Peminjaman buku '{$judulBuku}' akan jatuh tempo dalam {$sisaHari} hari lagi ({$tglTempo}). Segera kembalikan atau lakukan perpanjangan untuk menghindari denda Rp 1.000/hari.";
+            $pesan = "Pengingat: Peminjaman buku '{$judulBuku}' akan jatuh tempo dalam {$sisaHari} hari lagi ({$tglTempo}). Segera kembalikan atau lakukan perpanjangan untuk menghindari denda Rp 1.000/hari.";
             $judul = "Pengingat Jatuh Tempo (H-{$sisaHari})";
         } else {
             $hariTelat = abs($sisaHari);
-            $pesan = "🚨 Peringatan: Peminjaman buku '{$judulBuku}' telah melewati batas jatuh tempo ({$hariTelat} hari terlambat). Denda berjalan Rp 1.000/hari. Harap segera kembalikan ke perpustakaan.";
+            $pesan = "Peringatan: Peminjaman buku '{$judulBuku}' telah melewati batas jatuh tempo ({$hariTelat} hari terlambat). Denda berjalan Rp 1.000/hari. Harap segera kembalikan ke perpustakaan.";
             $judul = "Peringatan Keterlambatan Buku";
         }
 

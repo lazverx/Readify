@@ -305,7 +305,7 @@
     @push('scripts')
         <script>
             /**
-             * Toggle hak akses via AJAX — tanpa reload halaman.
+             * Toggle hak akses via AJAX: tanpa reload halaman.
              */
             function toggleHakAkses(btn) {
                 const url = btn.dataset.url;

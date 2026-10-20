@@ -229,10 +229,10 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
             </svg>
 
-            <!-- Icon Closed State: AI Robot / Sparkle Librarian -->
+            <!-- Icon Closed State: Book / Librarian -->
             <svg x-show="!isOpen" style="width: 28px; height: 28px; color: #a7f3d0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
         </button>
     </div>
@@ -302,7 +302,7 @@
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 8px; max-width: 86%;">
                         <div style="border-radius: 16px; border-top-left-radius: 4px; background: #ffffff; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #f3f4f6; font-size: 12px; color: #1f2937; line-height: 1.55;">
-                            Halo! 👋 Saya <strong>Readify AI</strong>, asisten pustakawan virtual perpustakaan Readify.
+                            Halo! Saya <strong>Readify AI</strong>, asisten pustakawan virtual perpustakaan Readify.
                             <br><br>
                             Ada yang bisa saya bantu tentang koleksi <strong>134+ buku</strong> (54 Manga, Novel Klasik, Pemrograman), lokasi rak buku, atau aturan peminjaman & denda?
                         </div>
@@ -313,25 +313,25 @@
                                 style="border-radius: 9999px; border: 1px solid #a7f3d0; background: #ecfdf5; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #065f46; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#d1fae5'"
                                 onmouseout="this.style.background='#ecfdf5'">
-                                📚 Rekomendasi Manga Populer
+                                Rekomendasi Manga Populer
                             </button>
                             <button type="button" @click="sendQuickPrompt('Rekomendasi novel klasik atau buku fiksi terbaik')"
                                 style="border-radius: 9999px; border: 1px solid #a7f3d0; background: #ecfdf5; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #065f46; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#d1fae5'"
                                 onmouseout="this.style.background='#ecfdf5'">
-                                📖 Novel Klasik Terbaik
+                                Novel Klasik Terbaik
                             </button>
                             <button type="button" @click="sendQuickPrompt('Bagaimana aturan peminjaman dan denda di Readify?')"
                                 style="border-radius: 9999px; border: 1px solid #bfdbfe; background: #eff6ff; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #1e40af; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#dbeafe'"
                                 onmouseout="this.style.background='#eff6ff'">
-                                ⏰ Aturan Pinjam & Denda
+                                Aturan Pinjam & Denda
                             </button>
                             <button type="button" @click="sendQuickPrompt('Bagaimana cara anggota mengusulkan buku baru?')"
                                 style="border-radius: 9999px; border: 1px solid #fde68a; background: #fffbeb; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #92400e; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#fef3c7'"
                                 onmouseout="this.style.background='#fffbeb'">
-                                💡 Cara Usulkan Buku Baru
+                                Cara Usulkan Buku Baru
                             </button>
                         </div>
                     </div>
@@ -371,7 +371,11 @@
                                                         <img :src="buku.sampul" alt="Cover" style="width: 34px; height: 48px; object-fit: cover; border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); flex-shrink: 0;">
                                                     </template>
                                                     <template x-if="!buku.sampul">
-                                                        <div style="width: 34px; height: 48px; background: #f3f4f6; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">📖</div>
+                                                        <div style="width: 34px; height: 48px; background: #f3f4f6; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #9ca3af; flex-shrink: 0;">
+                                                            <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                                            </svg>
+                                                        </div>
                                                     </template>
                                                     <div style="flex: 1; min-width: 0;">
                                                         <div style="font-size: 12px; font-weight: 700; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" x-text="buku.judul_buku"></div>

@@ -3,14 +3,14 @@
 @section('content')
     <div class="mx-auto max-w-270">
         <div class="grid grid-cols-1 gap-9">
-            {{-- ========================================================= --}}
-            {{-- FEATURE 4: PRESTASI & LENCANA PEMBACA (GAMIFIKASI) --}}
-            {{-- ========================================================= --}}
+            {{-- Prestasi & Lencana Pembaca --}}
             <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-strokedark dark:bg-boxdark">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-5 border-b border-gray-100 dark:border-strokedark">
                     <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-2xl shrink-0">
-                            🎖️
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
                         </div>
                         <div>
                             <h3 class="text-lg font-extrabold text-gray-900 dark:text-white">
@@ -25,14 +25,23 @@
                     {{-- Quick Stats Pills --}}
                     <div class="flex items-center gap-2 flex-wrap">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#0f4c3a]/10 text-[#0f4c3a]">
-                            <span>🏆 Peringkat:</span>
+                            <svg class="w-3.5 h-3.5 text-[#0f4c3a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Peringkat:</span>
                             <span class="text-sm font-extrabold">#{{ $userStats['rank'] ?? '-' }}</span>
                         </span>
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700">
-                            <span>📚 {{ $userStats['total_pinjam'] ?? 0 }} Dipinjam</span>
+                            <svg class="w-3.5 h-3.5 text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                            <span>{{ $userStats['total_pinjam'] ?? 0 }} Dipinjam</span>
                         </span>
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
-                            <span>⚡ {{ $userStats['pinjaman_tepat_waktu'] ?? 0 }} Tepat Waktu</span>
+                            <svg class="w-3.5 h-3.5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>{{ $userStats['pinjaman_tepat_waktu'] ?? 0 }} Tepat Waktu</span>
                         </span>
                     </div>
                 </div>
@@ -44,8 +53,8 @@
                             
                             {{-- Header Badge --}}
                             <div class="flex items-start justify-between gap-2 mb-3">
-                                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-xs {{ $badge['tercapai'] ? 'bg-linear-to-br ' . $badge['bg_gradient'] . ' text-white' : 'bg-gray-200 text-gray-400' }}">
-                                    {{ $badge['icon'] }}
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-xs {{ $badge['tercapai'] ? 'bg-linear-to-br ' . $badge['bg_gradient'] . ' text-white' : 'bg-gray-200 text-gray-400' }}">
+                                    {!! $badge['icon'] !!}
                                 </div>
                                 @if($badge['tercapai'])
                                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
@@ -56,7 +65,10 @@
                                     </span>
                                 @else
                                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gray-200 text-gray-600">
-                                        🔒 Terkunci
+                                        <svg class="w-3 h-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                        Terkunci
                                     </span>
                                 @endif
                             </div>

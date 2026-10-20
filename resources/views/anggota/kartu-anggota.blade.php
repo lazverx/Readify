@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <!-- ID Card & Informasi Tambahan — Side by Side -->
+        <!-- ID Card & Informasi Tambahan - Side by Side -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
             <!-- ID Card Component -->

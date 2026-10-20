@@ -78,11 +78,16 @@
                                 {{-- Banner Kode Booking menonjol (hanya saat status booking) --}}
                                 @if($status === 'booking')
                                     <div class="mb-3 rounded-xl border-2 border-[#004236] bg-[#004236]/5 p-3">
-                                        <p class="text-[10px] font-bold uppercase tracking-widest text-[#004236] mb-1.5">🎫 Tunjukkan kode ini ke petugas:</p>
+                                        <p class="text-[10px] font-bold uppercase tracking-widest text-[#004236] mb-1.5 flex items-center gap-1.5">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                                            </svg>
+                                            Tunjukkan kode ini ke petugas:
+                                        </p>
                                         <div class="flex items-center justify-between gap-3">
                                             <span class="font-mono text-2xl font-black tracking-widest text-[#004236]">{{ $item->kode_booking }}</span>
                                             <button
-                                                onclick="navigator.clipboard.writeText('{{ $item->kode_booking }}').then(() => { this.textContent = '✓ Tersalin!'; setTimeout(() => this.textContent = 'Salin', 2000); })"
+                                                onclick="navigator.clipboard.writeText('{{ $item->kode_booking }}').then(() => { this.textContent = 'Tersalin!'; setTimeout(() => this.textContent = 'Salin', 2000); })"
                                                 class="shrink-0 rounded-lg border border-[#004236] bg-white px-2.5 py-1.5 text-[11px] font-bold text-[#004236] hover:bg-[#004236] hover:text-white transition">
                                                 Salin
                                             </button>
@@ -98,7 +103,10 @@
                                     {{-- Kode Booking (mini, untuk status selain booking) --}}
                                     @if($status !== 'booking')
                                     <span class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 font-mono font-bold text-gray-700">
-                                        🎫 {{ $item->kode_booking }}
+                                        <svg class="w-3.5 h-3.5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                                        </svg>
+                                        {{ $item->kode_booking }}
                                     </span>
                                     @endif
 
@@ -260,19 +268,19 @@
             <div class="flex flex-wrap gap-3 text-xs">
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1.5 font-bold text-blue-700">
                     <span class="h-2 w-2 rounded-full bg-blue-500"></span>
-                    BOOKING — Menunggu pengambilan di perpustakaan
+                    BOOKING: Menunggu pengambilan di perpustakaan
                 </span>
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-yellow-100 px-3 py-1.5 font-bold text-yellow-700">
                     <span class="h-2 w-2 rounded-full bg-yellow-500"></span>
-                    AKTIF — Sedang dipinjam, belum jatuh tempo
+                    AKTIF: Sedang dipinjam, belum jatuh tempo
                 </span>
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 font-bold text-green-700">
                     <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                    DIKEMBALIKAN — Buku sudah dikembalikan
+                    DIKEMBALIKAN: Buku sudah dikembalikan
                 </span>
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1.5 font-bold text-red-700">
                     <span class="h-2 w-2 rounded-full bg-red-500"></span>
-                    TERLAMBAT — Melewati batas waktu, kena denda Rp 2.000/hari
+                    TERLAMBAT: Melewati batas waktu, kena denda Rp 2.000/hari
                 </span>
             </div>
         </div>

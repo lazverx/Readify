@@ -43,6 +43,7 @@
     }
 }" 
      x-show="isOpen" 
+     @keydown.escape.window="close()"
      class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 py-6"
      style="display: none;">
      

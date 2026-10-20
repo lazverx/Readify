@@ -348,9 +348,7 @@ class AnggotaController extends Controller
             $user->kata_sandi = \Illuminate\Support\Facades\Hash::make($request->password);
         }
 
-        // ===== FIXED FOTO PROFIL SECTION =====
         if ($request->hasFile('foto_profil')) {
-
             if ($user->foto_profil && Storage::disk('public')->exists('foto_profil/' . $user->foto_profil)) {
                 Storage::disk('public')->delete('foto_profil/' . $user->foto_profil);
             }
@@ -362,7 +360,6 @@ class AnggotaController extends Controller
 
             $user->foto_profil = $filename;
         }
-        // ===== END FIX =====
 
         /** @var \App\Models\Pengguna $user */
         $user->save();

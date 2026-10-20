@@ -104,7 +104,7 @@ class KomunitasSeeder extends Seeder
                 'buku_id' => $bukuSolo?->id_buku,
                 'tipe' => 'review',
                 'rating' => 5,
-                'konten' => "Baru kelar baca Solo Leveling Vol 1 yang baru dipajang di Rak Manga. Asli visual manhwa-nya pas scene double dungeon merinding banget parah! Buat yang baru mau ngikutin kisah Sung Jin-woo, mumpung stok di perpus ada beberapa eks mending buruan pinjam sekarang sebelum keduluan yang lain wkwk 🔥⚔️",
+                'konten' => "Baru kelar baca Solo Leveling Vol 1 yang baru dipajang di Rak Manga. Asli visual manhwa-nya pas scene double dungeon merinding banget parah! Buat yang baru mau ngikutin kisah Sung Jin-woo, mumpung stok di perpus ada beberapa eks mending buruan pinjam sekarang sebelum keduluan yang lain wkwk.",
                 'minutes_ago' => 45,
                 'likes' => 14,
                 'comments' => [
@@ -132,7 +132,7 @@ class KomunitasSeeder extends Seeder
                 'buku_id' => $bukuClean?->id_buku,
                 'tipe' => 'diskusi',
                 'rating' => null,
-                'konten' => "Lagi baca ulang Clean Code karya Uncle Bob di pojok perpus lantai 2. Paling setuju sama bab 'Meaningful Names'—bikin nama variabel jangan pelit-pelit kek kode rahasia FBI wkwk.\n\nTapi menurut temen-temen programmer di sini, buku ini masih relevan ga sih buat modern development framework kayak sekarang?",
+                'konten' => "Lagi baca ulang Clean Code karya Uncle Bob di pojok perpus lantai 2. Paling setuju sama bab 'Meaningful Names', bikin nama variabel jangan pelit-pelit kek kode rahasia FBI wkwk.\n\nTapi menurut temen-temen programmer di sini, buku ini masih relevan ga sih buat modern development framework kayak sekarang?",
                 'minutes_ago' => 210,
                 'likes' => 18,
                 'comments' => [
@@ -145,12 +145,12 @@ class KomunitasSeeder extends Seeder
                 'buku_id' => $bukuPsycho?->id_buku,
                 'tipe' => 'kutipan',
                 'rating' => null,
-                'konten' => "\"Doing well with money has a little to do with how smart you are and a lot to do with how you behave.\"\n— Morgan Housel, The Psychology of Money.\n\nKutipan simpel tapi nampol banget. Mengelola uang itu ternyata bukan cuma soal rumus matematika rumit, tapi tentang bagaimana kita mengendalikan ego dan emosi diri sendiri.",
+                'konten' => "\"Doing well with money has a little to do with how smart you are and a lot to do with how you behave.\"\n- Morgan Housel, The Psychology of Money.\n\nKutipan simpel tapi nampol banget. Mengelola uang itu ternyata bukan cuma soal rumus matematika rumit, tapi tentang bagaimana kita mengendalikan ego dan emosi diri sendiri.",
                 'minutes_ago' => 360,
                 'likes' => 27,
                 'comments' => [
                     ['user' => $users['zahra_literasi'] ?? null, 'text' => 'Bab tentang "Man in the Car Paradox" ngena banget sih. Orang beli barang mewah biar dikagumi, padahal orang lain cuma kagum sama barangnya bukan orangnya.'],
-                    ['user' => $users['naufal_reads'] ?? null, 'text' => 'Buku non-fiksi yang wajib dibaca sekali seumur hidup 💯'],
+                    ['user' => $users['naufal_reads'] ?? null, 'text' => 'Buku non-fiksi yang wajib dibaca sekali seumur hidup!'],
                 ],
             ],
             [
@@ -158,7 +158,7 @@ class KomunitasSeeder extends Seeder
                 'buku_id' => $bukuHarry?->id_buku,
                 'tipe' => 'review',
                 'rating' => 5,
-                'konten' => "Re-reading Harry Potter edisi terjemahan perpus Readify! Bagi gue seri ketiga (Prisoner of Azkaban) ini yang paling berkesan dari seluruh saga: perkenalan Sirius Black, Remus Lupin, plus konsep Time-Turner yang jenius banget. Bener-bener nostalgia masa kecil 🦉⚡ Siapa karakter favorit kalian di Hogwarts?",
+                'konten' => "Re-reading Harry Potter edisi terjemahan perpus Readify! Bagi gue seri ketiga (Prisoner of Azkaban) ini yang paling berkesan dari seluruh saga: perkenalan Sirius Black, Remus Lupin, plus konsep Time-Turner yang jenius banget. Bener-bener nostalgia masa kecil. Siapa karakter favorit kalian di Hogwarts?",
                 'minutes_ago' => 480,
                 'likes' => 19,
                 'comments' => [

@@ -7,6 +7,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Switch Language Route (ID / EN)
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
@@ -23,9 +31,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // =========================================================
-    // ADMIN ONLY — hanya bisa diakses oleh admin
-    // =========================================================
+    // Modul Khusus Administrator
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard', function () {
             $totalBuku = \App\Models\Buku::count();
@@ -71,11 +77,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/log-aktivitas/clear', [\App\Http\Controllers\Admin\LogAktivitasController::class, 'clearOld'])->name('admin.log-aktivitas.clear');
     });
 
-    // =========================================================
-    // SHARED — Admin ATAU Petugas dengan izin yang sesuai
-    // =========================================================
-
-    // Kategori — admin atau petugas yang punya izin 'kategori'
+    // Rute Bersama (Admin dan Petugas Berizin)
     Route::middleware('akses:kategori')->group(function () {
         Route::get('/kategori', [\App\Http\Controllers\Admin\KategoriController::class, 'index'])->name('admin.kategori.index');
         Route::post('/kategori', [\App\Http\Controllers\Admin\KategoriController::class, 'store'])->name('admin.kategori.store');
@@ -83,7 +85,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/kategori/{id}', [\App\Http\Controllers\Admin\KategoriController::class, 'destroy'])->name('admin.kategori.destroy');
     });
 
-    // Buku — admin atau petugas yang punya izin 'buku'
     Route::middleware('akses:buku')->group(function () {
         Route::get('/buku', [\App\Http\Controllers\Admin\BukuController::class, 'index'])->name('admin.buku.index');
         Route::get('/buku/{id}', [\App\Http\Controllers\Admin\BukuController::class, 'show'])->name('admin.buku.show');
@@ -92,7 +93,6 @@ Route::middleware('auth')->group(function () {
         Route::delete('/buku/{id}', [\App\Http\Controllers\Admin\BukuController::class, 'destroy'])->name('admin.buku.destroy');
     });
 
-    // Peminjaman — admin atau petugas yang punya izin 'peminjaman'
     Route::middleware('akses:peminjaman')->group(function () {
         Route::get('/peminjaman', [\App\Http\Controllers\Admin\PeminjamanController::class, 'index'])->name('admin.peminjaman.index');
         Route::get('/peminjaman/create', [\App\Http\Controllers\Admin\PeminjamanController::class, 'create'])->name('admin.peminjaman.create');
@@ -100,36 +100,30 @@ Route::middleware('auth')->group(function () {
         Route::get('/peminjaman/{id}', [\App\Http\Controllers\Admin\PeminjamanController::class, 'show'])->name('admin.peminjaman.show');
     });
 
-    // Denda — admin atau petugas yang punya izin 'denda'
     Route::middleware('akses:denda')->group(function () {
         Route::get('/denda', [\App\Http\Controllers\Admin\DendaController::class, 'index'])->name('admin.denda.index');
         Route::get('/denda/{id}', [\App\Http\Controllers\Admin\DendaController::class, 'show'])->name('admin.denda.show');
         Route::post('/denda/{id}/bayar', [\App\Http\Controllers\Admin\DendaController::class, 'bayar'])->name('admin.denda.bayar');
     });
 
-    // Laporan — admin atau petugas yang punya izin 'laporan'
     Route::middleware('akses:laporan')->group(function () {
         Route::get('/laporan', [\App\Http\Controllers\Admin\LaporanController::class, 'index'])->name('admin.laporan.index');
         Route::get('/laporan/pdf', [\App\Http\Controllers\Admin\LaporanController::class, 'exportPdf'])->name('admin.laporan.pdf');
         Route::get('/laporan/excel', [\App\Http\Controllers\Admin\LaporanController::class, 'exportExcel'])->name('admin.laporan.excel');
     });
 
-    // =========================================================
-    // PETUGAS Routes (dashboard & fitur petugas)
-    // =========================================================
+    // Rute Petugas (Operasional Loket Peminjaman dan Pengembalian)
     Route::middleware([\App\Http\Middleware\PetugasMiddleware::class])->group(function () {
         Route::get('/petugas/dashboard', [\App\Http\Controllers\Petugas\PetugasController::class, 'index'])->name('petugas.dashboard');
         Route::get('/petugas/katalog', [\App\Http\Controllers\Petugas\PetugasController::class, 'katalog'])->name('petugas.katalog');
         Route::post('/petugas/proses-booking', [\App\Http\Controllers\Petugas\PetugasController::class, 'prosesBooking'])->name('petugas.booking.proses');
         Route::post('/petugas/pengembalian', [\App\Http\Controllers\Petugas\PetugasController::class, 'returnBuku'])->name('petugas.pengembalian.store');
-        // Halaman terpisah untuk Proses Booking & Pengembalian
+        // Halaman terpisah untuk Proses Booking dan Pengembalian
         Route::get('/petugas/booking', [\App\Http\Controllers\Petugas\PetugasController::class, 'bookingPage'])->name('petugas.booking.index');
         Route::get('/petugas/pengembalian', [\App\Http\Controllers\Petugas\PetugasController::class, 'pengembalianPage'])->name('petugas.pengembalian.index');
     });
 
-    // =========================================================
-    // ANGGOTA Routes
-    // =========================================================
+    // Rute Anggota (Katalog, Peminjaman Mandiri, Profil, dan Koleksi)
     Route::middleware([\App\Http\Middleware\AnggotaMiddleware::class])->group(function () {
         Route::get('/anggota/dashboard', [\App\Http\Controllers\Anggota\AnggotaController::class, 'index'])->name('anggota.dashboard');
         Route::get('/anggota/buku/{id}', [\App\Http\Controllers\Anggota\AnggotaController::class, 'detailBuku'])->name('anggota.buku.detail');

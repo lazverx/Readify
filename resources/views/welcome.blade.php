@@ -235,18 +235,18 @@
                 <p class="text-[#CEF17B]/80 text-lg mb-10">Ketik judul, penulis, atau buku yang lagi kamu pengen baca.</p>
 
                 <!-- Search component -->
-                <div class="bg-white p-2 rounded-full shadow-2xl flex items-center max-w-2xl mx-auto">
-                    <!-- Category Dropdown -->
+                <form action="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}" method="GET" class="bg-white p-2 rounded-full shadow-2xl flex items-center max-w-2xl mx-auto">
+                    <!-- Category Indicator -->
                     <div class="relative group">
-                        <button
+                        <a href="#katalog"
                             class="flex items-center gap-2 px-6 py-3 text-gray-700 font-medium hover:bg-gray-50 rounded-full transition-colors">
-                            <span>Kategori</span>
+                            <span>Katalog</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 9l-7 7-7-7" />
                             </svg>
-                        </button>
+                        </a>
                     </div>
 
                     <div class="h-8 w-px bg-gray-200 mx-2"></div>
@@ -258,10 +258,15 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <input type="text" placeholder="Cari Judul/penulis...."
+                        <input type="text" name="search" placeholder="Cari judul, penulis, atau topik buku..."
                             class="w-full py-2 text-gray-700 focus:outline-none placeholder-gray-400 bg-transparent">
                     </div>
-                </div>
+
+                    <button type="submit"
+                        class="px-6 py-3 bg-[#004236] text-white text-xs font-bold rounded-full hover:bg-[#00362b] transition shadow-md">
+                        Cari
+                    </button>
+                </form>
             </div>
 
             <!-- Featured Cards (3 Columns) -->
@@ -271,10 +276,10 @@
                     class="reveal-on-scroll delay-100 bg-[#CEF17B] rounded-3xl p-6 relative overflow-hidden h-64 md:h-72 flex items-center group">
                     <div class="relative z-10 w-1/2 flex flex-col items-start justify-center h-full">
                         <h3 class="text-2xl font-bold text-[#084734] mb-1 leading-tight">Baru<br>Datang.</h3>
-                        <button
-                            class="mt-6 px-5 py-2.5 bg-[#8FA75B] text-white text-xs font-bold rounded-lg hover:bg-[#7d924d] transition shadow-lg">
+                        <a href="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}"
+                            class="mt-6 px-5 py-2.5 bg-[#8FA75B] text-white text-xs font-bold rounded-lg hover:bg-[#7d924d] transition shadow-lg inline-block">
                             Pinjam Sekarang
-                        </button>
+                        </a>
                     </div>
                     <div class="absolute right-4 top-4 bottom-4 w-1/2 flex items-center justify-center">
                         <img src="{{ asset('img/buku1.png') }}" alt="Buku Baru"
@@ -287,10 +292,10 @@
                     class="reveal-on-scroll delay-200 bg-[#87D800] rounded-3xl p-6 relative overflow-hidden h-64 md:h-72 flex items-center group">
                     <div class="relative z-10 w-1/2 flex flex-col items-start justify-center h-full">
                         <h3 class="text-2xl font-bold text-[#084734] mb-1 leading-tight">Lagi<br>Viral.</h3>
-                        <button
-                            class="mt-6 px-5 py-2.5 bg-[#4F7F00] text-white text-xs font-bold rounded-lg hover:bg-[#3d6300] transition shadow-lg">
+                        <a href="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}"
+                            class="mt-6 px-5 py-2.5 bg-[#4F7F00] text-white text-xs font-bold rounded-lg hover:bg-[#3d6300] transition shadow-lg inline-block">
                             Pinjam Sekarang
-                        </button>
+                        </a>
                     </div>
                     <div class="absolute right-4 top-4 bottom-4 w-1/2 flex items-center justify-center">
                         <img src="{{ asset('img/buku3.jpg') }}" alt="Buku Populer"
@@ -303,10 +308,10 @@
                     class="reveal-on-scroll delay-300 bg-brand-600 rounded-3xl p-6 relative overflow-hidden h-64 md:h-72 flex items-center group border border-[#87D800]/20">
                     <div class="relative z-10 w-1/2 flex flex-col items-start justify-center h-full">
                         <h3 class="text-2xl font-bold text-white mb-1 leading-tight">Rekomendasi</h3>
-                        <button
-                            class="mt-6 px-5 py-2.5 bg-[#CEF17B] text-[#084734] text-xs font-bold rounded-lg hover:bg-[#b8d96b] transition shadow-lg">
+                        <a href="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}"
+                            class="mt-6 px-5 py-2.5 bg-[#CEF17B] text-[#084734] text-xs font-bold rounded-lg hover:bg-[#b8d96b] transition shadow-lg inline-block">
                             Pinjam Sekarang
-                        </button>
+                        </a>
                     </div>
                     <div class="absolute right-4 top-4 bottom-4 w-1/2 flex items-center justify-center">
                         <img src="{{ asset('img/buku2.webp') }}" alt="Buku Rekomendasi"
@@ -324,16 +329,15 @@
                         class="h-48 md:h-64 object-contain">
                 </div>
                 <div class="w-full md:w-2/3 text-center">
-                    <p class="text-gray-600 font-medium mb-4">Bergabung bareng 5.000+ pembaca lain yang udah<br>lebih
-                        produktif berkat sistem perpustakaan digital kami.</p>
+                    <p class="text-gray-600 font-medium mb-4">Bergabung bersama civitas perpustakaan Readify untuk akses katalog dan peminjaman buku yang lebih terorganisir.</p>
                     <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-tight">
-                        Daftar gratis, verifikasi cepet,<br>bisa langsung booking buku incaran.
+                        Daftar gratis, verifikasi cepat,<br>bisa langsung booking buku incaran.
                     </h2>
                     <div class="flex justify-center">
-                        <button
-                            class="bg-[#084734] text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-600 transition shadow-lg">
-                            Pinjam Sekarang
-                        </button>
+                        <a href="{{ auth()->check() ? route('anggota.dashboard') : route('register') }}"
+                            class="bg-[#084734] text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-600 transition shadow-lg inline-block">
+                            Mulai Sekarang
+                        </a>
                     </div>
                 </div>
             </div>
@@ -493,13 +497,16 @@
     <!-- Footer -->
     <footer class="bg-white pt-20 pb-10 border-t border-gray-100">
         <div class="container mx-auto px-6">
-            <!-- Partners -->
-            <div
-                class="flex flex-wrap justify-center items-center gap-16 md:gap-24 mb-20 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100">
-                <img src="{{ asset('img/Gramedia_wordmark.svg') }}" alt="Gramedia" class="h-8 md:h-12 w-auto">
-                <img src="{{ asset('img/Penguin Random House New 2024.svg') }}" alt="Penguin Random House"
-                    class="h-10 md:h-16 w-auto">
-                <img src="{{ asset('img/WLF-logo.png') }}" alt="WLF" class="h-10 md:h-14 w-auto">
+            <!-- Publishers / Literature Partners -->
+            <div class="mb-20">
+                <p class="text-xs uppercase tracking-wider text-gray-400 font-semibold mb-6 text-center">Menyediakan koleksi literatur berkualitas</p>
+                <div
+                    class="flex flex-wrap justify-center items-center gap-16 md:gap-24 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100">
+                    <img src="{{ asset('img/Gramedia_wordmark.svg') }}" alt="Gramedia" class="h-8 md:h-12 w-auto">
+                    <img src="{{ asset('img/Penguin Random House New 2024.svg') }}" alt="Penguin Random House"
+                        class="h-10 md:h-16 w-auto">
+                    <img src="{{ asset('img/WLF-logo.png') }}" alt="WLF" class="h-10 md:h-14 w-auto">
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
@@ -509,17 +516,17 @@
                         <img src="{{ asset('img/Logo.svg') }}" alt="Readify" class="h-8 w-auto">
                     </div>
                     <p class="text-gray-500 mb-8 text-sm leading-relaxed">Akses literasi digital untuk semua. Membaca
-                        jadi lebih mudah, seru,
-                        dan terjangkau.</p>
+                        jadi lebih mudah, praktis,
+                        dan terintegrasi.</p>
                     <div class="flex gap-4">
-                        <a href="#"
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-[#F5F5F5] flex items-center justify-center text-[#084734] hover:bg-[#87D800] transition">
                             <span class="sr-only">Facebook</span>
                             <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
                                 <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                             </svg>
                         </a>
-                        <a href="#"
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-[#F5F5F5] flex items-center justify-center text-[#084734] hover:bg-[#87D800] transition">
                             <span class="sr-only">Instagram</span>
                             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -528,7 +535,7 @@
                                 <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
                             </svg>
                         </a>
-                        <a href="#"
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
                             class="w-10 h-10 rounded-full bg-[#F5F5F5] flex items-center justify-center text-[#084734] hover:bg-[#87D800] transition">
                             <span class="sr-only">Twitter</span>
                             <svg fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
@@ -544,10 +551,10 @@
                 <div>
                     <h4 class="font-bold text-[#084734] mb-6">Platform</h4>
                     <ul class="space-y-4 text-gray-500 text-sm font-medium">
-                        <li><a href="#" class="hover:text-[#87D800] transition">Tentang Kami</a></li>
-                        <li><a href="#" class="hover:text-[#87D800] transition">Fitur & Layanan</a></li>
-                        <li><a href="#" class="hover:text-[#87D800] transition">Koleksi Buku</a></li>
-                        <li><a href="#" class="hover:text-[#87D800] transition">Harga & Paket</a></li>
+                        <li><a href="#tentang-kami" class="hover:text-[#87D800] transition">Tentang Kami</a></li>
+                        <li><a href="#fitur" class="hover:text-[#87D800] transition">Fitur & Layanan</a></li>
+                        <li><a href="#katalog" class="hover:text-[#87D800] transition">Koleksi Buku</a></li>
+                        <li><a href="#cara-pinjam" class="hover:text-[#87D800] transition">Panduan Peminjaman</a></li>
                     </ul>
                 </div>
 
@@ -555,10 +562,10 @@
                 <div>
                     <h4 class="font-bold text-[#084734] mb-6">Bantuan</h4>
                     <ul class="space-y-4 text-gray-500 text-sm font-medium">
-                        <li><a href="#" class="hover:text-[#87D800] transition">Hubungi Kami</a></li>
-                        <li><a href="#" class="hover:text-[#87D800] transition">FAQ</a></li>
-                        <li><a href="#" class="hover:text-[#87D800] transition">Syarat & Ketentuan</a></li>
-                        <li><a href="#" class="hover:text-[#87D800] transition">Kebijakan Privasi</a></li>
+                        <li><a href="#tentang-kami" class="hover:text-[#87D800] transition">Hubungi Kami</a></li>
+                        <li><a href="#cara-pinjam" class="hover:text-[#87D800] transition">Cara Pinjam</a></li>
+                        <li><a href="#beranda" class="hover:text-[#87D800] transition">Syarat & Ketentuan</a></li>
+                        <li><a href="#beranda" class="hover:text-[#87D800] transition">Kebijakan Privasi</a></li>
                     </ul>
                 </div>
 
@@ -566,17 +573,29 @@
                 <div>
                     <h4 class="font-bold text-[#084734] mb-6">Hubungi Kami</h4>
                     <ul class="space-y-5 text-gray-500 text-sm font-medium">
-                        <li class="flex gap-4">
-                            <span class="text-[#87D800] text-lg">📍</span>
-                            <span>SMKN 1 Gunungputri, .<br>Jl. Barokah No.06, Wanaherang, Kec. Gn. Putri, Kabupaten Bogor, Jawa Barat,
-                                40973</span>
+                        <li class="flex gap-3 items-start">
+                            <span class="text-[#084734] mt-0.5 shrink-0">
+                                <svg class="w-5 h-5 text-[#87D800]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </span>
+                            <span>SMKN 1 Gunungputri<br>Jl. Barokah No.06, Wanaherang, Kec. Gn. Putri, Kabupaten Bogor, Jawa Barat, 40973</span>
                         </li>
-                        <li class="flex gap-4">
-                            <span class="text-[#87D800] text-lg">📧</span>
+                        <li class="flex gap-3 items-center">
+                            <span class="text-[#084734] shrink-0">
+                                <svg class="w-5 h-5 text-[#87D800]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </span>
                             <span>Readify@readify.id</span>
                         </li>
-                        <li class="flex gap-4">
-                            <span class="text-[#87D800] text-lg">📞</span>
+                        <li class="flex gap-3 items-center">
+                            <span class="text-[#084734] shrink-0">
+                                <svg class="w-5 h-5 text-[#87D800]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </span>
                             <span>+62 899 8059 878</span>
                         </li>
                     </ul>
@@ -584,7 +603,7 @@
             </div>
 
             <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-gray-400 text-sm">
+                <p class="text-gray-500 text-sm">
                     &copy; {{ date('Y') }} Faiz Akhrian Putra.
                 </p>
                 <div class="flex items-center gap-4 opacity-50">

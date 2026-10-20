@@ -83,19 +83,19 @@ class PostinganKomunitas extends Model
     {
         return match ($this->tipe) {
             'review' => [
-                'label' => '⭐ Review Buku',
+                'label' => 'Review Buku',
                 'class' => 'bg-amber-100 text-amber-800 border-amber-200',
             ],
             'kutipan' => [
-                'label' => '💡 Kutipan Favorit',
+                'label' => 'Kutipan Favorit',
                 'class' => 'bg-purple-100 text-purple-800 border-purple-200',
             ],
             'rekomendasi' => [
-                'label' => '📚 Rekomendasi',
+                'label' => 'Rekomendasi',
                 'class' => 'bg-emerald-100 text-emerald-800 border-emerald-200',
             ],
             default => [
-                'label' => '💬 Diskusi',
+                'label' => 'Diskusi',
                 'class' => 'bg-blue-100 text-blue-800 border-blue-200',
             ],
         };

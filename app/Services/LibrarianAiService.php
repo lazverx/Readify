@@ -269,16 +269,16 @@ PROMPT;
 
         // 2. Salam & Sapaan umum
         if (in_array(trim($q), ['halo', 'hai', 'hello', 'hi', 'selamat pagi', 'selamat siang', 'selamat sore', 'selamat malam', 'p', 'tes', 'test'])) {
-            return "Halo! Selamat datang di **Readify Library** 📚✨\n\nSaya asisten pustakawan virtual Anda. Saya dapat membantu Anda dengan:\n" .
-                "- 📖 **Mencari buku & rekomendasi bacaan** (Manga, Novel Dunia, Sains & Teknologi, dll)\n" .
-                "- 📍 **Mengecek lokasi rak buku** (Manga di Rak M-01 s/d M-15, Novel di Rak E-01 s/d E-22)\n" .
-                "- ⏰ **Informasi aturan pinjam & denda** (Maksimal 7 hari, Denda Rp 1.000/hari)\n" .
-                "- 💡 **Panduan mengusulkan buku baru** untuk anggota perpustakaan.\n\nAda buku atau informasi yang ingin Anda cari hari ini?";
+            return "Halo! Selamat datang di **Readify Library**.\n\nSaya asisten pustakawan virtual Anda. Saya dapat membantu Anda dengan:\n" .
+                "- **Mencari buku & rekomendasi bacaan** (Manga, Novel Dunia, Sains & Teknologi, dll)\n" .
+                "- **Mengecek lokasi rak buku** (Manga di Rak M-01 s/d M-15, Novel di Rak E-01 s/d E-22)\n" .
+                "- **Informasi aturan pinjam & denda** (Maksimal 7 hari, Denda Rp 1.000/hari)\n" .
+                "- **Panduan mengusulkan buku baru** untuk anggota perpustakaan.\n\nAda buku atau informasi yang ingin Anda cari hari ini?";
         }
 
         // 3. Aturan Peminjaman & Denda
         if (str_contains($q, 'denda') || str_contains($q, 'terlambat') || str_contains($q, 'aturan pinjam') || str_contains($q, 'berapa hari') || str_contains($q, 'batas waktu') || str_contains($q, 'durasi')) {
-            return "📚 **Aturan Peminjaman & Denda di Readify:**\n\n" .
+            return "**Aturan Peminjaman & Denda di Readify:**\n\n" .
                 "- **Durasi Pinjam:** Maksimal **7 hari** per transaksi peminjaman.\n" .
                 "- **Tarif Denda:** **Rp 1.000 per hari** untuk setiap buku yang terlambat dikembalikan.\n" .
                 "- **Cara Pembayaran:** Anda dapat membayar denda langsung kepada Petugas saat mengembalikan buku di perpustakaan, atau dikelola oleh Admin melalui menu Denda.\n" .
@@ -287,7 +287,7 @@ PROMPT;
 
         // 4. Panduan Usul Buku Baru ("Tambah Buku oleh Anggota")
         if (str_contains($q, 'usul') || str_contains($q, 'ajukan') || str_contains($q, 'nambah buku') || str_contains($q, 'tambah buku') || str_contains($q, 'usulan')) {
-            return "💡 **Cara Mengusulkan Buku Baru di Readify:**\n\n" .
+            return "**Cara Mengusulkan Buku Baru di Readify:**\n\n" .
                 "1. Masuk ke akun Anggota Anda.\n" .
                 "2. Klik menu **Usulkan Buku** (`/ajukan-buku`) di sidebar.\n" .
                 "3. Isi informasi buku: Judul, Penulis, Penerbit (opsional), Tahun Terbit, Kategori, dan Alasan Pengusulan.\n" .
@@ -297,7 +297,7 @@ PROMPT;
 
         // 5. Lokasi Rak Buku
         if (str_contains($q, 'rak') || str_contains($q, 'lokasi') || str_contains($q, 'dimana letak') || str_contains($q, 'posisi buku')) {
-            return "📍 **Denah Lokasi Rak Buku di Perpustakaan Readify:**\n\n" .
+            return "**Denah Lokasi Rak Buku di Perpustakaan Readify:**\n\n" .
                 "- **Rak M-01 s/d M-15:** Koleksi Komik & Manga (One Piece, Berserk, Vagabond, Frieren, Dandadan, dll)\n" .
                 "- **Rak E-01 s/d E-19:** Novel Fiksi, Klasik & Sastra Dunia (The Count of Monte Cristo, 1984, Crime and Punishment, dll)\n" .
                 "- **Rak T-01 s/d T-05:** Teknologi Informasi, Pemrograman & Rekayasa Perangkat Lunak (Clean Code, Pragmatic Programmer, dll)\n" .
@@ -306,17 +306,17 @@ PROMPT;
 
         // 6. Rekomendasi / Pencarian buku dari database
         if ($relevantBooks->isNotEmpty()) {
-            $text = "📖 **Berikut beberapa koleksi buku di perpustakaan Readify yang relevan:**\n\n";
+            $text = "**Berikut beberapa koleksi buku di perpustakaan Readify yang relevan:**\n\n";
             foreach ($relevantBooks as $b) {
                 $cats = $b->kategori->pluck('nama_kategori')->implode(', ');
                 $text .= "• **{$b->judul_buku}** karya *{$b->penulis}*\n";
                 $text .= "  - Kategori: {$cats} | Lokasi: **{$b->lokasi_rak}** | Stok: **{$b->stok} eks**\n\n";
             }
-            $text .= "Anda dapat melihat detail lengkap dan meminjam buku melalui menu **Katalog**! 📚✨";
+            $text .= "Anda dapat melihat detail lengkap dan meminjam buku melalui menu **Katalog**!";
             return $text;
         }
 
         // 7. Respon default jika tidak ada keyword spesifik
-        return "Halo! Ada yang bisa saya bantu seputar perpustakaan Readify? Anda bisa menanyakan rekomendasi buku (Manga, Novel Klasik, Teknologi), lokasi rak buku, atau aturan peminjaman dan denda. 📚";
+        return "Halo! Ada yang bisa saya bantu seputar perpustakaan Readify? Anda bisa menanyakan rekomendasi buku (Manga, Novel Klasik, Teknologi), lokasi rak buku, atau aturan peminjaman dan denda.";
     }
 }

@@ -29,7 +29,6 @@
                 ? 'from-amber-500 to-orange-400'
                 : ($isDisetujui ? 'from-[#004236] to-[#00835f]' : 'from-red-500 to-rose-600');
 
-            $heroIcon = $isMenunggu ? '⏳' : ($isDisetujui ? '✅' : '❌');
             $heroTitle = $isMenunggu
                 ? 'Sedang Diproses'
                 : ($isDisetujui ? 'Pengajuan Disetujui!' : 'Pengajuan Ditolak');
@@ -42,9 +41,21 @@
 
         <div class="mb-7 overflow-hidden rounded-2xl bg-linear-to-r {{ $heroBg }} shadow-lg">
             <div class="flex flex-col sm:flex-row items-center gap-5 px-7 py-6">
-                {{-- Emoji icon besar --}}
-                <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-4xl">
-                    {{ $heroIcon }}
+                {{-- Icon status --}}
+                <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-white">
+                    @if($isMenunggu)
+                        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    @elseif($isDisetujui)
+                        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                        </svg>
+                    @else
+                        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    @endif
                 </div>
                 <div class="text-center sm:text-left">
                     <p class="text-xs font-semibold uppercase tracking-widest text-white/70 mb-1">Status Pengajuan</p>
@@ -54,7 +65,7 @@
                 <div class="sm:ml-auto text-center shrink-0">
                     <p class="text-xs text-white/60 mb-1">Diajukan pada</p>
                     <p class="text-sm font-semibold text-white">
-                        {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->format('d F Y') : '—' }}
+                        {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->format('d F Y') : '-' }}
                     </p>
                     <p class="text-xs text-white/60">
                         {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->diffForHumans() : '' }}
@@ -114,9 +125,9 @@
                             $fields = [
                                 ['label' => 'Judul Buku', 'value' => $pengajuan->judul_buku, 'bold' => true],
                                 ['label' => 'Nama Penulis', 'value' => $pengajuan->nama_penulis, 'bold' => false],
-                                ['label' => 'ISBN', 'value' => $pengajuan->isbn ?? '—', 'bold' => false],
-                                ['label' => 'Penerbit', 'value' => $pengajuan->penerbit ?? '—', 'bold' => false],
-                                ['label' => 'Tahun Terbit', 'value' => $pengajuan->tahun_terbit ?? '—', 'bold' => false],
+                                ['label' => 'ISBN', 'value' => $pengajuan->isbn ?? '-', 'bold' => false],
+                                ['label' => 'Penerbit', 'value' => $pengajuan->penerbit ?? '-', 'bold' => false],
+                                ['label' => 'Tahun Terbit', 'value' => $pengajuan->tahun_terbit ?? '-', 'bold' => false],
                             ];
                         @endphp
 
@@ -140,7 +151,7 @@
                                         {{ $pengajuan->kategori }}
                                     </span>
                                 @else
-                                    <span class="text-sm text-gray-400">—</span>
+                                    <span class="text-sm text-gray-400">-</span>
                                 @endif
                             </dd>
                         </div>
@@ -211,8 +222,8 @@
                                 {{ $isMenunggu ? 'text-amber-700' : ($isDisetujui ? 'text-green-700' : 'text-red-600') }}">
                             {{ $heroTitle }}
                         </p>
-                        <p class="text-xs text-gray-400 mt-1">
-                            Diajukan: {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->format('d M Y, H:i') : '—' }}
+                        <p class="text-xs text-gray-500 mt-1">
+                            Diajukan: {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->format('d M Y, H:i') : '-' }}
                         </p>
                     </div>
 
@@ -231,8 +242,8 @@
                                 </div>
                                 <div>
                                     <p class="text-sm font-semibold text-gray-800">Pengajuan Dikirim</p>
-                                    <p class="text-xs text-gray-400">
-                                        {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->format('d M Y') : '—' }}
+                                    <p class="text-xs text-gray-500">
+                                        {{ $pengajuan->dibuat_pada ? $pengajuan->dibuat_pada->format('d M Y') : '-' }}
                                     </p>
                                 </div>
                             </div>
@@ -263,8 +274,8 @@
                                     <p class="text-sm font-semibold text-gray-800">
                                         {{ $isMenunggu ? 'Sedang Ditinjau Admin' : 'Ditinjau oleh Admin' }}
                                     </p>
-                                    <p class="text-xs text-gray-400">
-                                        {{ $isMenunggu ? 'Proses sedang berjalan...' : ($pengajuan->updated_at ? $pengajuan->updated_at->format('d M Y') : '—') }}
+                                    <p class="text-xs text-gray-500">
+                                        {{ $isMenunggu ? 'Proses sedang berjalan...' : ($pengajuan->updated_at ? $pengajuan->updated_at->format('d M Y') : '-') }}
                                     </p>
                                 </div>
                             </div>
@@ -299,10 +310,10 @@
                                 <div>
                                     <p
                                         class="text-sm font-semibold
-                                            {{ $isMenunggu ? 'text-gray-400' : ($isDisetujui ? 'text-green-700' : 'text-red-600') }}">
-                                        {{ $isMenunggu ? 'Menunggu Keputusan' : ($isDisetujui ? 'Disetujui ✓' : 'Ditolak ✗') }}
+                                            {{ $isMenunggu ? 'text-gray-500' : ($isDisetujui ? 'text-green-700' : 'text-red-600') }}">
+                                        {{ $isMenunggu ? 'Menunggu Keputusan' : ($isDisetujui ? 'Disetujui' : 'Ditolak') }}
                                     </p>
-                                    <p class="text-xs text-gray-400">
+                                    <p class="text-xs text-gray-500">
                                         {{ $isMenunggu ? 'Belum diproses' : 'Keputusan sudah ditetapkan' }}
                                     </p>
                                 </div>
@@ -318,7 +329,7 @@
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                 </svg>
-                                📖 Lihat Buku & Pinjam Sekarang
+                                Lihat Buku & Pinjam Sekarang
                             </a>
                         @endif
                         <a href="{{ route('anggota.pengajuan-buku.index') }}"
@@ -354,7 +365,7 @@
                                 <h4 class="text-sm font-semibold text-blue-800 mb-1">Informasi</h4>
                                 <p class="text-xs text-blue-700 leading-relaxed">
                                     Kamu akan mendapatkan notifikasi otomatis saat admin selesai memproses pengajuanmu. Pantau
-                                    terus bell 🔔 di pojok kanan atas!
+                                    terus lonceng notifikasi di pojok kanan atas.
                                 </p>
                             </div>
                         </div>
@@ -362,7 +373,6 @@
                 @endif
 
             </div>
-            {{-- ===== END KANAN ===== --}}
 
         </div>
     </div>

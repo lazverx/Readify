@@ -20,9 +20,7 @@ class DummyDataSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        // =========================
-        // 1. KATEGORI
-        // =========================
+        // 1. Data Kategori
         $kategoriNames = ['Fiksi', 'Sains', 'Sejarah', 'Teknologi', 'Seni', 'Biografi', 'Bisnis', 'Anak-anak'];
 
         foreach ($kategoriNames as $name) {
@@ -31,9 +29,7 @@ class DummyDataSeeder extends Seeder
 
         $kategoriIds = Kategori::pluck('id_kategori')->toArray();
 
-        // =========================
-        // 2. BUKU
-        // =========================
+        // 2. Data Buku Sampel
         $bukuData = [
             ['judul_buku' => 'Laskar Pelangi', 'penulis' => 'Andrea Hirata', 'stok' => 10],
             ['judul_buku' => 'Bumi', 'penulis' => 'Tere Liye', 'stok' => 5],
@@ -58,9 +54,7 @@ class DummyDataSeeder extends Seeder
 
         $bukuIds = Buku::pluck('id_buku')->toArray();
 
-        // =========================
-        // 3. ANGGOTA (USER LEVEL ANGGOTA)
-        // =========================
+        // 3. Data Anggota
         for ($i = 1; $i <= 15; $i++) {
 
             $email = $faker->unique()->safeEmail();
@@ -84,9 +78,7 @@ class DummyDataSeeder extends Seeder
             ->pluck('id_pengguna')
             ->toArray();
 
-        // =========================
-        // 4. PEMINJAMAN
-        // =========================
+        // 4. Data Transaksi Peminjaman
         $statuses = ['dipinjam', 'dikembalikan', 'terlambat'];
 
         for ($i = 1; $i <= 20; $i++) {
@@ -112,9 +104,7 @@ class DummyDataSeeder extends Seeder
                 'jumlah' => 1,
             ]);
 
-            // =========================
-            // 5. DENDA (HANYA JIKA TERLAMBAT)
-            // =========================
+            // 5. Data Denda jika Terlambat
             if ($status === 'terlambat') {
 
                 $hariTerlambat = Carbon::now()->diffInDays($deadline);

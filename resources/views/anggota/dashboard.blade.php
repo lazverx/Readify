@@ -68,7 +68,7 @@
                 <div class="relative z-10 flex flex-col justify-between h-full">
                     <div>
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs font-medium backdrop-blur-sm mb-3">
-                            <span>✨ Selamat Datang di Readify</span>
+                            <span>Selamat Datang di Readify</span>
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             <span>Katalog Terpadu</span>
                         </div>
@@ -93,7 +93,7 @@
                         <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
                             <span class="text-[11px] text-emerald-200 block">Lencana Pembaca</span>
                             <a href="{{ route('anggota.profile') }}" class="text-xs font-bold text-amber-300 hover:text-white inline-flex items-center gap-1 mt-1">
-                                Lihat Lencana →
+                                Lihat Lencana
                             </a>
                         </div>
                     </div>
@@ -105,7 +105,11 @@
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <div class="flex items-center gap-2">
-                            <span class="text-xl">🏆</span>
+                            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                </svg>
+                            </span>
                             <div>
                                 <h3 class="text-sm font-bold text-gray-900">Top Pembaca Bulan Ini</h3>
                                 <p class="text-[11px] text-gray-500">Anggota paling aktif meminjam buku</p>
@@ -118,8 +122,8 @@
                         @forelse(array_slice($leaderboard, 0, 3) as $userTop)
                             <div class="flex items-center justify-between p-2 rounded-xl {{ $userTop['rank'] === 1 ? 'bg-amber-50/70 border border-amber-100' : 'bg-gray-50' }}">
                                 <div class="flex items-center gap-2.5 min-w-0">
-                                    <span class="w-6 text-center font-extrabold text-sm {{ $userTop['rank'] === 1 ? 'text-amber-500' : ($userTop['rank'] === 2 ? 'text-gray-400' : 'text-amber-700') }}">
-                                        @if($userTop['rank'] === 1) 🥇 @elseif($userTop['rank'] === 2) 🥈 @else 🥉 @endif
+                                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full font-extrabold text-xs {{ $userTop['rank'] === 1 ? 'bg-amber-100 text-amber-800' : ($userTop['rank'] === 2 ? 'bg-gray-200 text-gray-700' : 'bg-amber-50 text-amber-900') }}">
+                                        #{{ $userTop['rank'] }}
                                     </span>
                                     <div class="w-7 h-7 rounded-full bg-[#0f4c3a] text-white flex items-center justify-center text-xs font-bold shrink-0 overflow-hidden">
                                         @if($userTop['foto'])
@@ -217,7 +221,7 @@
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1 no-scrollbar">
                 <button type="button" data-kategori=""
                     class="kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-sm">
-                    ✨ Semua
+                    Semua
                 </button>
                 @foreach($kategori as $kat)
                     <button type="button" data-kategori="{{ $kat->nama_kategori }}"
@@ -300,7 +304,13 @@
                                 <div>
                                     <div class="flex items-center gap-2 mb-1.5 flex-wrap">
                                         <span id="modal-kategori" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200"></span>
-                                        <span id="modal-rak" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700"></span>
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-700">
+                                            <svg class="w-3 h-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                            <span id="modal-rak"></span>
+                                        </span>
                                     </div>
 
                                     <h3 id="modal-judul" class="text-lg sm:text-xl font-extrabold text-gray-900 leading-snug"></h3>
@@ -308,9 +318,9 @@
 
                                     {{-- Info Grid --}}
                                     <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600 py-2 border-y border-gray-100">
-                                        <div><span class="font-medium text-gray-400">Penerbit:</span> <span id="modal-penerbit" class="font-bold text-gray-800"></span></div>
-                                        <div><span class="font-medium text-gray-400">Tahun:</span> <span id="modal-tahun" class="font-bold text-gray-800"></span></div>
-                                        <div class="col-span-2"><span class="font-medium text-gray-400">ISBN:</span> <span id="modal-isbn" class="font-mono text-gray-800"></span></div>
+                                        <div><span class="font-medium text-gray-500">Penerbit:</span> <span id="modal-penerbit" class="font-bold text-gray-800"></span></div>
+                                        <div><span class="font-medium text-gray-500">Tahun:</span> <span id="modal-tahun" class="font-bold text-gray-800"></span></div>
+                                        <div class="col-span-2"><span class="font-medium text-gray-500">ISBN:</span> <span id="modal-isbn" class="font-mono text-gray-800"></span></div>
                                     </div>
 
                                     {{-- Synopsis --}}
@@ -324,7 +334,7 @@
                                 <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between gap-3">
                                     <a id="modal-detail-btn" href="#"
                                         class="rounded-xl border border-gray-200 px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors">
-                                        Lihat Halaman Penuh →
+                                        Lihat Halaman Penuh
                                     </a>
 
                                     <div id="modal-action-container">
@@ -521,7 +531,7 @@
                     document.getElementById('modal-tahun').textContent = data.tahun_terbit;
                     document.getElementById('modal-isbn').textContent = data.isbn;
                     document.getElementById('modal-kategori').textContent = data.kategori_utama;
-                    document.getElementById('modal-rak').textContent = '📍 ' + data.rak;
+                    document.getElementById('modal-rak').textContent = data.rak;
                     document.getElementById('modal-sinopsis').textContent = data.sinopsis;
                     document.getElementById('modal-detail-btn').href = data.detail_url;
 

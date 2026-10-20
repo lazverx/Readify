@@ -51,12 +51,16 @@
                 class="absolute inset-0 bg-[#0f4c3a]/25 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center p-2">
                 <div class="flex flex-col items-center gap-1.5 transform group-hover:scale-100 scale-90 transition-all duration-200">
                     <span class="rounded-full bg-white/95 px-3 py-1 text-xs font-bold text-[#0f4c3a] shadow-md backdrop-blur-sm">
-                        Lihat Detail →
+                        Lihat Detail
                     </span>
                     <button type="button"
                         onclick="event.preventDefault(); event.stopPropagation(); window.openQuickPreview({{ $item->id_buku }});"
-                        class="rounded-full bg-[#0f4c3a] px-2.5 py-1 text-[11px] font-semibold text-white shadow-md hover:bg-emerald-900 transition-colors">
-                        👁️ Pratinjau
+                        class="inline-flex items-center gap-1 rounded-full bg-[#0f4c3a] px-2.5 py-1 text-[11px] font-semibold text-white shadow-md hover:bg-emerald-900 transition-colors">
+                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        Pratinjau
                     </button>
                 </div>
             </div>

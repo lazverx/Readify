@@ -42,18 +42,13 @@ class PetugasController extends Controller
                 ->count();
         }
 
-        // ==============================
-        // Data untuk tab PEMINJAMAN (kode booking)
-        // ==============================
-        // Daftar booking online yang belum diambil (status = 'booking')
+        // Booking online aktif yang belum diambil
         $bookingAktif = Peminjaman::with(['pengguna.anggota', 'buku'])
             ->where('status_transaksi', 'booking')
             ->orderBy('dibuat_pada', 'desc')
             ->get();
 
-        // ==============================
-        // Data untuk tab PENGEMBALIAN
-        // ==============================
+        // Data peminjaman aktif untuk pengembalian
         $searchReturn = $request->get('search_return');
 
         // Auto-update status terlambat
@@ -160,8 +155,8 @@ class PetugasController extends Controller
     }
 
     /**
-     * Proses kode booking dari anggota → ubah status ke 'dipinjam'
-     * Ini hanya input kode booking — stok sudah dikurangi saat anggota booking online.
+     * Proses kode booking dari anggota: ubah status transaksi ke dipinjam.
+     * Stok buku telah dipotong saat booking online disetujui.
      */
     public function prosesBooking(Request $request)
     {

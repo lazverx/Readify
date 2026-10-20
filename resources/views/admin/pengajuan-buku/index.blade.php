@@ -51,10 +51,9 @@
                     <select name="status" onchange="this.form.submit()"
                         class="w-full appearance-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 pr-10 text-sm font-medium outline-none focus:border-[#004236] focus:ring-2 focus:ring-[#004236]/20 transition-all">
                         <option value="">Semua Status</option>
-                        <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>⏳ Menunggu</option>
-                        <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>✅ Disetujui
-                        </option>
-                        <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>❌ Ditolak</option>
+                        <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                        <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                     </select>
                     <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                         <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
@@ -126,7 +125,7 @@
                                         {{ $item->kategori }}
                                     </span>
                                 @else
-                                    <span class="text-gray-400 text-xs">—</span>
+                                    <span class="text-gray-400 text-xs">-</span>
                                 @endif
                             </div>
 
@@ -141,10 +140,13 @@
                                     $statusClass = $statusConfig[$item->status] ?? 'bg-gray-100 text-gray-700';
                                 @endphp
                                 <span
-                                    class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold {{ $statusClass }}">
-                                    @if($item->status === 'menunggu') ⏳
-                                    @elseif($item->status === 'disetujui') ✅
-                                    @else ❌
+                                    class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold {{ $statusClass }}">
+                                    @if($item->status === 'menunggu')
+                                        <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                                    @elseif($item->status === 'disetujui')
+                                        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                    @else
+                                        <span class="h-1.5 w-1.5 rounded-full bg-red-500"></span>
                                     @endif
                                     {{ $item->label_status }}
                                 </span>
@@ -167,9 +169,12 @@
                                     </a>
                                     @if($item->id_buku)
                                         <a href="{{ route('admin.buku.show', $item->id_buku) }}"
-                                            class="inline-flex items-center gap-1 rounded-lg bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-all"
+                                            class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-all"
                                             title="Lihat Buku di Katalog">
-                                            <span>📖</span> Buku
+                                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                            </svg>
+                                            Buku
                                         </a>
                                     @endif
                                 @endif
@@ -213,6 +218,7 @@
 
     {{-- Modal Konfirmasi Hapus Custom --}}
     <div x-data="deleteModal()" x-show="isOpen" @open-delete-modal.window="openModal($event.detail)"
+        @keydown.escape.window="closeModal()"
         style="display: none;"
         class="fixed inset-0 z-999999 flex items-center justify-center bg-black/50 px-4 py-5 overflow-y-auto backdrop-blur-sm">
         <div @click.outside="closeModal()"

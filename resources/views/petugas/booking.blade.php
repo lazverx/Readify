@@ -72,7 +72,7 @@
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            Proses — Serahkan Buku
+                            Proses: Serahkan Buku
                         </button>
                     </form>
                     <div class="mt-5 rounded-xl bg-blue-50 border border-blue-100 p-4">
@@ -145,7 +145,7 @@
                                 <svg class="h-8 w-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             </div>
                             <p class="text-sm font-semibold text-gray-500">Tidak ada booking aktif</p>
-                            <p class="text-xs text-gray-300 mt-1">Semua buku sudah diambil anggota ✓</p>
+                            <p class="text-xs text-gray-400 mt-1">Semua buku telah diambil oleh anggota</p>
                         </div>
                     @endforelse
                 </div>

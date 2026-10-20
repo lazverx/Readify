@@ -34,6 +34,7 @@
     }
 }" 
      x-show="isOpen" 
+     @keydown.escape.window="close()"
      @if($closeOnBackdrop) @click.outside="close()" @endif
      class="fixed inset-0 z-[999999] overflow-y-auto {{ $backdropBlur ? 'bg-black/50 backdrop-blur-sm' : 'bg-black/50' }}"
      style="display: none;">

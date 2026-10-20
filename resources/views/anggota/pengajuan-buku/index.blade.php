@@ -113,12 +113,9 @@
                             <select name="status" onchange="this.form.submit()"
                                 class="appearance-none rounded-xl border border-gray-200 bg-white pl-4 pr-9 py-2 text-sm font-medium text-gray-700 outline-none focus:border-[#004236] focus:ring-2 focus:ring-[#004236]/20 transition-all cursor-pointer">
                                 <option value="">Semua Status</option>
-                                <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>⏳ Menunggu
-                                </option>
-                                <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>✅ Disetujui
-                                </option>
-                                <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>❌ Ditolak
-                                </option>
+                                <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                                <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                                <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
                             </select>
                             <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
@@ -152,11 +149,11 @@
                         @forelse($pengajuan as $item)
                             @php
                                 $statusConfig = [
-                                    'menunggu' => ['bg' => 'bg-amber-100 text-amber-700', 'dot' => 'bg-amber-400', 'emoji' => '⏳', 'label' => 'Menunggu'],
-                                    'disetujui' => ['bg' => 'bg-green-100 text-green-700', 'dot' => 'bg-green-500', 'emoji' => '✅', 'label' => 'Disetujui'],
-                                    'ditolak' => ['bg' => 'bg-red-100 text-red-600', 'dot' => 'bg-red-500', 'emoji' => '❌', 'label' => 'Ditolak'],
+                                    'menunggu' => ['bg' => 'bg-amber-100 text-amber-700', 'dot' => 'bg-amber-400', 'label' => 'Menunggu'],
+                                    'disetujui' => ['bg' => 'bg-green-100 text-green-700', 'dot' => 'bg-green-500', 'label' => 'Disetujui'],
+                                    'ditolak' => ['bg' => 'bg-red-100 text-red-600', 'dot' => 'bg-red-500', 'label' => 'Ditolak'],
                                 ];
-                                $cfg = $statusConfig[$item->status] ?? ['bg' => 'bg-gray-100 text-gray-600', 'dot' => 'bg-gray-400', 'emoji' => '?', 'label' => $item->status];
+                                $cfg = $statusConfig[$item->status] ?? ['bg' => 'bg-gray-100 text-gray-600', 'dot' => 'bg-gray-400', 'label' => $item->status];
                             @endphp
                             <tr
                                 class="hover:bg-gray-50/80 transition-colors duration-150 group {{ $item->status !== 'menunggu' ? '' : '' }}">
@@ -196,7 +193,7 @@
                                             {{ $item->kategori }}
                                         </span>
                                     @else
-                                        <span class="text-gray-300 text-xs">—</span>
+                                        <span class="text-gray-400 text-xs">-</span>
                                     @endif
                                 </td>
 
@@ -218,9 +215,12 @@
                                         {{ $cfg['label'] }}
                                     </span>
                                     @if($item->catatan_admin && $item->status !== 'menunggu')
-                                        <p class="mt-1 text-xs text-gray-400 max-w-[120px] mx-auto truncate"
+                                        <p class="mt-1 text-xs text-gray-500 max-w-[120px] mx-auto truncate flex items-center justify-center gap-1"
                                             title="{{ $item->catatan_admin }}">
-                                            💬 ada catatan
+                                            <svg class="w-3 h-3 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                            </svg>
+                                            Ada catatan
                                         </p>
                                     @endif
                                 </td>

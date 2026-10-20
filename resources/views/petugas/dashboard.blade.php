@@ -268,7 +268,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        Proses — Serahkan Buku
+                                        Proses: Serahkan Buku
                                     </button>
                                 </form>
 
@@ -383,7 +383,7 @@
                         class="border-b border-gray-100 px-6 py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h3 class="font-bold text-gray-800">Peminjaman Aktif</h3>
-                            <p class="text-xs text-gray-500 mt-0.5">Daftar buku yang sedang dipinjam — klik tombol untuk
+                            <p class="text-xs text-gray-500 mt-0.5">Daftar buku yang sedang dipinjam, klik tombol untuk
                                 proses pengembalian</p>
                         </div>
                         {{-- Search --}}

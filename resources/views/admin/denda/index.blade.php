@@ -119,8 +119,8 @@
                     <select name="status_pembayaran" onchange="this.form.submit()"
                         class="w-full rounded-xl border border-gray-200 bg-transparent px-4 py-2.5 text-sm font-medium outline-none focus:border-brand-primary dark:border-gray-700 dark:bg-gray-800 dark:text-white">
                         <option value="">Semua Pembayaran</option>
-                        <option value="belum_bayar" {{ request('status_pembayaran') == 'belum_bayar' ? 'selected' : '' }}>🔴 Belum Bayar</option>
-                        <option value="lunas" {{ request('status_pembayaran') == 'lunas' ? 'selected' : '' }}>🟢 Lunas</option>
+                        <option value="belum_bayar" {{ request('status_pembayaran') == 'belum_bayar' ? 'selected' : '' }}>Belum Bayar</option>
+                        <option value="lunas" {{ request('status_pembayaran') == 'lunas' ? 'selected' : '' }}>Lunas</option>
                     </select>
                 </div>
 

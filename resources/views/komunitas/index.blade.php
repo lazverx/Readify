@@ -7,20 +7,28 @@
     @if(session('success'))
         <div class="mb-5 flex items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-900 shadow-sm">
             <div class="flex items-center gap-3">
-                <span class="text-xl">🎉</span>
+                <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                </div>
                 <p class="text-sm font-semibold">{{ session('success') }}</p>
             </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-emerald-700 hover:text-emerald-900 text-sm font-bold">✕</button>
+            <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 flex items-center justify-center rounded-lg text-emerald-700 hover:bg-emerald-100 transition" aria-label="Tutup">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
     @endif
 
     @if(session('error'))
         <div class="mb-5 flex items-center justify-between rounded-xl border border-rose-200 bg-rose-50 px-5 py-4 text-rose-900 shadow-sm">
             <div class="flex items-center gap-3">
-                <span class="text-xl">⚠️</span>
+                <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
                 <p class="text-sm font-semibold">{{ session('error') }}</p>
             </div>
-            <button type="button" onclick="this.parentElement.remove()" class="text-rose-700 hover:text-rose-900 text-sm font-bold">✕</button>
+            <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 flex items-center justify-center rounded-lg text-rose-700 hover:bg-rose-100 transition" aria-label="Tutup">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
     @endif
 
@@ -30,7 +38,12 @@
         <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs font-semibold backdrop-blur-sm mb-3">
-                    <span>🌟 Ruang Komunitas Literasi</span>
+                    <span class="inline-flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-emerald-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                        </svg>
+                        Ruang Komunitas Literasi
+                    </span>
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                     <span>Readify Social Space</span>
                 </div>
@@ -89,29 +102,33 @@
                                 
                                 <label class="cursor-pointer">
                                     <input type="radio" name="tipe" value="diskusi" class="hidden peer" checked x-model="tipePost">
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-block peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
-                                        💬 Diskusi
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                        Diskusi
                                     </span>
                                 </label>
 
                                 <label class="cursor-pointer">
                                     <input type="radio" name="tipe" value="review" class="hidden peer" x-model="tipePost">
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-block peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 bg-gray-100 text-gray-700 hover:bg-gray-200">
-                                        ⭐ Review Buku
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                        Review Buku
                                     </span>
                                 </label>
 
                                 <label class="cursor-pointer">
                                     <input type="radio" name="tipe" value="kutipan" class="hidden peer" x-model="tipePost">
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-block peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
-                                        💡 Kutipan Favorit
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+                                        Kutipan Favorit
                                     </span>
                                 </label>
 
                                 <label class="cursor-pointer">
                                     <input type="radio" name="tipe" value="rekomendasi" class="hidden peer" x-model="tipePost">
-                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-block peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
-                                        📚 Rekomendasi
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                        Rekomendasi
                                     </span>
                                 </label>
                             </div>
@@ -122,9 +139,11 @@
                                 <div class="flex items-center gap-1">
                                     <template x-for="star in [1, 2, 3, 4, 5]" :key="star">
                                         <button type="button" @click="ratingVal = star"
-                                            class="text-lg focus:outline-none transition-transform hover:scale-125"
+                                            class="p-1 focus:outline-none transition-transform hover:scale-125"
                                             :class="star <= ratingVal ? 'text-amber-500' : 'text-gray-300'">
-                                            ★
+                                            <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
                                         </button>
                                     </template>
                                 </div>
@@ -136,7 +155,7 @@
                             <div class="mt-3.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-gray-100">
                                 <div class="relative flex-1">
                                     <select name="id_buku" class="w-full text-xs rounded-xl border border-gray-200 bg-gray-50/60 px-3 py-2 text-gray-700 outline-none focus:border-[#004236] focus:bg-white">
-                                        <option value="">📖 Tautkan Buku Perpustakaan (Opsional)...</option>
+                                        <option value="">Tautkan Buku Perpustakaan (Opsional)...</option>
                                         @foreach($daftarBuku as $b)
                                             <option value="{{ $b->id_buku }}" {{ request('buku_id') == $b->id_buku ? 'selected' : '' }}>
                                                 {{ $b->judul_buku }} ({{ $b->penulis }}) • {{ $b->lokasi_rak ?? 'Rak Utama' }}
@@ -170,20 +189,24 @@
                         Semua
                     </a>
                     <a href="{{ route('komunitas.index', array_merge(request()->except('tipe', 'page'), ['tipe' => 'diskusi'])) }}"
-                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition {{ $curTipe === 'diskusi' ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                        💬 Diskusi
+                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition inline-flex items-center gap-1 {{ $curTipe === 'diskusi' ? 'bg-blue-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        Diskusi
                     </a>
                     <a href="{{ route('komunitas.index', array_merge(request()->except('tipe', 'page'), ['tipe' => 'review'])) }}"
-                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition {{ $curTipe === 'review' ? 'bg-amber-500 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                        ⭐ Review
+                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition inline-flex items-center gap-1 {{ $curTipe === 'review' ? 'bg-amber-500 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        Review
                     </a>
                     <a href="{{ route('komunitas.index', array_merge(request()->except('tipe', 'page'), ['tipe' => 'kutipan'])) }}"
-                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition {{ $curTipe === 'kutipan' ? 'bg-purple-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                        💡 Kutipan
+                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition inline-flex items-center gap-1 {{ $curTipe === 'kutipan' ? 'bg-purple-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+                        Kutipan
                     </a>
                     <a href="{{ route('komunitas.index', array_merge(request()->except('tipe', 'page'), ['tipe' => 'rekomendasi'])) }}"
-                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition {{ $curTipe === 'rekomendasi' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
-                        📚 Rekomendasi
+                        class="px-3 py-1.5 rounded-full text-xs font-semibold shrink-0 transition inline-flex items-center gap-1 {{ $curTipe === 'rekomendasi' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        Rekomendasi
                     </a>
                 </div>
 
@@ -194,9 +217,9 @@
                     
                     <select name="sort" onchange="this.form.submit()"
                         class="rounded-xl border border-gray-200 bg-gray-50/70 px-3 py-1.5 text-xs font-semibold text-gray-700 outline-none focus:border-[#004236]">
-                        <option value="terbaru" {{ request('sort') == 'terbaru' ? 'selected' : '' }}>🕒 Terbaru</option>
-                        <option value="populer" {{ request('sort') == 'populer' ? 'selected' : '' }}>🔥 Paling Populer (Likes)</option>
-                        <option value="diskusi_terbanyak" {{ request('sort') == 'diskusi_terbanyak' ? 'selected' : '' }}>💬 Komentar Terbanyak</option>
+                        <option value="terbaru" {{ request('sort') == 'terbaru' ? 'selected' : '' }}>Terbaru</option>
+                        <option value="populer" {{ request('sort') == 'populer' ? 'selected' : '' }}>Paling Populer (Likes)</option>
+                        <option value="diskusi_terbanyak" {{ request('sort') == 'diskusi_terbanyak' ? 'selected' : '' }}>Komentar Terbanyak</option>
                     </select>
                 </form>
             </div>
@@ -237,7 +260,7 @@
                                             <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">Anggota</span>
                                         @endif
                                     </div>
-                                    <p class="text-[11px] text-gray-400 mt-0.5">{{ $post->waktu_lalu }}</p>
+                                    <p class="text-[11px] text-gray-500 mt-0.5">{{ $post->waktu_lalu }}</p>
                                 </div>
                             </div>
 
@@ -265,7 +288,11 @@
                         @if($post->tipe === 'review' && $post->rating)
                             <div class="flex items-center gap-1 mb-2 text-amber-500 text-sm">
                                 @for($i = 1; $i <= 5; $i++)
-                                    <span>{{ $i <= $post->rating ? '★' : '☆' }}</span>
+                                    @if($i <= $post->rating)
+                                        <svg class="w-4 h-4 fill-amber-400 text-amber-400" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    @else
+                                        <svg class="w-4 h-4 fill-none stroke-gray-300" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                                    @endif
                                 @endfor
                                 <span class="text-xs font-bold text-gray-600 ml-1.5">({{ $post->rating }}/5 Bintang)</span>
                             </div>
@@ -284,7 +311,9 @@
                                         @if($post->buku->sampul)
                                             <img src="{{ Storage::url($post->buku->sampul) }}" alt="Cover" class="w-full h-full object-cover">
                                         @else
-                                            <div class="w-full h-full flex items-center justify-center text-xl bg-emerald-100 text-emerald-800">📖</div>
+                                            <div class="w-full h-full flex items-center justify-center bg-emerald-100 text-[#004236]">
+                                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                            </div>
                                         @endif
                                     </div>
                                     <div class="min-w-0">
@@ -293,8 +322,9 @@
                                                 {{ $post->buku->kategori->first()?->nama_kategori ?? 'Umum' }}
                                             </span>
                                             @if($post->buku->lokasi_rak)
-                                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-white text-gray-600 font-medium border border-gray-200">
-                                                    📍 {{ $post->buku->lokasi_rak }}
+                                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-white text-gray-600 font-medium border border-gray-200 inline-flex items-center gap-1">
+                                                    <svg class="w-2.5 h-2.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                                    {{ $post->buku->lokasi_rak }}
                                                 </span>
                                             @endif
                                         </div>
@@ -308,7 +338,7 @@
                                 <div class="shrink-0 flex items-center gap-1.5">
                                     <a href="{{ route('anggota.buku.detail', $post->buku->id_buku) }}"
                                         class="rounded-lg bg-[#004236] px-3 py-1.5 text-xs font-bold text-white shadow-xs hover:bg-emerald-950 transition">
-                                        Pinjam / Detail →
+                                        Pinjam / Detail
                                     </a>
                                 </div>
                             </div>
@@ -366,7 +396,9 @@
                                             <form method="POST" action="{{ route('komunitas.komentar.destroy', $kom->id_komentar) }}">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="text-gray-400 hover:text-red-500 p-0.5" title="Hapus Komentar">✕</button>
+                                                <button type="submit" class="w-6 h-6 flex items-center justify-center rounded text-gray-400 hover:text-red-500 hover:bg-red-50 transition" title="Hapus Komentar">
+                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                </button>
                                             </form>
                                         @endif
                                     </div>
@@ -389,8 +421,8 @@
                     </article>
                 @empty
                     <div class="rounded-2xl border border-gray-100 bg-white p-12 text-center shadow-sm">
-                        <div class="mx-auto w-16 h-16 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-3xl mb-3">
-                            💬
+                        <div class="mx-auto w-16 h-16 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3">
+                            <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                         </div>
                         <h3 class="text-base font-bold text-gray-900">Belum ada postingan</h3>
                         <p class="text-xs text-gray-500 mt-1 max-w-sm mx-auto">Mulai diskusi pertama atau bagikan ulasan buku favoritmu sekarang!</p>
@@ -414,7 +446,7 @@
             <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                 <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
                     <div class="flex items-center gap-2">
-                        <span class="text-lg">🔥</span>
+                        <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.527.82-1.157 2.155-.788 3.708.077.324.088.66.012.98a4.004 4.004 0 01-.645 1.378c-.287.41-.67.75-1.11 1.002-.44.252-.942.392-1.45.41a3.003 3.003 0 01-2.456-1.157c-.244-.318-.415-.69-.5-1.094a1 1 0 00-1.924.526 5.008 5.008 0 001.218 2.378c.84.99 2.025 1.637 3.325 1.815.347.047.697.067 1.047.06.842-.016 1.68-.216 2.454-.593.774-.378 1.458-.934 1.996-1.625.538-.69.89-1.503 1.026-2.372.135-.87.037-1.758-.288-2.593a8.03 8.03 0 00-1.127-1.992zM6.5 14a4.5 4.5 0 004.5 4.5c1.47 0 2.8-.71 3.63-1.8.19-.25.33-.53.42-.83a5.52 5.52 0 00.45-2.22c0-.57-.08-1.12-.24-1.64a5.98 5.98 0 01-1.76 1.99c-.6.44-1.32.72-2.07.82-.75.09-1.52-.01-2.22-.3a3.52 3.52 0 01-1.71-1.52A4.47 4.47 0 006.5 14z" clip-rule="evenodd"/></svg>
                         <h3 class="text-sm font-bold text-gray-900">Buku Paling Ramai</h3>
                     </div>
                     <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Trending</span>
@@ -428,7 +460,9 @@
                                 @if($bt->sampul)
                                     <img src="{{ Storage::url($bt->sampul) }}" class="w-full h-full object-cover">
                                 @else
-                                    <div class="w-full h-full flex items-center justify-center text-xs bg-emerald-50 text-emerald-700 font-bold">📖</div>
+                                    <div class="w-full h-full flex items-center justify-center bg-emerald-50 text-[#004236]">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                    </div>
                                 @endif
                             </div>
                             <div class="min-w-0 flex-1">
@@ -437,8 +471,9 @@
                                 </h4>
                                 <p class="text-[11px] text-gray-500 truncate">{{ $bt->penulis }}</p>
                                 <div class="flex items-center gap-2 mt-1">
-                                    <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
-                                        💬 {{ $bt->postingan_komunitas_count }} diskusi
+                                    <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded inline-flex items-center gap-1">
+                                        <svg class="w-3 h-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                        {{ $bt->postingan_komunitas_count }} diskusi
                                     </span>
                                 </div>
                             </div>
@@ -453,7 +488,7 @@
             <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
                 <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
                     <div class="flex items-center gap-2">
-                        <span class="text-lg">👑</span>
+                        <svg class="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 011.395 1.189l-1.5 6A1 1 0 0115.5 13H4.5a1 1 0 01-.948-.694l-1.5-6a1 1 0 011.395-1.189l1.599.8L9 4.323V3a1 1 0 011-1zm-5 13a1 1 0 000 2h10a1 1 0 100-2H5z" clip-rule="evenodd"/></svg>
                         <h3 class="text-sm font-bold text-gray-900">Top Kontributor</h3>
                     </div>
                     <span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Aktif</span>
@@ -490,7 +525,7 @@
             {{-- 3. Panduan Etika Komunitas --}}
             <div class="rounded-2xl border border-gray-100 bg-linear-to-b from-gray-50 to-white p-5 shadow-sm text-xs text-gray-600 space-y-2">
                 <div class="flex items-center gap-2 text-gray-900 font-bold mb-1">
-                    <span>📌</span>
+                    <svg class="w-4 h-4 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                     <span>Etika Berkomunitas</span>
                 </div>
                 <p>• Berikan review jujur tanpa spoiler cerita utama.</p>

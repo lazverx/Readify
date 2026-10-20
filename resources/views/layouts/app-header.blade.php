@@ -100,6 +100,18 @@
                 </div>
             @endif
 
+            <!-- Language Switcher ID / EN -->
+            <div class="flex items-center rounded-xl bg-gray-100 p-1 text-xs font-bold border border-gray-200" aria-label="Ganti Bahasa">
+                <a href="{{ route('lang.switch', 'id') }}"
+                   class="px-2.5 py-1 rounded-lg transition-colors {{ app()->getLocale() === 'id' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
+                    ID
+                </a>
+                <a href="{{ route('lang.switch', 'en') }}"
+                   class="px-2.5 py-1 rounded-lg transition-colors {{ app()->getLocale() === 'en' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
+                    EN
+                </a>
+            </div>
+
             <!-- ===== NOTIFICATION BELL ===== -->
             @php
                 $notifCount = \App\Models\Notifikasi::where('id_pengguna', Auth::id())
@@ -121,7 +133,7 @@
 
             <div class="relative" x-data="{ notifOpen: false }" @click.outside="notifOpen = false">
                 <button id="notif-bell-btn"
-                    class="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none"
+                    class="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#004236]"
                     @click.stop="notifOpen = !notifOpen" title="Notifikasi">
                     <svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -147,7 +159,7 @@
 
                     <!-- Header -->
                     <div
-                        class="flex items-center justify-between px-4 py-3 bg-linear-to-r from-brand-primary to-blue-600">
+                        class="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#004236] to-[#006e57]">
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -256,9 +268,9 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
-                                                class="text-gray-300 hover:text-red-400 transition-colors p-0.5 rounded"
+                                                class="min-w-[44px] min-h-[44px] -mr-2 -mt-1 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors rounded-lg focus:ring-2 focus:ring-red-400"
                                                 title="Hapus notifikasi">
-                                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                                     stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M6 18L18 6M6 6l12 12" />
@@ -266,9 +278,9 @@
                                             </button>
                                         </form>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-0.5 leading-snug line-clamp-2">{{ $notif->pesan }}
+                                    <p class="text-xs text-gray-600 mt-0.5 leading-snug line-clamp-2">{{ $notif->pesan }}
                                     </p>
-                                    <p class="text-xs text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
+                                    <p class="text-xs text-gray-500 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
                                 </div>
                             </a>
                         @empty

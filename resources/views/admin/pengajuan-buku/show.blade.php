@@ -58,7 +58,7 @@
             $bannerBg = $isMenunggu
                 ? 'from-amber-500 to-orange-500'
                 : ($isDisetujui ? 'from-[#004236] to-[#00705a]' : 'from-red-600 to-rose-700');
-            $badgeText = $isMenunggu ? '⏳ Menunggu Review' : ($isDisetujui ? '✅ Disetujui & Diterbitkan' : '❌ Pengajuan Ditolak');
+            $badgeText = $isMenunggu ? 'Menunggu Review' : ($isDisetujui ? 'Disetujui & Diterbitkan' : 'Pengajuan Ditolak');
         @endphp
 
         <div class="mb-6 rounded-2xl bg-linear-to-r {{ $bannerBg }} text-white p-6 shadow-md flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -104,17 +104,17 @@
                         </div>
                         <div class="grid grid-cols-2 px-6 py-3.5 gap-2">
                             <div>
-                                <span class="text-xs font-semibold uppercase text-gray-400 block mb-0.5">Nomor ISBN</span>
-                                <span class="font-medium text-gray-800">{{ $pengajuan->isbn ?? '—' }}</span>
+                                <span class="text-xs font-semibold uppercase text-gray-500 block mb-0.5">Nomor ISBN</span>
+                                <span class="font-medium text-gray-800">{{ $pengajuan->isbn ?? '-' }}</span>
                             </div>
                             <div>
-                                <span class="text-xs font-semibold uppercase text-gray-400 block mb-0.5">Tahun Terbit</span>
-                                <span class="font-medium text-gray-800">{{ $pengajuan->tahun_terbit ?? '—' }}</span>
+                                <span class="text-xs font-semibold uppercase text-gray-500 block mb-0.5">Tahun Terbit</span>
+                                <span class="font-medium text-gray-800">{{ $pengajuan->tahun_terbit ?? '-' }}</span>
                             </div>
                         </div>
                         <div class="px-6 py-3.5">
-                            <span class="text-xs font-semibold uppercase text-gray-400 block mb-0.5">Penerbit</span>
-                            <span class="font-medium text-gray-800">{{ $pengajuan->penerbit ?? '—' }}</span>
+                            <span class="text-xs font-semibold uppercase text-gray-500 block mb-0.5">Penerbit</span>
+                            <span class="font-medium text-gray-800">{{ $pengajuan->penerbit ?? '-' }}</span>
                         </div>
                         <div class="px-6 py-3.5">
                             <span class="text-xs font-semibold uppercase text-gray-400 block mb-0.5">Kategori Diusulkan</span>
@@ -159,7 +159,11 @@
                 @if($isDisetujui && $pengajuan->buku)
                     <div class="rounded-2xl border border-green-200 bg-white p-5 shadow-sm overflow-hidden">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-700 text-xs font-bold">✓</span>
+                            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-700">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </span>
                             <h4 class="text-sm font-bold text-gray-900">Buku Resmi di Katalog</h4>
                         </div>
                         <div class="flex gap-4 items-center">
@@ -172,9 +176,9 @@
                                 <p class="font-bold text-gray-900 text-sm line-clamp-2">{{ $pengajuan->buku->judul_buku }}</p>
                                 <p class="text-gray-600">Rak: <span class="font-semibold text-gray-800">{{ $pengajuan->buku->lokasi_rak }}</span></p>
                                 <p class="text-gray-600">Stok: <span class="font-semibold text-green-700">{{ $pengajuan->buku->stok }} eks</span></p>
-                                <p class="text-gray-600">Halaman: <span class="font-semibold text-gray-800">{{ $pengajuan->buku->jumlah_halaman ?? '—' }}</span></p>
+                                <p class="text-gray-600">Halaman: <span class="font-semibold text-gray-800">{{ $pengajuan->buku->jumlah_halaman ?? '-' }}</span></p>
                                 <a href="{{ route('admin.buku.show', $pengajuan->buku->id_buku) }}" class="inline-block mt-2 text-xs font-bold text-[#004236] hover:underline">
-                                    Kelola Buku Ini ➔
+                                    Kelola Buku Ini
                                 </a>
                             </div>
                         </div>
@@ -198,7 +202,7 @@
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
                                 </svg>
-                                ✅ ACC & Terbitkan Buku ke Katalog
+                                ACC & Terbitkan Buku ke Katalog
                             </button>
                             <button type="button" @click="decision = 'tolak'"
                                 :class="decision === 'tolak' ? 'bg-red-600 text-white shadow-sm' : 'text-gray-600 hover:bg-gray-100'"
@@ -206,14 +210,18 @@
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                ❌ Tolak Pengajuan
+                                Tolak Pengajuan
                             </button>
                         </div>
 
                         {{-- PANEL 1: FORM ACC & TERBITKAN KE KATALOG --}}
                         <div x-show="decision === 'acc'" class="p-6 md:p-8">
                             <div class="mb-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start gap-3">
-                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 text-lg">💡</div>
+                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
                                 <div>
                                     <h4 class="text-sm font-bold text-emerald-900">ACC & Lengkapi Data Katalog</h4>
                                     <p class="text-xs text-emerald-700 mt-0.5">
@@ -271,7 +279,10 @@
                                 {{-- Stok, Halaman, Bahasa, Lokasi Rak (DATA KURANG YANG DILENGKAPI ADMIN) --}}
                                 <div class="bg-gray-50/70 border border-gray-200/80 rounded-2xl p-5 space-y-4">
                                     <h5 class="text-xs font-extrabold uppercase tracking-wider text-gray-600 flex items-center gap-1.5">
-                                        <span>📦</span> Data Kelengkapan Inventaris Perpustakaan
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                        </svg>
+                                        Data Kelengkapan Inventaris Perpustakaan
                                     </h5>
 
                                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -393,7 +404,7 @@
                                 {{-- Submit ACC Button --}}
                                 <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
                                     <a href="{{ route('admin.pengajuan-buku.index') }}" class="text-sm font-semibold text-gray-500 hover:text-gray-800">
-                                        ← Batal & Kembali
+                                        Batal & Kembali
                                     </a>
                                     <button type="submit"
                                         class="inline-flex items-center gap-2 rounded-xl bg-[#004236] px-8 py-3 text-sm font-extrabold text-white hover:bg-[#00362b] transition-all shadow-md hover:shadow-lg">
@@ -409,7 +420,11 @@
                         {{-- PANEL 2: FORM TOLAK PENGAJUAN --}}
                         <div x-show="decision === 'tolak'" class="p-6 md:p-8" style="display: none;">
                             <div class="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
-                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700 text-lg">⚠️</div>
+                                <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
                                 <div>
                                     <h4 class="text-sm font-bold text-red-900">Konfirmasi Penolakan Pengajuan</h4>
                                     <p class="text-xs text-red-700 mt-0.5">
@@ -434,7 +449,7 @@
 
                                 <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
                                     <button type="button" @click="decision = 'acc'" class="text-sm font-semibold text-gray-500 hover:text-gray-800">
-                                        ← Kembali ke Opsi ACC
+                                        Kembali ke Opsi ACC
                                     </button>
                                     <button type="submit"
                                         class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-6 py-2.5 text-sm font-extrabold text-white hover:bg-red-700 transition-all shadow-md">
@@ -465,11 +480,14 @@
                                 <div class="mt-6 flex flex-wrap justify-center gap-3">
                                     <a href="{{ route('admin.buku.show', $pengajuan->buku->id_buku) }}"
                                         class="inline-flex items-center gap-2 rounded-xl bg-[#004236] px-6 py-2.5 text-sm font-bold text-white hover:bg-[#00362b] transition-all shadow-sm">
-                                        <span>📖</span> Lihat Buku di Katalog
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                        Lihat Buku di Katalog
                                     </a>
                                     <a href="{{ route('admin.pengajuan-buku.index') }}"
                                         class="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50">
-                                        ← Kembali ke Daftar Pengajuan
+                                        Kembali ke Daftar Pengajuan
                                     </a>
                                 </div>
                             @endif
@@ -486,7 +504,7 @@
                             <div class="mt-6 flex justify-center gap-3">
                                 <a href="{{ route('admin.pengajuan-buku.index') }}"
                                     class="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-6 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50">
-                                    ← Kembali ke Daftar Pengajuan
+                                    Kembali ke Daftar Pengajuan
                                 </a>
                             </div>
                         @endif

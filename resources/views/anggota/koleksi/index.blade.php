@@ -15,8 +15,9 @@
         }
      }">
 
-    {{-- ===== MODAL HAPUS — dirender di sini (level atas, bukan di card) ===== --}}
+    {{-- Modal konfirmasi hapus --}}
     <div x-show="showDeleteModal" x-transition
+        @keydown.escape.window="showDeleteModal = false"
         class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
         style="display: none;">
         <div @click.outside="showDeleteModal = false"
@@ -57,7 +58,6 @@
         <div>
             <h2 class="text-title-md2 font-bold text-black flex items-center gap-2">
                 Koleksi / Wishlist Saya
-                <span class="text-[#0f4c3a]">✨</span>
             </h2>
             <p class="text-sm text-gray-500 mt-1">Daftar buku yang Anda simpan untuk dibaca nanti.</p>
         </div>
@@ -104,7 +104,7 @@
                             <div class="absolute inset-0 bg-[#0f4c3a]/0 group-hover:bg-[#0f4c3a]/20 transition-all duration-300 flex items-center justify-center pointer-events-none">
                                 <div class="opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-100 scale-90">
                                     <div class="rounded-full bg-white/90 px-3 py-1.5 text-xs font-bold text-[#0f4c3a] shadow-lg backdrop-blur-sm">
-                                        Lihat Detail →
+                                        Lihat Detail
                                     </div>
                                 </div>
                             </div>
@@ -123,10 +123,10 @@
                         </div>
                     </a>
 
-                    {{-- Tombol hapus — hanya trigger, bukan modal. Modal ada di atas --}}
+                    {{-- Tombol hapus --}}
                     <button
                         @click.prevent="openDeleteModal('{{ addslashes($item->buku->judul_buku) }}', {{ $item->id_buku }})"
-                        class="absolute top-2 right-2 z-20 flex items-center justify-center w-7 h-7 bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-md shadow-md border border-gray-200 transition-colors opacity-0 group-hover:opacity-100"
+                        class="absolute top-2 right-2 z-20 flex items-center justify-center w-8 h-8 bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-md shadow-md border border-gray-200 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                         title="Hapus dari Koleksi">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

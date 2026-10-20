@@ -81,7 +81,6 @@ class PengajuanBukuController extends Controller
 
         // Kirim notifikasi ke pengguna yang mengajukan (jika ada id_pengguna)
         if ($pengajuan->id_pengguna) {
-            $emoji = $request->status === 'disetujui' ? '✅' : '❌';
             $pesanStatus = $request->status === 'disetujui'
                 ? "Pengajuan buku \"{$pengajuan->judul_buku}\" telah disetujui oleh admin."
                 : "Pengajuan buku \"{$pengajuan->judul_buku}\" telah ditolak oleh admin.";
@@ -93,7 +92,7 @@ class PengajuanBukuController extends Controller
             Notifikasi::create([
                 'id_pengguna' => $pengajuan->id_pengguna,
                 'tipe' => 'status_pengajuan',
-                'judul' => "{$emoji} Pengajuan Buku " . ucfirst($label),
+                'judul' => "Pengajuan Buku " . ucfirst($label),
                 'pesan' => $pesanStatus,
                 'id_pengajuan' => $pengajuan->id_pengajuan,
                 'sudah_dibaca' => false,
@@ -193,7 +192,7 @@ class PengajuanBukuController extends Controller
             Notifikasi::create([
                 'id_pengguna' => $pengajuan->id_pengguna,
                 'tipe' => 'status_pengajuan',
-                'judul' => '🎉 Usulan Buku Diterima & Terbit!',
+                'judul' => 'Usulan Buku Diterima & Terbit!',
                 'pesan' => "Selamat! Usulan buku Anda \"{$buku->judul_buku}\" telah disetujui oleh admin dan resmi tersedia di katalog perpustakaan pada {$buku->lokasi_rak}.",
                 'id_pengajuan' => $pengajuan->id_pengajuan,
                 'sudah_dibaca' => false,

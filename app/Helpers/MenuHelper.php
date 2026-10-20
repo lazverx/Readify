@@ -8,9 +8,7 @@ class MenuHelper
     {
         $user = \Illuminate\Support\Facades\Auth::user();
 
-        // ─────────────────────────────────────
-        // MENU PETUGAS — dinamis sesuai hak akses
-        // ─────────────────────────────────────
+        // Menu Petugas (Dinamis sesuai hak akses)
         if ($user && $user->level_akses == 'petugas') {
 
             // Load hakAkses jika belum

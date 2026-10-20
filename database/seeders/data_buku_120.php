@@ -1,9 +1,7 @@
 <?php
 
 return [
-    // =========================================================================
-    // 54 MANGA (45% DARI 120 BUKU)
-    // =========================================================================
+    // Koleksi Manga Terjemahan
     [
         'judul_buku' => 'One Piece, Vol. 1: Romance Dawn',
         'penulis' => 'Eiichiro Oda',
@@ -761,9 +759,7 @@ return [
         'cover_url' => 'https://covers.openlibrary.org/b/isbn/9781931514934-L.jpg',
     ],
 
-    // =========================================================================
-    // 66 BUKU & NOVEL ENGLISH (55% DARI 120 BUKU)
-    // =========================================================================
+    // Koleksi Novel dan Sastra Klasik
     [
         'judul_buku' => 'The Count of Monte Cristo',
         'penulis' => 'Alexandre Dumas',
