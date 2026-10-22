@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10" x-data="komunitasApp()">
+<div class="space-y-6" x-data="komunitasApp()">
 
     {{-- Alert Flash Message --}}
     @if(session('success'))

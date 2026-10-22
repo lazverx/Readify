@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+<div class="flex flex-col gap-6">
 
     {{-- Page Header --}}
-    <div class="mb-6">
+    <div>
         <h2 class="text-xl sm:text-2xl font-bold text-black">{{ __('messages.history_fines_title') }}</h2>
         <p class="text-sm text-gray-500 mt-1">{{ __('messages.history_fines_subtitle') }}</p>
     </div>
@@ -40,22 +40,93 @@
 
                 <div class="p-3 sm:p-6">
                     @if($history->count() > 0)
-                        <div class="overflow-x-auto">
+                        {{-- Mobile Card View (< 640px) --}}
+                        <div class="space-y-3 sm:hidden">
+                            @foreach($history as $loan)
+                                <div class="rounded-2xl border border-gray-100 bg-white p-3.5 shadow-xs">
+                                    <div class="flex items-start gap-3">
+                                        {{-- Sampul buku --}}
+                                        <div class="h-18 w-13 shrink-0 rounded-lg overflow-hidden bg-gray-100 shadow-2xs">
+                                            @if($loan->buku?->sampul)
+                                                <img src="{{ Storage::url($loan->buku->sampul) }}" alt="{{ $loan->buku->judul_buku }}" class="h-full w-full object-cover">
+                                            @else
+                                                <div class="h-full w-full flex items-center justify-center bg-[#e8f4f0]">
+                                                    <svg class="h-6 w-6 text-[#0f4c3a] opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+                                                    </svg>
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        {{-- Info Buku --}}
+                                        <div class="min-w-0 flex-1">
+                                            <h4 class="font-bold text-black text-sm line-clamp-2 leading-snug">
+                                                {{ $loan->buku?->judul_buku ?? __('messages.no_books_found') }}
+                                            </h4>
+                                            <p class="text-xs text-gray-400 mt-0.5 truncate">{{ $loan->buku?->penulis ?? '-' }}</p>
+
+                                            {{-- Badges: Status + Fine --}}
+                                            <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                                                <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-[11px] font-semibold text-green-700">
+                                                    <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                                    {{ __('messages.badge_returned') }}
+                                                </span>
+                                                @if($loan->denda)
+                                                    <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold
+                                                        {{ $loan->denda->status_pembayaran === 'lunas' ? 'bg-gray-100 text-gray-500' : 'bg-red-100 text-red-600' }}">
+                                                        <svg class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>
+                                                        Rp {{ number_format($loan->denda->jumlah_denda, 0, ',', '.') }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Tanggal & Tombol Cetak Struk --}}
+                                    <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                                        <div class="text-xs text-gray-500 flex items-center gap-1">
+                                            <svg class="h-3.5 w-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                            <span class="font-medium">
+                                                {{ $loan->tgl_pinjam ? \Carbon\Carbon::parse($loan->tgl_pinjam)->format('d M') : '-' }}
+                                                &rarr;
+                                                {{ $loan->tgl_kembali ? \Carbon\Carbon::parse($loan->tgl_kembali)->format('d M Y') : '-' }}
+                                            </span>
+                                        </div>
+
+                                        <a href="{{ route('peminjaman.struk', $loan->id_peminjaman) }}" target="_blank"
+                                            class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 hover:bg-gray-100 min-h-[38px] px-3 py-1.5 text-xs font-semibold text-gray-700 transition shadow-2xs shrink-0"
+                                            title="{{ __('messages.print_receipt') }}">
+                                            <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                            </svg>
+                                            <span>{{ __('messages.print_receipt') }}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Desktop Table View (>= 640px) --}}
+                        <div class="hidden sm:block overflow-x-auto">
                             <table class="w-full text-sm">
                                 <thead>
                                     <tr class="border-b border-gray-100">
-                                        <th class="text-left py-3 px-2 sm:px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">{{ __('messages.books_unit') }}</th>
-                                        <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide hidden sm:table-cell">{{ __('messages.borrow_date') }}</th>
-                                        <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide hidden sm:table-cell">{{ __('messages.due_date') }}</th>
-                                        <th class="text-left py-3 px-2 sm:px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Status</th>
-                                        <th class="text-right py-3 px-2 sm:px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">{{ __('messages.print_receipt') }}</th>
+                                        <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">{{ __('messages.books_unit') }}</th>
+                                        <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">{{ __('messages.borrow_date') }}</th>
+                                        <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">{{ __('messages.due_date') }}</th>
+                                        <th class="text-left py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">Status</th>
+                                        <th class="text-right py-3 px-3 font-semibold text-gray-500 text-xs uppercase tracking-wide">{{ __('messages.print_receipt') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-50">
                                     @foreach($history as $loan)
                                         <tr class="hover:bg-gray-50/60 transition-colors group">
-                                            <td class="py-3 sm:py-4 px-2 sm:px-3">
-                                                <div class="flex items-center gap-2.5 sm:gap-3">
+                                            <td class="py-4 px-3">
+                                                <div class="flex items-center gap-3">
                                                     {{-- Sampul mini --}}
                                                     <div class="h-12 w-9 shrink-0 rounded-md overflow-hidden bg-gray-100 shadow-2xs">
                                                         @if($loan->buku?->sampul)
@@ -69,37 +140,31 @@
                                                         @endif
                                                     </div>
                                                     <div class="min-w-0 flex-1">
-                                                        <p class="font-semibold text-black text-xs sm:text-sm line-clamp-2 leading-snug">
+                                                        <p class="font-semibold text-black text-sm line-clamp-1 leading-snug">
                                                             {{ $loan->buku?->judul_buku ?? __('messages.no_books_found') }}
                                                         </p>
-                                                        <p class="text-[11px] sm:text-xs text-gray-400 mt-0.5 truncate">{{ $loan->buku?->penulis ?? '-' }}</p>
-                                                        {{-- Show dates on mobile too --}}
-                                                        <p class="text-[10px] text-gray-500 mt-0.5 sm:hidden">
-                                                            {{ $loan->tgl_pinjam ? \Carbon\Carbon::parse($loan->tgl_pinjam)->format('d M') : '-' }}
-                                                            →
-                                                            {{ $loan->tgl_kembali ? \Carbon\Carbon::parse($loan->tgl_kembali)->format('d M Y') : '-' }}
-                                                        </p>
+                                                        <p class="text-xs text-gray-400 mt-0.5 truncate">{{ $loan->buku?->penulis ?? '-' }}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="py-4 px-3 hidden sm:table-cell">
+                                            <td class="py-4 px-3">
                                                 <span class="text-sm text-gray-600">
                                                     {{ $loan->tgl_pinjam ? \Carbon\Carbon::parse($loan->tgl_pinjam)->format('d M Y') : '-' }}
                                                 </span>
                                             </td>
-                                            <td class="py-4 px-3 hidden sm:table-cell">
+                                            <td class="py-4 px-3">
                                                 <span class="text-sm text-gray-600">
                                                     {{ $loan->tgl_kembali ? \Carbon\Carbon::parse($loan->tgl_kembali)->format('d M Y') : '-' }}
                                                 </span>
                                             </td>
-                                            <td class="py-3 sm:py-4 px-2 sm:px-3">
+                                            <td class="py-4 px-3">
                                                 <div class="flex flex-col gap-1">
-                                                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 sm:px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-semibold text-green-700 self-start">
+                                                    <span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700 self-start">
                                                         <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
                                                         {{ __('messages.badge_returned') }}
                                                     </span>
                                                     @if($loan->denda)
-                                                        <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold self-start
+                                                        <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold self-start
                                                             {{ $loan->denda->status_pembayaran === 'lunas' ? 'bg-gray-100 text-gray-500' : 'bg-red-100 text-red-600' }}">
                                                             <svg class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -109,14 +174,14 @@
                                                     @endif
                                                 </div>
                                             </td>
-                                            <td class="py-3 sm:py-4 px-2 sm:px-3 text-right">
+                                            <td class="py-4 px-3 text-right">
                                                 <a href="{{ route('peminjaman.struk', $loan->id_peminjaman) }}" target="_blank"
-                                                    class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2 sm:px-2.5 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition shadow-2xs"
+                                                    class="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition shadow-2xs"
                                                     title="{{ __('messages.print_receipt') }}">
                                                     <svg class="h-3.5 w-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                                                     </svg>
-                                                    <span class="hidden sm:inline">{{ __('messages.print_receipt') }}</span>
+                                                    <span>{{ __('messages.print_receipt') }}</span>
                                                 </a>
                                             </td>
                                         </tr>

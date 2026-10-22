@@ -3,7 +3,7 @@
 
 @section('content')
 {{-- Wrap semua dalam satu Alpine component agar modal bisa diakses dari mana saja --}}
-<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10"
+<div class="space-y-6"
      x-data="{
         showDeleteModal: false,
         deleteJudul: '',

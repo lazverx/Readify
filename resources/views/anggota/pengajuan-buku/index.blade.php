@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+    <div class="space-y-6">
 
         {{-- ===== PAGE HEADER ===== --}}
         <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -129,8 +129,72 @@
                 </div>
             </div>
 
-            {{-- Table --}}
-            <div class="overflow-x-auto">
+            {{-- Mobile Cards (< 640px) --}}
+            <div class="p-4 space-y-3 sm:hidden">
+                @forelse($pengajuan as $item)
+                    @php
+                        $statusConfig = [
+                            'menunggu' => ['bg' => 'bg-amber-100 text-amber-700', 'dot' => 'bg-amber-400', 'label' => 'Menunggu'],
+                            'disetujui' => ['bg' => 'bg-green-100 text-green-700', 'dot' => 'bg-green-500', 'label' => 'Disetujui'],
+                            'ditolak' => ['bg' => 'bg-red-100 text-red-600', 'dot' => 'bg-red-500', 'label' => 'Ditolak'],
+                        ];
+                        $cfg = $statusConfig[$item->status] ?? ['bg' => 'bg-gray-100 text-gray-600', 'dot' => 'bg-gray-400', 'label' => $item->status];
+                    @endphp
+                    <div class="rounded-2xl border border-gray-100 bg-white p-4 shadow-xs">
+                        <div class="flex items-start gap-3">
+                            <div class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl {{ $item->status === 'disetujui' ? 'bg-green-100 text-green-600' : ($item->status === 'ditolak' ? 'bg-red-100 text-red-500' : 'bg-amber-100 text-amber-600') }}">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold text-gray-900 text-sm line-clamp-2 leading-snug">
+                                    {{ $item->judul_buku }}
+                                </h4>
+                                <p class="text-xs text-gray-500 mt-0.5">{{ $item->nama_penulis }}</p>
+                                <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                                    <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold {{ $cfg['bg'] }}">
+                                        <span class="w-1.5 h-1.5 rounded-full {{ $cfg['dot'] }}"></span>
+                                        {{ $cfg['label'] }}
+                                    </span>
+                                    @if($item->kategori)
+                                        <span class="inline-block rounded-md bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700">
+                                            {{ $item->kategori }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                            <span class="text-xs text-gray-400">
+                                {{ $item->dibuat_pada ? $item->dibuat_pada->format('d M Y') : '-' }}
+                            </span>
+                            <a href="{{ route('anggota.pengajuan-buku.show', $item->id_pengajuan) }}"
+                                class="inline-flex items-center justify-center gap-1.5 rounded-lg border border-[#004236]/30 px-3 py-1.5 text-xs font-semibold text-[#004236] hover:bg-[#004236] hover:text-white transition shadow-2xs">
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                Detail
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="py-12 text-center">
+                        <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+                            <svg class="h-7 w-7 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <p class="text-sm font-semibold text-gray-600">Belum ada pengajuan</p>
+                        <p class="text-xs text-gray-400 mt-0.5 mb-4">Kamu belum pernah mengusulkan buku ke perpustakaan.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            {{-- Desktop Table (>= 640px) --}}
+            <div class="hidden sm:block overflow-x-auto">
                 <table class="w-full min-w-[700px]">
                     <thead>
                         <tr class="bg-gray-50 text-left">

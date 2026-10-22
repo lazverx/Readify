@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10" x-data="katalogManager()">
+    <div class="space-y-6" x-data="katalogManager()">
 
         {{-- ========================================================= --}}
         {{-- FEATURE 3: ALERT PENGINGAT JATUH TEMPO (H-2 / H-1 / OVERDUE) --}}

@@ -239,6 +239,7 @@ return [
     'badge_active_caps' => 'ACTIVE',
     'badge_booking_caps' => 'BOOKING',
     'badge_returned_caps' => 'RETURNED',
+    'badge_returned' => 'Returned',
 
     // Riwayat & Denda (History & Fines)
     'history_fines_title' => 'History & Fines',

@@ -239,6 +239,7 @@ return [
     'badge_active_caps' => 'AKTIF',
     'badge_booking_caps' => 'BOOKING',
     'badge_returned_caps' => 'DIKEMBALIKAN',
+    'badge_returned' => 'Dikembalikan',
 
     // Riwayat & Denda (History & Fines)
     'history_fines_title' => 'Riwayat & Denda',
