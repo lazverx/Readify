@@ -24,15 +24,13 @@
             <!-- Full Logo (when expanded) -->
             <div x-show="$store.sidebar.isExpanded || $store.sidebar.isHovered || $store.sidebar.isMobileOpen">
                 <!-- Light Theme Logo -->
-                <img src="{{ asset('img/logo.svg') }}" alt="Readify" class="h-8 w-auto dark:hidden">
+                <img src="{{ asset('img/Logo.svg') }}" alt="Readify" class="h-8 w-auto dark:hidden">
                 <!-- Dark Theme Logo -->
                 <img src="{{ asset('img/Logo - light.svg') }}" alt="Readify" class="hidden h-8 w-auto dark:block">
             </div>
-            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#004236] text-white shadow-sm"
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-xs"
                 x-show="!$store.sidebar.isExpanded && !$store.sidebar.isHovered && !$store.sidebar.isMobileOpen">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+                <img src="{{ asset('img/logo-icon.png') }}" alt="Readify" class="h-8 w-8 object-contain">
             </div>
         </a>
     </div>

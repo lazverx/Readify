@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="auth-logo">
-        <img src="{{ asset('./img/Logo.svg') }}" class="custom-logo" alt="Logo Readify">
+        <img src="{{ asset('img/Logo.svg') }}" class="custom-logo" alt="Logo Readify">
     </div>
     <p class="auth-subtitle">
         Yuk, daftarkan akun Anda dan nikmati kemudahan layanan Sistem Perpustakaan Digital.

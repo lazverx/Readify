@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Readify') }}</title>
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -115,6 +117,12 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+        }
+
+        .auth-logo img, .custom-logo {
+            max-height: 48px;
+            width: auto;
+            object-fit: contain;
         }
 
         .auth-subtitle {

@@ -21,7 +21,7 @@
 
             <a class="block shrink-0 xl:hidden" href="{{ route('dashboard') }}">
                 <!-- Light Mode Logo -->
-                <img src="{{ asset('img/logo.svg') }}" alt="Logo" class="h-8 w-auto dark:hidden">
+                <img src="{{ asset('img/Logo.svg') }}" alt="Logo" class="h-8 w-auto dark:hidden">
                 <!-- Dark Mode Logo -->
                 <img src="{{ asset('img/Logo - light.svg') }}" alt="Logo" class="hidden h-8 w-auto dark:block">
             </a>
