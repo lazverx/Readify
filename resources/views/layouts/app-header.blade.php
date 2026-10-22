@@ -1,17 +1,17 @@
 <header
-    class="fixed top-0 z-998 flex w-full bg-white drop-shadow-1 dark:bg-slate-900 dark:drop-shadow-none min-h-[70px] transition-all duration-300"
+    class="fixed top-0 z-998 flex w-full bg-white drop-shadow-1 dark:bg-slate-900 dark:drop-shadow-none min-h-[58px] sm:min-h-[70px] transition-all duration-300"
     :class="{
         'xl:left-[270px] xl:w-[calc(100%-270px)]': $store.sidebar.isExpanded || $store.sidebar.isHovered,
         'xl:left-[90px] xl:w-[calc(100%-90px)]': !$store.sidebar.isExpanded && !$store.sidebar.isHovered,
         'left-0 w-full': !($store.sidebar.isExpanded || $store.sidebar.isHovered)
     }">
-    <div class="flex grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
-        <div class="flex items-center gap-2 sm:gap-4 xl:hidden">
+    <div class="flex grow items-center justify-between px-3 sm:px-6 py-2.5 sm:py-4 shadow-2 md:px-6 2xl:px-11">
+        <div class="flex items-center gap-2 sm:gap-3 xl:hidden">
             <!-- Hamburger Toggle BTN -->
             <button
-                class="z-99999 block rounded-sm border border-gray-200 bg-white p-1.5 shadow-sm dark:border-slate-800 dark:bg-slate-900 xl:hidden"
-                @click.stop="$store.sidebar.toggleMobileOpen()">
-                <svg class="h-6 w-6 stroke-current text-brand-primary dark:text-gray-200" fill="none"
+                class="z-99999 block rounded-xl border border-gray-200 bg-white p-1.5 sm:p-2 shadow-xs dark:border-slate-800 dark:bg-slate-900 xl:hidden"
+                @click.stop="$store.sidebar.toggleMobileOpen()" aria-label="Toggle Menu">
+                <svg class="h-5 w-5 stroke-current text-brand-primary dark:text-gray-200" fill="none"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
                     </path>
@@ -19,11 +19,9 @@
             </button>
             <!-- Hamburger Toggle BTN -->
 
-            <a class="block shrink-0 xl:hidden" href="{{ route('dashboard') }}">
-                <!-- Light Mode Logo -->
-                <img src="{{ asset('img/Logo.svg') }}" alt="Logo" class="h-8 w-auto dark:hidden">
-                <!-- Dark Mode Logo -->
-                <img src="{{ asset('img/Logo - light.svg') }}" alt="Logo" class="hidden h-8 w-auto dark:block">
+            <a class="flex items-center gap-1.5 shrink-0 xl:hidden" href="{{ route('dashboard') }}">
+                <img src="{{ asset('img/logo-icon.png') }}" alt="Logo" class="h-7 w-7 object-contain">
+                <span class="text-base font-black tracking-tight text-[#004236] dark:text-white">Readify</span>
             </a>
         </div>
 
@@ -100,13 +98,13 @@
             @endif
 
             <!-- Language Switcher ID / EN -->
-            <div class="flex items-center rounded-xl bg-gray-100 p-1 text-xs font-bold border border-gray-200" aria-label="Ganti Bahasa">
+            <div class="flex items-center rounded-xl bg-gray-100 p-0.5 sm:p-1 text-[11px] sm:text-xs font-bold border border-gray-200 shrink-0" aria-label="Ganti Bahasa">
                 <a href="{{ route('lang.switch', 'id') }}"
-                   class="px-2.5 py-1 rounded-lg transition-colors {{ app()->getLocale() === 'id' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
+                   class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg transition-colors {{ app()->getLocale() === 'id' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
                     ID
                 </a>
                 <a href="{{ route('lang.switch', 'en') }}"
-                   class="px-2.5 py-1 rounded-lg transition-colors {{ app()->getLocale() === 'en' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
+                   class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg transition-colors {{ app()->getLocale() === 'en' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
                     EN
                 </a>
             </div>
@@ -130,17 +128,17 @@
                 }
             @endphp
 
-            <div class="relative" x-data="{ notifOpen: false }" @click.outside="notifOpen = false">
+            <div class="relative shrink-0" x-data="{ notifOpen: false }" @click.outside="notifOpen = false">
                 <button id="notif-bell-btn"
-                    class="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#004236]"
-                    @click.stop="notifOpen = !notifOpen" title="Notifikasi">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    class="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#004236]"
+                    @click.stop="notifOpen = !notifOpen" title="Notifikasi" aria-label="Notifikasi">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                     @if($notifCount > 0 || $pendingAnggotaCount > 0)
                         <span id="notif-badge"
-                            class="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full animate-pulse">
+                            class="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 text-[10px] sm:text-xs font-bold text-white bg-red-500 rounded-full animate-pulse">
                             {{ ($notifCount + $pendingAnggotaCount) > 9 ? '9+' : ($notifCount + $pendingAnggotaCount) }}
                         </span>
                     @endif
@@ -309,7 +307,7 @@
 
             <!-- User Area -->
             <div class="relative" x-data="{ dropdownOpen: false }" @click.outside="dropdownOpen = false">
-                <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
+                <a class="flex items-center gap-2 sm:gap-4 shrink-0" href="#" @click.prevent="dropdownOpen = ! dropdownOpen">
                     <span class="hidden text-right lg:block">
                         <span
                             class="block text-sm font-medium text-brand-primary dark:text-white">{{ Auth::user()->nama_pengguna ?? 'User' }}</span>
@@ -318,9 +316,9 @@
                     </span>
 
                     @if(Auth::user()->foto_profil)
-                        <img src="{{ asset('storage/foto_profil/' . Auth::user()->foto_profil) }}" alt="Profile" class="h-12 w-12 rounded-full object-cover border-2 border-white drop-shadow-sm">
+                        <img src="{{ asset('storage/foto_profil/' . Auth::user()->foto_profil) }}" alt="Profile" class="h-8 w-8 sm:h-11 sm:w-11 rounded-full object-cover border-2 border-white shadow-xs">
                     @else
-                        <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-200 border-2 border-white drop-shadow-sm flex items-center justify-center text-xl font-bold text-brand-primary">
+                        <span class="h-8 w-8 sm:h-11 sm:w-11 rounded-full overflow-hidden bg-gray-200 border-2 border-white shadow-xs flex items-center justify-center text-xs sm:text-lg font-bold text-brand-primary">
                             {{ substr(Auth::user()->nama_pengguna ?? 'U', 0, 1) }}
                         </span>
                     @endif

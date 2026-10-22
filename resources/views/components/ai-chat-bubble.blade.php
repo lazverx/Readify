@@ -26,11 +26,46 @@
         gap: 12px;
     }
 
+    .readify-chat-btn {
+        width: 54px;
+        height: 54px;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #004236 0%, #00705a 100%);
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 28px -5px rgba(0, 66, 54, 0.45);
+        transition: all 0.2s ease;
+        outline: none;
+    }
+
     /* Mobile Sheet Mode & Position Above Mobile Bottom Nav */
     @media (max-width: 639px) {
         .readify-chat-toggle-wrap {
-            bottom: 76px !important;
-            right: 16px !important;
+            bottom: 70px !important;
+            right: 12px !important;
+            gap: 0 !important;
+        }
+
+        .readify-chat-btn {
+            width: 44px !important;
+            height: 44px !important;
+            box-shadow: 0 6px 18px -3px rgba(0, 66, 54, 0.35) !important;
+            opacity: 0.88;
+        }
+
+        .readify-chat-btn:active,
+        .readify-chat-btn:hover {
+            opacity: 1 !important;
+            transform: scale(1.05) !important;
+        }
+
+        .readify-chat-btn svg {
+            width: 22px !important;
+            height: 22px !important;
         }
 
         .readify-chat-window {
@@ -240,10 +275,11 @@
     <!-- FLOATING TOGGLE BUTTON (BOTTOM RIGHT) -->
     <div class="readify-chat-toggle-wrap">
         
-        <!-- Floating Prompt Tooltip Pill -->
+        <!-- Floating Prompt Tooltip Pill (Desktop Only) -->
         <div x-show="!isOpen && showGreeting"
             x-transition.opacity.duration.300ms
-            style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 8px 14px; border-radius: 9999px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15); border: 1px solid #d1fae5; font-size: 12px; font-weight: 600; color: #1f2937; cursor: pointer;"
+            class="hidden sm:flex"
+            style="align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 8px 14px; border-radius: 9999px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15); border: 1px solid #d1fae5; font-size: 12px; font-weight: 600; color: #1f2937; cursor: pointer;"
             @click.stop="toggleChat()">
             <span style="display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background-color: #10b981; animation: pulse 2s infinite;"></span>
             <span>{{ __('messages.ai_prompt_pill') }}</span>
@@ -252,19 +288,17 @@
 
         <!-- Main Circular Floating Button -->
         <button @click.stop="toggleChat()" type="button" aria-label="{{ __('messages.ai_prompt_pill') }}"
-            style="width: 58px; height: 58px; border-radius: 9999px; background: linear-gradient(135deg, #004236 0%, #00705a 100%); color: #ffffff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 30px -5px rgba(0, 66, 54, 0.45); transition: all 0.2s ease; outline: none;"
-            onmouseover="this.style.transform='scale(1.06)'"
-            onmouseout="this.style.transform='scale(1)'">
+            class="readify-chat-btn">
 
             <!-- Icon Open State: X Mark -->
-            <svg x-show="isOpen" style="width: 26px; height: 26px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg x-show="isOpen" style="width: 24px; height: 24px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
             </svg>
 
             <!-- Icon Closed State: Book / Librarian -->
-            <svg x-show="!isOpen" style="width: 28px; height: 28px; color: #a7f3d0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg x-show="!isOpen" style="width: 24px; height: 24px; color: #a7f3d0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
             </svg>
         </button>
     </div>
