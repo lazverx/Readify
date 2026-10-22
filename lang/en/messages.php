@@ -303,6 +303,7 @@ return [
     'ethics_2' => 'Respect the diverse reading genre preferences of fellow members.',
     'ethics_3' => 'Tag books so other members can locate them easily on the library shelves.',
     'confirm_delete_post' => 'Are you sure you want to delete this post?',
+    'confirm_delete_comment' => 'Are you sure you want to delete this comment?',
 
     // AI Chat Bubble
     'ai_prompt_pill' => 'Ask Librarian AI',

@@ -109,28 +109,43 @@ class KomunitasController extends Controller
     {
         $user = Auth::user();
 
-        // Validasi status akun
-        if ($user->status !== 'active') {
-            return redirect()->back()->with('error', 'Akun Anda belum aktif. Hanya akun aktif yang dapat berpartisipasi di komunitas.');
+        // Validasi status akun (hanya tolak jika pending atau rejected)
+        if (!$user->isAdmin() && !$user->isPetugas()) {
+            if ($user->status === 'pending') {
+                return redirect()->back()->with('error', 'Akun Anda sedang menunggu verifikasi oleh petugas sebelum dapat berpartisipasi di komunitas.');
+            }
+            if ($user->status === 'rejected') {
+                return redirect()->back()->with('error', 'Akun Anda berstatus nonaktif atau ditolak.');
+            }
+        }
+
+        // Normalisasi tipe postingan
+        $tipe = $request->input('tipe') ?: 'diskusi';
+        if (!in_array($tipe, ['diskusi', 'review', 'kutipan', 'rekomendasi'])) {
+            $tipe = 'diskusi';
+        }
+
+        // Normalisasi id_buku opsional
+        $idBuku = $request->filled('id_buku') ? (int) $request->id_buku : null;
+        if ($idBuku && !Buku::where('id_buku', $idBuku)->exists()) {
+            $idBuku = null;
         }
 
         $request->validate([
-            'konten' => 'required|string|min:5|max:3000',
-            'tipe' => 'required|in:diskusi,review,kutipan,rekomendasi',
-            'id_buku' => 'nullable|exists:buku,id_buku',
+            'konten' => 'required|string|min:2|max:3000',
             'rating' => 'nullable|integer|min:1|max:5',
         ], [
             'konten.required' => 'Tuliskan pemikiran atau ulasan Anda terlebih dahulu.',
-            'konten.min' => 'Konten postingan minimal 5 karakter.',
+            'konten.min' => 'Konten postingan minimal 2 karakter.',
             'konten.max' => 'Konten postingan maksimal 3.000 karakter.',
         ]);
 
         $post = PostinganKomunitas::create([
             'id_pengguna' => $user->id_pengguna,
-            'id_buku' => $request->id_buku ?: null,
-            'tipe' => $request->tipe,
-            'rating' => $request->tipe === 'review' ? $request->rating : null,
-            'konten' => $request->konten,
+            'id_buku' => $idBuku,
+            'tipe' => $tipe,
+            'rating' => $tipe === 'review' ? (int) ($request->rating ?: 5) : null,
+            'konten' => trim($request->konten),
             'jumlah_like' => 0,
             'jumlah_komentar' => 0,
         ]);
@@ -152,7 +167,7 @@ class KomunitasController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->status !== 'active') {
+        if (!$user->isAdmin() && !$user->isPetugas() && in_array($user->status, ['pending', 'rejected'])) {
             return redirect()->back()->with('error', 'Akun Anda belum aktif untuk berkomentar.');
         }
 
@@ -168,7 +183,7 @@ class KomunitasController extends Controller
         $komentar = KomentarKomunitas::create([
             'id_postingan' => $post->id_postingan,
             'id_pengguna' => $user->id_pengguna,
-            'konten' => $request->konten,
+            'konten' => trim($request->konten),
         ]);
 
         // Increment counter
@@ -176,15 +191,19 @@ class KomunitasController extends Controller
 
         // Kirim notifikasi ke pemilik postingan jika bukan mengomentari postingan sendiri
         if ($post->id_pengguna !== $user->id_pengguna) {
-            $namaPengomentar = $user->anggota->nama_lengkap ?? $user->nama_pengguna;
-            Notifikasi::create([
-                'id_pengguna' => $post->id_pengguna,
-                'tipe' => 'komunitas',
-                'judul' => 'Komentar Baru di Postinganmu',
-                'pesan' => "{$namaPengomentar} mengomentari: \"" . Str::limit($request->konten, 50) . "\"",
-                'link' => route('komunitas.index') . '#post-' . $post->id_postingan,
-                'sudah_dibaca' => false,
-            ]);
+            try {
+                $namaPengomentar = $user->anggota?->nama_lengkap ?? $user->nama_pengguna;
+                Notifikasi::create([
+                    'id_pengguna' => $post->id_pengguna,
+                    'tipe' => 'komunitas',
+                    'judul' => 'Komentar Baru di Postinganmu',
+                    'pesan' => "{$namaPengomentar} mengomentari: \"" . Str::limit($request->konten, 50) . "\"",
+                    'link' => route('komunitas.index') . '#post-' . $post->id_postingan,
+                    'sudah_dibaca' => false,
+                ]);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning("Gagal mengirim notifikasi komentar: " . $e->getMessage());
+            }
         }
 
         LogAktivitas::catat(
@@ -193,12 +212,12 @@ class KomunitasController extends Controller
             $user->id_pengguna
         );
 
-        if ($request->ajax() || $request->expectsJson()) {
+        if ($request->ajax() || $request->expectsJson() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
                 'message' => 'Komentar berhasil dikirim!',
                 'komentar' => [
-                    'nama' => $user->anggota->nama_lengkap ?? $user->nama_pengguna,
+                    'nama' => $user->anggota?->nama_lengkap ?? $user->nama_pengguna,
                     'konten' => e($komentar->konten),
                     'waktu' => $komentar->waktu_lalu,
                 ]
@@ -224,6 +243,10 @@ class KomunitasController extends Controller
         if ($existingLike) {
             $existingLike->delete();
             $post->decrement('jumlah_like');
+            if ($post->jumlah_like < 0) {
+                $post->jumlah_like = 0;
+                $post->save();
+            }
             $liked = false;
         } else {
             LikePostingan::create([
@@ -236,7 +259,7 @@ class KomunitasController extends Controller
 
         $freshCount = (int) $post->fresh()->jumlah_like;
 
-        if ($request->ajax() || $request->expectsJson()) {
+        if ($request->ajax() || $request->expectsJson() || $request->wantsJson()) {
             return response()->json([
                 'success' => true,
                 'liked' => $liked,

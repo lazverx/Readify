@@ -1,9 +1,88 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+    function komunitasApp() {
+        return {
+            tipePost: 'diskusi',
+            ratingVal: 5,
+            showComments: {},
+            likesState: {},
+            likesCountState: {},
+
+            init() {
+                // Auto-expand comments if URL hash points to a post
+                if (window.location.hash && window.location.hash.startsWith('#post-')) {
+                    const postId = window.location.hash.replace('#post-', '');
+                    if (postId) {
+                        this.showComments[postId] = true;
+                    }
+                }
+            },
+
+            toggleComments(id) {
+                this.showComments[id] = !this.showComments[id];
+            },
+
+            isLiked(id, initialLiked) {
+                if (typeof this.likesState[id] === 'undefined') {
+                    this.likesState[id] = initialLiked;
+                }
+                return this.likesState[id];
+            },
+
+            getLikesCount(id, initialCount) {
+                if (typeof this.likesCountState[id] === 'undefined') {
+                    this.likesCountState[id] = initialCount;
+                }
+                return this.likesCountState[id];
+            },
+
+            toggleLike(id) {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+                const baseUrl = "{{ url('/komunitas') }}";
+                
+                // Optimistic UI update
+                const currentStatus = this.isLiked(id, false);
+                const currentCount = this.getLikesCount(id, 0);
+
+                this.likesState[id] = !currentStatus;
+                this.likesCountState[id] = !currentStatus ? currentCount + 1 : Math.max(0, currentCount - 1);
+
+                fetch(baseUrl + '/' + id + '/like', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.success) {
+                        this.likesState[id] = data.liked;
+                        this.likesCountState[id] = data.likes_count;
+                    }
+                })
+                .catch(() => {
+                    // Revert on failure
+                    this.likesState[id] = currentStatus;
+                    this.likesCountState[id] = currentCount;
+                });
+            }
+        };
+    }
+    window.komunitasApp = komunitasApp;
+    document.addEventListener('alpine:init', () => {
+        if (typeof Alpine !== 'undefined' && Alpine.data) {
+            Alpine.data('komunitasApp', komunitasApp);
+        }
+    });
+</script>
+
 <div class="space-y-6" x-data="komunitasApp()">
 
-    {{-- Alert Flash Message --}}
+    {{-- Alert Flash Messages --}}
     @if(session('success'))
         <div class="mb-5 flex items-center justify-between rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-900 shadow-sm">
             <div class="flex items-center gap-3">
@@ -27,6 +106,27 @@
                 <p class="text-sm font-semibold">{{ session('error') }}</p>
             </div>
             <button type="button" onclick="this.parentElement.remove()" class="w-8 h-8 flex items-center justify-center rounded-lg text-rose-700 hover:bg-rose-100 transition" aria-label="Tutup">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="mb-5 flex items-start justify-between rounded-xl border border-rose-200 bg-rose-50 px-5 py-4 text-rose-900 shadow-sm">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-rose-900">Periksa kembali data Anda:</p>
+                    <ul class="mt-1 list-disc list-inside text-xs text-rose-800 space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <button type="button" onclick="this.closest('.mb-5').remove()" class="w-8 h-8 flex items-center justify-center rounded-lg text-rose-700 hover:bg-rose-100 transition shrink-0" aria-label="Tutup">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
@@ -86,13 +186,13 @@
                             @if(Auth::user()->foto_profil)
                                 <img src="{{ asset('storage/foto_profil/' . Auth::user()->foto_profil) }}" class="w-full h-full object-cover">
                             @else
-                                {{ strtoupper(substr(Auth::user()->anggota->nama_lengkap ?? Auth::user()->nama_pengguna, 0, 2)) }}
+                                {{ strtoupper(substr(Auth::user()->anggota?->nama_lengkap ?? Auth::user()->nama_pengguna, 0, 2)) }}
                             @endif
                         </div>
 
                         <div class="flex-1 min-w-0">
                             {{-- Input Teks --}}
-                            <textarea name="konten" rows="3" required
+                            <textarea name="konten" rows="3" required minlength="2"
                                 placeholder="{{ __('messages.write_post_placeholder') }}"
                                 class="w-full rounded-xl border border-gray-200 bg-gray-50/60 p-3 sm:p-3.5 text-xs sm:text-sm text-gray-900 outline-none transition focus:border-[#004236] focus:bg-white focus:ring-2 focus:ring-[#004236]/15 resize-none">{{ old('konten') }}</textarea>
 
@@ -100,33 +200,33 @@
                             <div class="mt-3 flex items-center gap-1.5 sm:gap-2 flex-wrap">
                                 <span class="text-xs font-bold text-gray-500 mr-1">{{ __('messages.post_type_label') }}</span>
                                 
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="tipe" value="diskusi" class="hidden peer" checked x-model="tipePost">
-                                    <span class="px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                <label class="cursor-pointer" @click="tipePost = 'diskusi'">
+                                    <input type="radio" name="tipe" value="diskusi" class="sr-only peer" checked x-model="tipePost">
+                                    <span class="px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:border-blue-600 bg-gray-100 text-gray-700 hover:bg-gray-200 select-none">
                                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                                         {{ __('messages.post_discussion') }}
                                     </span>
                                 </label>
 
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="tipe" value="review" class="hidden peer" x-model="tipePost">
-                                    <span class="px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                <label class="cursor-pointer" @click="tipePost = 'review'">
+                                    <input type="radio" name="tipe" value="review" class="sr-only peer" x-model="tipePost">
+                                    <span class="px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-amber-500 peer-checked:text-white peer-checked:border-amber-500 bg-gray-100 text-gray-700 hover:bg-gray-200 select-none">
                                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                                         {{ __('messages.post_review') }}
                                     </span>
                                 </label>
 
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="tipe" value="kutipan" class="hidden peer" x-model="tipePost">
-                                    <span class="px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                <label class="cursor-pointer" @click="tipePost = 'kutipan'">
+                                    <input type="radio" name="tipe" value="kutipan" class="sr-only peer" x-model="tipePost">
+                                    <span class="px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-600 bg-gray-100 text-gray-700 hover:bg-gray-200 select-none">
                                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
                                         {{ __('messages.post_quote') }}
                                     </span>
                                 </label>
 
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="tipe" value="rekomendasi" class="hidden peer" x-model="tipePost">
-                                    <span class="px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1 peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                <label class="cursor-pointer" @click="tipePost = 'rekomendasi'">
+                                    <input type="radio" name="tipe" value="rekomendasi" class="sr-only peer" x-model="tipePost">
+                                    <span class="px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold border transition-all inline-flex items-center gap-1.5 peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 bg-gray-100 text-gray-700 hover:bg-gray-200 select-none">
                                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                         {{ __('messages.post_recommendation') }}
                                     </span>
@@ -229,7 +329,7 @@
                 @forelse($postingan as $post)
                     @php
                         $userPost = $post->pengguna;
-                        $namaUser = $userPost->anggota->nama_lengkap ?? $userPost->nama_pengguna;
+                        $namaUser = $userPost->anggota?->nama_lengkap ?? $userPost->nama_pengguna;
                         $fotoUser = $userPost->foto_profil ? asset('storage/foto_profil/' . $userPost->foto_profil) : null;
                         $initials = strtoupper(substr($namaUser, 0, 2));
                         $isOwner = Auth::id() === $post->id_pengguna;
@@ -378,7 +478,7 @@
                                 @forelse($post->komentar as $kom)
                                     @php
                                         $komUser = $kom->pengguna;
-                                        $namaKomUser = $komUser->anggota->nama_lengkap ?? $komUser->nama_pengguna;
+                                        $namaKomUser = $komUser->anggota?->nama_lengkap ?? $komUser->nama_pengguna;
                                         $canDeleteKom = Auth::id() === $kom->id_pengguna || $isOwner || $isStaff;
                                     @endphp
                                     <div class="flex items-start gap-2.5 rounded-xl bg-gray-50/70 p-2.5 text-xs">
@@ -393,7 +493,7 @@
                                             <p class="text-gray-700 mt-0.5 leading-relaxed whitespace-pre-line">{{ $kom->konten }}</p>
                                         </div>
                                         @if($canDeleteKom)
-                                            <form method="POST" action="{{ route('komunitas.komentar.destroy', $kom->id_komentar) }}">
+                                            <form method="POST" action="{{ route('komunitas.komentar.destroy', $kom->id_komentar) }}" onsubmit="return confirm('{{ __('messages.confirm_delete_comment') }}');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="w-6 h-6 flex items-center justify-center rounded text-gray-400 hover:text-red-500 hover:bg-red-50 transition" title="{{ __('messages.action_delete') }}">
@@ -556,68 +656,5 @@
     </div>
 
 </div>
-
-@push('scripts')
-<script>
-    function komunitasApp() {
-        return {
-            tipePost: 'diskusi',
-            ratingVal: 5,
-            showComments: {},
-            likesState: {},
-            likesCountState: {},
-
-            toggleComments(id) {
-                this.showComments[id] = !this.showComments[id];
-            },
-
-            isLiked(id, initialLiked) {
-                if (typeof this.likesState[id] === 'undefined') {
-                    this.likesState[id] = initialLiked;
-                }
-                return this.likesState[id];
-            },
-
-            getLikesCount(id, initialCount) {
-                if (typeof this.likesCountState[id] === 'undefined') {
-                    this.likesCountState[id] = initialCount;
-                }
-                return this.likesCountState[id];
-            },
-
-            toggleLike(id) {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-                
-                // Optimistic UI update
-                const currentStatus = this.isLiked(id, false);
-                const currentCount = this.getLikesCount(id, 0);
-
-                this.likesState[id] = !currentStatus;
-                this.likesCountState[id] = !currentStatus ? currentCount + 1 : Math.max(0, currentCount - 1);
-
-                fetch('/komunitas/' + id + '/like', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        this.likesState[id] = data.liked;
-                        this.likesCountState[id] = data.likes_count;
-                    }
-                })
-                .catch(() => {
-                    // Revert if error
-                    this.likesState[id] = currentStatus;
-                    this.likesCountState[id] = currentCount;
-                });
-            }
-        };
-    }
-</script>
-@endpush
 @endsection
+

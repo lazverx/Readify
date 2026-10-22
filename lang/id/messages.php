@@ -303,6 +303,7 @@ return [
     'ethics_2' => 'Saling menghargai preferensi genre membaca sesama anggota.',
     'ethics_3' => 'Tautkan buku agar teman-teman bisa langsung menemukan lokasinya di katalog perpustakaan.',
     'confirm_delete_post' => 'Apakah Anda yakin ingin menghapus postingan ini?',
+    'confirm_delete_comment' => 'Apakah Anda yakin ingin menghapus komentar ini?',
 
     // AI Chat Bubble
     'ai_prompt_pill' => 'Tanya Pustakawan AI',
