@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && node -e \"const fs = require('fs'); try { const isJunc = fs.existsSync('public/storage') && fs.lstatSync('public/storage').isSymbolicLink(); if (!isJunc) fs.cpSync('storage/app/public', 'public/storage', {recursive: true}); } catch(e){}\"",
         "dev": "vite"
     },
     "devDependencies": {

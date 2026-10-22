@@ -1,2 +1,5 @@
-*
 !.gitignore
+!sampul/
+!sampul/**
+!foto_profil/
+!foto_profil/**
