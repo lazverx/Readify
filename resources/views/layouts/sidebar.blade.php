@@ -4,10 +4,37 @@
 
     // Get current path
     $currentPath = request()->path();
+
+    $transMenu = [
+        'Dashboard' => __('messages.nav_dashboard'),
+        'Layanan Sirkulasi' => __('messages.menu_circulation'),
+        'Proses Booking' => __('messages.menu_booking_process'),
+        'Pengembalian Buku' => __('messages.menu_return_book'),
+        'Katalog Buku' => __('messages.menu_catalog'),
+        'Kelola Data' => __('messages.menu_manage_data'),
+        'Kategori' => __('messages.menu_categories'),
+        'Data Buku' => __('messages.menu_books'),
+        'Peminjaman' => __('messages.menu_loans'),
+        'Denda' => __('messages.menu_fines'),
+        'Laporan' => __('messages.menu_reports'),
+        'Pengajuan Buku' => __('messages.menu_book_proposals'),
+        'Verifikasi Anggota' => __('messages.menu_verify_members'),
+        'Kelola Pengguna' => __('messages.menu_manage_users'),
+        'Data Pengguna' => __('messages.menu_manage_users'),
+        'Hak Akses' => __('messages.menu_access_rights'),
+        'Hak Akses Petugas' => __('messages.menu_access_rights'),
+        'Log Aktivitas' => __('messages.menu_activity_log'),
+        'Ruang Komunitas' => __('messages.community_space'),
+        'Pinjaman Saya' => __('messages.my_loans'),
+        'Riwayat & Denda' => __('messages.history_fines'),
+        'Koleksi Saya' => __('messages.my_collection'),
+        'Pengajuan Saya' => __('messages.my_proposals'),
+        'Usulkan Buku' => __('messages.propose_book'),
+        'Kartu Anggota' => __('messages.member_card'),
+    ];
 @endphp
 
 <aside id="sidebar"
-    class="fixed flex flex-col mt-0 top-0 px-5 left-0 bg-white dark:bg-[#052e25] dark:border-[#052e25] text-gray-900 h-screen transition-all duration-300 ease-in-out z-99999 border-r border-gray-200"
     class="fixed flex flex-col mt-0 top-0 px-5 left-0 bg-white dark:bg-[#052e25] dark:border-[#052e25] text-gray-900 h-screen transition-all duration-300 ease-in-out z-99999 border-r border-gray-200"
     :class="{
         'w-[270px]': $store.sidebar.isExpanded || $store.sidebar.isMobileOpen || $store.sidebar.isHovered,
@@ -96,7 +123,7 @@
                                                     <!-- Text Right of Icon -->
                                                     <span
                                                         x-show="$store.sidebar.isExpanded || $store.sidebar.isHovered || $store.sidebar.isMobileOpen">
-                                                        {{ $item['name'] }}
+                                                        {{ $transMenu[$item['name']] ?? $item['name'] }}
                                                     </span>
                                                 </div>
 
@@ -124,7 +151,7 @@
                                                             <a href="{{ url($subItem['path']) }}"
                                                                 class="block px-3 py-1.5 text-sm font-medium rounded-lg transition-colors hover:text-[#004236] dark:hover:text-white"
                                                                 :class="isActive('{{ $subItem['path'] }}') ? 'text-[#004236] font-bold dark:text-white' : 'text-gray-500 dark:text-gray-400'">
-                                                                {{ $subItem['name'] }}
+                                                                {{ $transMenu[$subItem['name']] ?? $subItem['name'] }}
                                                             </a>
                                                         </li>
                                                     @endforeach
@@ -151,7 +178,7 @@
                                                 <!-- Text Right of Icon -->
                                                 <span
                                                     x-show="$store.sidebar.isExpanded || $store.sidebar.isHovered || $store.sidebar.isMobileOpen">
-                                                    {{ $item['name'] }}
+                                                    {{ $transMenu[$item['name']] ?? $item['name'] }}
                                                 </span>
                                             </div>
 
@@ -180,7 +207,7 @@
             @csrf
             <button type="submit"
                 class="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-bold text-white transition-all bg-[#004236] rounded-xl hover:bg-[#00362b] shadow-lg hover:shadow-xl">
-                Log Out
+                {{ __('messages.nav_logout') }}
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

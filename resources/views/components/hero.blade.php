@@ -11,26 +11,26 @@
             class="z-10 mt-12 flex w-full flex-col items-center text-center md:items-start md:text-left md:mt-0 md:w-1/2">
             <div class="mb-6 inline-flex items-center rounded-full border border-brand-primary/20 bg-brand-secondary/30 px-4 py-1.5 animate-fade-in-up"
                 style="animation-delay: 0.2s; opacity: 0; animation-fill-mode: forwards;">
-                <span class="text-sm font-medium text-brand-primary">Digitalisasi Pengelolaan Buku Pintar</span>
+                <span class="text-xs sm:text-sm font-medium text-brand-primary">{{ __('messages.hero_eyebrow') }}</span>
             </div>
 
-            <h1 class="mb-6 text-4xl font-bold leading-tight text-gray-900 md:text-5xl lg:text-6xl animate-fade-in-up"
+            <h1 class="mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 animate-fade-in-up"
                 style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
-                Akses Literasi Jadi<br>
-                Lebih <span class="text-[#87D800]">Praktis dan</span><br>
-                <span class="text-[#87D800]">Terintegrasi.</span>
+                {{ __('messages.hero_title_1') }}<br>
+                {{ __('messages.hero_title_2') }}<br>
+                <span class="text-[#87D800]">{{ __('messages.hero_title_3') }}</span>
             </h1>
 
-            <p class="mb-8 max-w-lg text-lg text-gray-600 animate-fade-in-up"
+            <p class="mb-8 max-w-lg text-base sm:text-lg text-gray-600 animate-fade-in-up"
                 style="animation-delay: 0.6s; opacity: 0; animation-fill-mode: forwards;">
-                Kartu fisik tertinggal? Tidak masalah. Tunjukkan kartu digital dari ponsel, ambil buku di loket, dan nikmati bacaan favoritmu.
+                {{ __('messages.hero_subtitle') }}
             </p>
 
-            <div class="flex flex-col gap-3 sm:flex-row animate-fade-in-up"
+            <div class="flex flex-col gap-3 sm:flex-row w-full sm:w-auto animate-fade-in-up"
                 style="animation-delay: 0.8s; opacity: 0; animation-fill-mode: forwards;">
                 <a href="{{ route('register') }}"
-                    class="group inline-flex items-center justify-center gap-2 rounded-full bg-[#004236] px-8 py-3.5 text-base font-semibold text-white transition hover:bg-[#00362b]">
-                    Mulai Jelajahi Katalog
+                    class="group inline-flex items-center justify-center gap-2 rounded-full bg-[#004236] px-8 py-3.5 text-base font-semibold text-white transition hover:bg-[#00362b] w-full sm:w-auto shadow-md">
+                    {{ __('messages.hero_cta') }}
                     <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

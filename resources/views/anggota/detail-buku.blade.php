@@ -7,134 +7,128 @@
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
-            Katalog Buku
+            {{ __('messages.browse_catalog') }}
         </a>
         <span>/</span>
         <span class="text-gray-800 font-medium line-clamp-1">{{ $buku->judul_buku }}</span>
     </nav>
 
-    {{-- Main Card: 2 kolom, muat di layar tanpa scroll --}}
-    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden"
-        style="height: calc(100vh - 160px); min-height: 520px;">
-        <div class="flex h-full">
+    {{-- Main Card: 2 kolom di desktop, mengalir vertikal fleksibel di mobile --}}
+    <div class="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden flex flex-col lg:flex-row lg:h-[calc(100vh-160px)] lg:min-h-[520px]">
 
-            {{-- ===== KOLOM KIRI: Cover + Tombol Pinjam ===== --}}
-            <div
-                class="w-64 xl:w-72 flex-shrink-0 flex flex-col bg-gradient-to-b from-[#e8f4f0] to-[#d0ebe0] border-r border-gray-100">
+        {{-- ===== KOLOM KIRI: Cover + Tombol Pinjam ===== --}}
+        <div class="w-full lg:w-64 xl:w-72 shrink-0 flex flex-col bg-gradient-to-b from-[#e8f4f0] to-[#d0ebe0] border-b lg:border-b-0 lg:border-r border-gray-100">
 
-                {{-- Cover --}}
-                <div class="flex-1 flex items-center justify-center p-5 overflow-hidden">
-                    @if($buku->sampul)
-                        <img src="{{ Storage::url($buku->sampul) }}" alt="{{ $buku->judul_buku }}"
-                            class="max-h-full w-full object-contain rounded-xl shadow-lg"
-                            style="max-height: calc(100vh - 340px);">
+            {{-- Cover --}}
+            <div class="flex items-center justify-center p-4 sm:p-5 overflow-hidden">
+                @if($buku->sampul)
+                    <img src="{{ Storage::url($buku->sampul) }}" alt="{{ $buku->judul_buku }}"
+                        class="max-h-60 sm:max-h-72 lg:max-h-[calc(100vh-340px)] w-auto object-contain rounded-xl shadow-md">
+                @else
+                    <div class="w-40 sm:w-48 lg:w-full rounded-xl shadow-md bg-white/50 flex items-center justify-center"
+                        style="aspect-ratio: 2/3; max-height: calc(100vh - 340px);">
+                        <svg class="h-16 w-16 text-[#0f4c3a] opacity-30" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25">
+                            </path>
+                        </svg>
+                    </div>
+                @endif
+            </div>
+
+            {{-- Status + Tombol (bagian bawah kolom kiri) --}}
+            <div class="px-4 sm:px-5 pb-5 space-y-3 shrink-0">
+                {{-- Status Stok --}}
+                <div class="text-center">
+                    @if($buku->stok > 0)
+                        <span
+                            class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-xs font-bold text-green-700">
+                            <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                            {{ __('messages.available_badge') }} &bull; {{ $buku->stok }} {{ __('messages.stock') }}
+                        </span>
                     @else
-                        <div class="w-full rounded-xl shadow-lg bg-white/50 flex items-center justify-center"
-                            style="aspect-ratio: 2/3; max-height: calc(100vh - 340px);">
-                            <svg class="h-20 w-20 text-[#0f4c3a] opacity-30" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25">
-                                </path>
-                            </svg>
-                        </div>
+                        <span
+                            class="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1.5 text-xs font-bold text-red-700">
+                            <span class="h-2 w-2 rounded-full bg-red-500"></span>
+                            {{ __('messages.out_of_stock') }}
+                        </span>
                     @endif
                 </div>
 
-                {{-- Status + Tombol (bagian bawah kolom kiri, tetap) --}}
-                <div class="px-5 pb-5 space-y-3 shrink-0">
-                    {{-- Status Stok --}}
-                    <div class="text-center">
-                        @if($buku->stok > 0)
-                            <span
-                                class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-3 py-1.5 text-xs font-bold text-green-700">
-                                <span class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                                Tersedia &bull; {{ $buku->stok }} stok
-                            </span>
-                        @else
-                            <span
-                                class="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1.5 text-xs font-bold text-red-700">
-                                <span class="h-2 w-2 rounded-full bg-red-500"></span>
-                                Stok Habis
-                            </span>
-                        @endif
-                    </div>
+                {{-- Wishlist Button --}}
+                @php
+                    $inWishlist = \App\Models\KoleksiPribadi::where('id_pengguna', auth()->user()->id_pengguna)->where('id_buku', $buku->id_buku)->exists();
+                @endphp
+                <div x-data="{
+                        inWishlist: {{ $inWishlist ? 'true' : 'false' }},
+                        loading: false,
+                        toggleWishlist() {
+                            if (this.loading) return;
+                            this.loading = true;
 
-                    {{-- Tombol Aksi --}}
-                    {{-- Wishlist Button --}}
-                    @php
-                        $inWishlist = \App\Models\KoleksiPribadi::where('id_pengguna', auth()->user()->id_pengguna)->where('id_buku', $buku->id_buku)->exists();
-                    @endphp
-                    <div x-data="{
-                            inWishlist: {{ $inWishlist ? 'true' : 'false' }},
-                            loading: false,
-                            toggleWishlist() {
-                                if (this.loading) return;
-                                this.loading = true;
+                            const isAdding = !this.inWishlist;
+                            const url = isAdding 
+                                ? '{{ route('anggota.koleksi.store', $buku->id_buku) }}' 
+                                : '{{ route('anggota.koleksi.destroy', $buku->id_buku) }}';
 
-                                const isAdding = !this.inWishlist;
-                                const url = isAdding 
-                                    ? '{{ route('anggota.koleksi.store', $buku->id_buku) }}' 
-                                    : '{{ route('anggota.koleksi.destroy', $buku->id_buku) }}';
+                            const method = isAdding ? 'POST' : 'DELETE';
 
-                                const method = isAdding ? 'POST' : 'DELETE';
+                            fetch(url, {
+                                method: method,
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    this.inWishlist = !this.inWishlist;
+                                }
+                            })
+                            .catch(error => console.error('Error:', error))
+                            .finally(() => {
+                                this.loading = false;
+                            });
+                        }
+                    }">
+                    <button @click="toggleWishlist" :disabled="loading"
+                        :class="inWishlist ? 'border-red-500 bg-red-50 text-red-600 hover:bg-red-100' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'"
+                        class="w-full flex items-center justify-center gap-2 rounded-xl border py-2.5 text-xs sm:text-sm font-semibold transition shadow-sm mb-3">
 
-                                fetch(url, {
-                                    method: method,
-                                    headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                        'X-Requested-With': 'XMLHttpRequest',
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                    }
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        this.inWishlist = !this.inWishlist;
-                                        // Optional: show toast notification here
-                                    }
-                                })
-                                .catch(error => console.error('Error:', error))
-                                .finally(() => {
-                                    this.loading = false;
-                                });
-                            }
-                        }">
-                        <button @click="toggleWishlist" :disabled="loading"
-                            :class="inWishlist ? 'border-red-500 bg-red-50 text-red-600 hover:bg-red-100' : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50'"
-                            class="w-full flex items-center justify-center gap-2 rounded-xl border py-2.5 text-sm font-semibold transition shadow-sm mb-3">
+                        <template x-if="loading">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+                        </template>
 
-                            <template x-if="loading">
-                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        <template x-if="!loading && inWishlist">
+                            <span class="flex items-center gap-2">
+                                <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                 </svg>
-                            </template>
+                                {{ __('messages.remove_from_collection') }}
+                            </span>
+                        </template>
 
-                            <template x-if="!loading && inWishlist">
-                                <span class="flex items-center gap-2">
-                                    <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                    </svg>
-                                    Hapus dari Koleksi
-                                </span>
-                            </template>
-
-                            <template x-if="!loading && !inWishlist">
-                                <span class="flex items-center gap-2">
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                    </svg>
-                                    Tambah ke Koleksi
-                                </span>
-                            </template>
-                        </button>
-                    </div>
+                        <template x-if="!loading && !inWishlist">
+                            <span class="flex items-center gap-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                {{ __('messages.add_to_wishlist') }}
+                            </span>
+                        </template>
+                    </button>
+                </div>
 
                     @if(!$akunTerverifikasi)
                         {{-- Akun belum diverifikasi --}}
@@ -184,39 +178,39 @@
                             {{-- Slider durasi ringkas --}}
                             <div class="mb-2">
                                 <div class="flex items-center justify-between mb-1">
-                                    <span class="text-xs text-gray-500">Durasi: <strong class="text-[#0f4c3a]"
-                                            x-text="durasi"></strong> hari</span>
-                                    <span class="text-xs text-gray-400">Maks. 14 hari</span>
+                                    <span class="text-xs text-gray-500">{{ __('messages.extend_add_duration') }}: <strong class="text-[#0f4c3a]"
+                                            x-text="durasi"></strong> {{ __('messages.days') }}</span>
+                                    <span class="text-xs text-gray-400">Maks. 14 {{ __('messages.days') }}</span>
                                 </div>
                                 <input type="range" min="1" max="14" x-model="durasi"
                                     class="w-full h-2 bg-white rounded-lg appearance-none cursor-pointer accent-[#0f4c3a]">
                                 <div class="flex justify-between mt-0.5">
                                     <span class="text-[10px] text-gray-400">1</span>
-                                    <span class="text-[10px] text-gray-400">14 hari</span>
+                                    <span class="text-[10px] text-gray-400">14 {{ __('messages.days') }}</span>
                                 </div>
                             </div>
 
                             {{-- Info jatuh tempo mini --}}
                             <div class="mb-3 rounded-lg bg-white/70 border border-[#c8e6d8] p-2 text-xs">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-500">Pinjam:</span>
+                                    <span class="text-gray-500">{{ __('messages.borrow_date') }}:</span>
                                     <span
-                                        class="font-semibold text-black">{{ \Carbon\Carbon::today()->locale('id')->isoFormat('D MMM YYYY') }}</span>
+                                        class="font-semibold text-black">{{ \Carbon\Carbon::today()->isoFormat('D MMM YYYY') }}</span>
                                 </div>
                                 <div class="flex justify-between mt-0.5">
-                                    <span class="text-gray-500">Jatuh tempo:</span>
+                                    <span class="text-gray-500">{{ __('messages.due_date') }}:</span>
                                     <span class="font-semibold text-[#0f4c3a]" id="jatuh-tempo-label">-</span>
                                 </div>
                             </div>
 
                             {{-- Tombol Pinjam --}}
                             <button @click="showConfirm = true"
-                                class="w-full rounded-xl bg-[#0f4c3a] py-3 text-sm font-bold text-white transition hover:bg-[#0a382b] flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                                class="w-full rounded-xl bg-[#0f4c3a] py-3 text-xs sm:text-sm font-bold text-white transition hover:bg-[#0a382b] flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
-                                Pinjam Buku Sekarang
+                                {{ __('messages.borrow_now') }}
                             </button>
 
                             {{-- Confirm Modal --}}
@@ -224,7 +218,7 @@
                                 class="fixed inset-0 z-999 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4"
                                 style="display: none;">
                                 <div @click.outside="showConfirm = false"
-                                    class="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
+                                    class="w-full max-w-md rounded-2xl bg-white p-6 sm:p-8 shadow-2xl">
                                     <div class="mb-6 text-center">
                                         <div
                                             class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#e8f4f0]">
@@ -234,22 +228,28 @@
                                                     d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                                             </svg>
                                         </div>
-                                        <h3 class="text-xl font-bold text-black mb-1">Konfirmasi Peminjaman</h3>
-                                        <p class="text-gray-500 text-sm">Pastikan data peminjaman sudah benar</p>
+                                        <h3 class="text-xl font-bold text-black mb-1">{{ __('messages.action_confirm') }}</h3>
+                                        <p class="text-gray-500 text-sm">
+                                            @if(app()->getLocale() == 'en')
+                                                Ensure your borrowing details are correct
+                                            @else
+                                                Pastikan data peminjaman sudah benar
+                                            @endif
+                                        </p>
                                     </div>
 
                                     <div class="mb-6 rounded-xl bg-gray-50 p-4 space-y-2">
                                         <div class="flex items-start justify-between gap-2">
-                                            <span class="text-sm text-gray-500 shrink-0">Buku:</span>
+                                            <span class="text-sm text-gray-500 shrink-0">{{ __('messages.books_unit') }}:</span>
                                             <span
                                                 class="text-sm font-semibold text-black text-right">{{ $buku->judul_buku }}</span>
                                         </div>
                                         <div class="flex items-center justify-between">
-                                            <span class="text-sm text-gray-500">Durasi:</span>
-                                            <span class="text-sm font-semibold text-[#0f4c3a]" x-text="durasi + ' hari'"></span>
+                                            <span class="text-sm text-gray-500">{{ __('messages.extend_add_duration') }}:</span>
+                                            <span class="text-sm font-semibold text-[#0f4c3a]" x-text="durasi + ' {{ __('messages.days') }}'"></span>
                                         </div>
                                         <div class="flex items-center justify-between">
-                                            <span class="text-sm text-gray-500">Jatuh Tempo:</span>
+                                            <span class="text-sm text-gray-500">{{ __('messages.due_date') }}:</span>
                                             <span class="text-sm font-semibold text-[#0f4c3a]" id="confirm-jatuh-tempo">-</span>
                                         </div>
                                     </div>
@@ -260,12 +260,12 @@
                                         <input type="hidden" name="durasi_pinjam" :value="durasi">
                                         <div class="flex gap-3">
                                             <button type="button" @click="showConfirm = false"
-                                                class="flex-1 rounded-xl border border-gray-300 py-3 font-medium text-gray-700 hover:bg-gray-50 transition">
-                                                Batal
+                                                class="flex-1 rounded-xl border border-gray-300 py-2.5 sm:py-3 font-medium text-gray-700 hover:bg-gray-50 transition">
+                                                {{ __('messages.action_cancel') }}
                                             </button>
                                             <button type="submit"
-                                                class="flex-1 rounded-xl bg-[#0f4c3a] py-3 font-bold text-white hover:bg-[#0a382b] transition shadow-md">
-                                                Ya, Pinjam!
+                                                class="flex-1 rounded-xl bg-[#0f4c3a] py-2.5 sm:py-3 font-bold text-white hover:bg-[#0a382b] transition shadow-md">
+                                                {{ __('messages.borrow_now') }}
                                             </button>
                                         </div>
                                     </form>
@@ -279,7 +279,7 @@
                                 const updateLabel = (durasi) => {
                                     const jatuhTempo = new Date(today);
                                     jatuhTempo.setDate(today.getDate() + parseInt(durasi));
-                                    const formatted = jatuhTempo.toLocaleDateString('id-ID', {
+                                    const formatted = jatuhTempo.toLocaleDateString('{{ app()->getLocale() == "en" ? "en-US" : "id-ID" }}', {
                                         day: 'numeric', month: 'short', year: 'numeric'
                                     });
                                     const el = document.getElementById('jatuh-tempo-label');
@@ -295,16 +295,16 @@
                         </script>
                     @else
                         <button disabled
-                            class="w-full rounded-xl bg-gray-200 py-3 text-sm font-bold text-gray-400 cursor-not-allowed">
-                            Stok Habis - Tidak Tersedia
+                            class="w-full rounded-xl bg-gray-200 py-3 text-xs sm:text-sm font-bold text-gray-400 cursor-not-allowed">
+                            {{ __('messages.out_of_stock') }}
                         </button>
                     @endif
                 </div>
             </div>
 
-            {{-- ===== KOLOM KANAN: Info Buku + Sinopsis (scroll mandiri) ===== --}}
-            <div class="flex-1 overflow-y-auto">
-                <div class="p-6 xl:p-8">
+            {{-- ===== KOLOM KANAN: Info Buku + Sinopsis (scroll mandiri di desktop) ===== --}}
+            <div class="flex-1 lg:overflow-y-auto">
+                <div class="p-4 sm:p-6 xl:p-8">
 
                     {{-- Kategori badges --}}
                     <div class="mb-3 flex flex-wrap gap-2">
@@ -320,38 +320,36 @@
                     </div>
 
                     {{-- Judul & Penulis --}}
-                    <h1 class="mb-1 text-2xl xl:text-3xl font-bold text-black leading-tight">{{ $buku->judul_buku }}</h1>
-                    <p class="mb-5 text-base text-[#0f4c3a] font-medium">{{ $buku->penulis }}</p>
+                    <h1 class="mb-1 text-xl sm:text-2xl xl:text-3xl font-bold text-black leading-tight">{{ $buku->judul_buku }}</h1>
+                    <p class="mb-5 text-sm sm:text-base text-[#0f4c3a] font-medium">{{ $buku->penulis }}</p>
 
                     {{-- Info Grid --}}
-                    <div class="mb-5 grid grid-cols-2 xl:grid-cols-3 gap-3 rounded-xl bg-gray-50 p-4">
+                    <div class="mb-5 grid grid-cols-2 sm:grid-cols-3 gap-3 rounded-xl bg-gray-50 p-4">
                         @if($buku->isbn)
                             <div>
                                 <span
-                                    class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">ISBN</span>
-                                <span class="text-sm font-semibold text-black">{{ $buku->isbn }}</span>
+                                    class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">{{ __('messages.isbn') }}</span>
+                                <span class="text-xs sm:text-sm font-semibold text-black">{{ $buku->isbn }}</span>
                             </div>
                         @endif
                         @if($buku->penerbit)
                             <div>
                                 <span
-                                    class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">Penerbit</span>
-                                <span class="text-sm font-semibold text-black">{{ $buku->penerbit }}</span>
+                                    class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">{{ __('messages.publisher') }}</span>
+                                <span class="text-xs sm:text-sm font-semibold text-black">{{ $buku->penerbit }}</span>
                             </div>
                         @endif
                         @if($buku->tahun_terbit)
                             <div>
-                                <span class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">Tahun
-                                    Terbit</span>
-                                <span class="text-sm font-semibold text-black">{{ $buku->tahun_terbit }}</span>
+                                <span class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">{{ __('messages.year') }}</span>
+                                <span class="text-xs sm:text-sm font-semibold text-black">{{ $buku->tahun_terbit }}</span>
                             </div>
                         @endif
                         @if($buku->jumlah_halaman)
                             <div>
-                                <span class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">Jumlah
-                                    Halaman</span>
+                                <span class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">{{ __('messages.pages') }}</span>
                                 <span
-                                    class="text-sm font-semibold text-black">{{ number_format($buku->jumlah_halaman, 0, ',', '.') }}
+                                    class="text-xs sm:text-sm font-semibold text-black">{{ number_format($buku->jumlah_halaman, 0, ',', '.') }}
                                     hal.</span>
                             </div>
                         @endif
@@ -359,14 +357,13 @@
                             <div>
                                 <span
                                     class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">Bahasa</span>
-                                <span class="text-sm font-semibold text-black">{{ $buku->formatted_bahasa }}</span>
+                                <span class="text-xs sm:text-sm font-semibold text-black">{{ $buku->formatted_bahasa }}</span>
                             </div>
                         @endif
                         @if($buku->lokasi_rak)
                             <div>
-                                <span class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">Lokasi
-                                    Rak</span>
-                                <span class="text-sm font-semibold text-black">{{ $buku->lokasi_rak }}</span>
+                                <span class="block text-[10px] text-gray-400 uppercase tracking-wide font-medium mb-0.5">{{ __('messages.shelf_location') }}</span>
+                                <span class="text-xs sm:text-sm font-semibold text-black">{{ $buku->lokasi_rak }}</span>
                             </div>
                         @endif
                     </div>
@@ -380,7 +377,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                Sinopsis
+                                {{ __('messages.synopsis') }}
                             </h2>
                             <div
                                 class="prose prose-sm max-w-none text-gray-600 leading-relaxed
@@ -393,18 +390,18 @@
 
                     {{-- ========== ULASAN (REVIEWS) SECTION ========== --}}
                     <div class="mt-8 pt-6 border-t border-gray-200">
-                        <h2 class="mb-4 text-lg font-bold text-black flex items-center gap-2">
+                        <h2 class="mb-4 text-base sm:text-lg font-bold text-black flex items-center gap-2">
                             <svg class="h-5 w-5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                             </svg>
-                            Ulasan Pembaca
+                            {{ __('messages.post_review') }}
                         </h2>
 
                         {{-- Rating Summary --}}
                         <div class="mb-6 rounded-xl bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 p-4">
                             <div class="flex items-center gap-6">
                                 <div class="text-center">
-                                    <div class="text-4xl font-bold text-amber-600">{{ number_format($ratingRataRata, 1) }}</div>
+                                    <div class="text-3xl sm:text-4xl font-bold text-amber-600">{{ number_format($ratingRataRata, 1) }}</div>
                                     <div class="flex justify-center gap-0.5 my-1">
                                         @for($i = 1; $i <= 5; $i++)
                                             <svg class="h-4 w-4 {{ $i <= round($ratingRataRata) ? 'text-amber-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 24 24">
@@ -412,7 +409,7 @@
                                             </svg>
                                         @endfor
                                     </div>
-                                    <div class="text-xs text-gray-500">{{ $jumlahUlasan }} ulasan</div>
+                                    <div class="text-xs text-gray-500">{{ $jumlahUlasan }} {{ __('messages.comments') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -423,7 +420,13 @@
                                 @if($sudahMeminjam && !$sudahMengulas)
                                     {{-- Boleh kasih ulasan --}}
                                     <div class="mb-6 rounded-xl border border-gray-200 bg-white p-4">
-                                        <h3 class="text-sm font-bold text-gray-700 mb-3">Tulis Ulasan Anda</h3>
+                                        <h3 class="text-sm font-bold text-gray-700 mb-3">
+                                            @if(app()->getLocale() == 'en')
+                                                Write Your Review
+                                            @else
+                                                Tulis Ulasan Anda
+                                            @endif
+                                        </h3>
                                         <form action="{{ route('anggota.ulasan.store') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="id_buku" value="{{ $buku->id_buku }}">
@@ -456,12 +459,12 @@
                                                 <label class="block text-xs font-medium text-gray-600 mb-2">Komentar (opsional)</label>
                                                 <textarea name="isi_ulasan" rows="3" 
                                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#0f4c3a] focus:ring-1 focus:ring-[#0f4c3a]"
-                                                    placeholder="Tulis pendapat Anda tentang buku ini..."></textarea>
+                                                    placeholder="{{ __('messages.add_comment_placeholder') }}"></textarea>
                                             </div>
 
                                             <button type="submit" 
                                                 class="w-full rounded-xl bg-[#0f4c3a] py-2.5 text-sm font-bold text-white hover:bg-[#0a382b] transition">
-                                                Kirim Ulasan
+                                                {{ __('messages.action_send') }}
                                             </button>
                                         </form>
                                     </div>
@@ -472,7 +475,13 @@
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                             </svg>
-                                            <span class="text-sm font-medium">Anda sudah pernah mengulas buku ini</span>
+                                            <span class="text-sm font-medium">
+                                                @if(app()->getLocale() == 'en')
+                                                    You have already reviewed this book
+                                                @else
+                                                    Anda sudah pernah mengulas buku ini
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
                                 @elseif(!$sudahMeminjam)
@@ -482,7 +491,13 @@
                                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
-                                            <span class="text-sm font-medium">Pinjam buku ini terlebih dahulu untuk memberikan ulasan</span>
+                                            <span class="text-sm font-medium">
+                                                @if(app()->getLocale() == 'en')
+                                                    Borrow this book first to leave a review
+                                                @else
+                                                    Pinjam buku ini terlebih dahulu untuk memberikan ulasan
+                                                @endif
+                                            </span>
                                         </div>
                                     </div>
                                 @endif
@@ -503,7 +518,7 @@
                                             <div class="flex-1">
                                                 <div class="flex items-center justify-between gap-2 mb-1">
                                                     <h4 class="text-sm font-bold text-gray-800">{{ $item->anggota->nama_lengkap ?? 'Anggota' }}</h4>
-                                                    <span class="text-xs text-gray-400">{{ $item->dibuat_pada->locale('id')->diffForHumans() }}</span>
+                                                    <span class="text-xs text-gray-400">{{ $item->dibuat_pada->diffForHumans() }}</span>
                                                 </div>
                                                 
                                                 {{-- Rating Stars --}}
@@ -527,8 +542,8 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?')">
-                                                                Hapus ulasan
+                                                                onclick="return confirm('{{ __('messages.confirm_delete_post') }}')">
+                                                                {{ __('messages.action_delete') }}
                                                             </button>
                                                         </form>
                                                     @endif
@@ -543,8 +558,20 @@
                                 <svg class="h-12 w-12 mx-auto text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                 </svg>
-                                <p class="text-sm">Belum ada ulasan untuk buku ini.</p>
-                                <p class="text-xs text-gray-400">Jadilah yang pertama memberikan ulasan!</p>
+                                <p class="text-sm">
+                                    @if(app()->getLocale() == 'en')
+                                        No reviews for this book yet.
+                                    @else
+                                        Belum ada ulasan untuk buku ini.
+                                    @endif
+                                </p>
+                                <p class="text-xs text-gray-400">
+                                    @if(app()->getLocale() == 'en')
+                                        Be the first to leave a review!
+                                    @else
+                                        Jadilah yang pertama memberikan ulasan!
+                                    @endif
+                                </p>
                             </div>
                         @endif
                     </div>
@@ -558,7 +585,13 @@
     {{-- Buku Terkait --}}
     @if(isset($bukuTerkat) && $bukuTerkat->count() > 0)
         <div class="mt-8">
-            <h2 class="mb-4 text-lg font-bold text-black">Buku Terkait</h2>
+            <h2 class="mb-4 text-lg font-bold text-black">
+                @if(app()->getLocale() == 'en')
+                    Related Books
+                @else
+                    Buku Terkait
+                @endif
+            </h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                 @foreach($bukuTerkat as $related)
                     <a href="{{ route('anggota.buku.detail', $related->id_buku) }}"

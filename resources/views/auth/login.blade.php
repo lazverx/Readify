@@ -3,14 +3,14 @@
 @section('content')
     <div class="mb-4">
         <a href="/" class="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-2">
-            <i class="bi bi-arrow-left"></i> Kembali ke Beranda
+            <i class="bi bi-arrow-left"></i> {{ __('messages.back_to_home') }}
         </a>
     </div>
     <div class="auth-logo">
         <img src="{{ asset('img/Logo.svg') }}" class="custom-logo" alt="Logo Readify">
     </div>
     <p class="auth-subtitle">
-        Yuk, masuk ke akun Anda dan nikmati kemudahan layanan Sistem Perpustakaan Digital.
+        {{ __('messages.login_subtitle') }}
     </p>
 
     <form action="{{ route('login') }}" method="POST">
@@ -35,7 +35,7 @@
         @endif
 
         <div class="form-group">
-            <label for="nama_pengguna" class="form-label">Username / Email</label>
+            <label for="nama_pengguna" class="form-label">{{ __('messages.username_or_email') }}</label>
             <div class="relative">
                 <input type="text" name="nama_pengguna" id="nama_pengguna" class="form-control-glass pe-10"
                     value="{{ old('nama_pengguna') }}" placeholder="" required>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group" x-data="{ showPassword: false }">
-            <label for="kata_sandi" class="form-label">Kata Sandi</label>
+            <label for="kata_sandi" class="form-label">{{ __('messages.password') }}</label>
             <div class="relative">
                 <input :type="showPassword ? 'text' : 'password'" name="kata_sandi" id="kata_sandi"
                     class="form-control-glass pe-10" placeholder="" required>
@@ -53,14 +53,14 @@
             </div>
             <div style="text-align: right; margin-top: 5px;">
                 <a href="{{ route('password.request') }}"
-                    style="font-size: 0.8rem; color: #3b82f6; text-decoration: none;">Lupa kata sandi?</a>
+                    style="font-size: 0.8rem; color: #3b82f6; text-decoration: none;">{{ __('messages.forgot_password') }}</a>
             </div>
         </div>
 
-        <button type="submit" class="btn-primary-glass">Masuk</button>
+        <button type="submit" class="btn-primary-glass">{{ __('messages.login') }}</button>
 
         <div class="auth-footer">
-            Belum punya akun? <a href="{{ route('register') }}">Klik disini untuk register</a>
+            {{ __('messages.no_account') }} <a href="{{ route('register') }}">{{ __('messages.register_here') }}</a>
         </div>
     </form>
 @endsection

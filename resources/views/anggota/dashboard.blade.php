@@ -63,37 +63,37 @@
         {{-- ========================================================= --}}
         <div class="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
             {{-- Welcome & Stats Card --}}
-            <div class="rounded-2xl border border-gray-100 bg-linear-to-br from-[#0f4c3a] to-[#1a6650] p-6 text-white shadow-sm lg:col-span-2 relative overflow-hidden">
+            <div class="rounded-2xl border border-gray-100 bg-linear-to-br from-[#0f4c3a] to-[#1a6650] p-5 sm:p-6 text-white shadow-sm lg:col-span-2 relative overflow-hidden">
                 <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
                 <div class="relative z-10 flex flex-col justify-between h-full">
                     <div>
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-xs font-medium backdrop-blur-sm mb-3">
-                            <span>Selamat Datang di Readify</span>
+                            <span>{{ __('messages.welcome_back') }}</span>
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            <span>Katalog Terpadu</span>
+                            <span>{{ __('messages.welcome_back_sub') }}</span>
                         </div>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                            Jelajahi Koleksi Literasi Digital
+                        <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight">
+                            {{ __('messages.explore_collection') }}
                         </h2>
-                        <p class="mt-1 text-sm text-emerald-100/90 max-w-xl">
-                            Temukan ribuan buku pilihan, manga, novel, sains, dan teknologi. Pinjam dengan mudah dan raih lencana literasi!
+                        <p class="mt-1 text-xs sm:text-sm text-emerald-100/90 max-w-xl">
+                            {{ __('messages.explore_collection_desc') }}
                         </p>
                     </div>
 
-                    {{-- Member Quick Stats --}}
-                    <div class="mt-6 pt-4 border-t border-white/10 grid grid-cols-3 gap-3">
-                        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
-                            <span class="text-[11px] text-emerald-200 block">Total Dipinjam</span>
-                            <span class="text-lg font-bold">{{ $userStats['total_pinjam'] ?? 0 }} Buku</span>
+                    {{-- Member Quick Stats (Mobile Responsive Grid) --}}
+                    <div class="mt-6 pt-4 border-t border-white/10 grid grid-cols-3 gap-1.5 sm:gap-3">
+                        <div class="bg-white/10 rounded-xl p-2 sm:p-2.5 backdrop-blur-sm">
+                            <span class="text-[10px] sm:text-[11px] text-emerald-200 block truncate">{{ __('messages.total_borrowed') }}</span>
+                            <span class="text-sm sm:text-lg font-bold">{{ $userStats['total_pinjam'] ?? 0 }} {{ __('messages.books_unit') }}</span>
                         </div>
-                        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
-                            <span class="text-[11px] text-emerald-200 block">Peringkat Kamu</span>
-                            <span class="text-lg font-bold">#{{ $userStats['rank'] ?? '-' }}</span>
+                        <div class="bg-white/10 rounded-xl p-2 sm:p-2.5 backdrop-blur-sm">
+                            <span class="text-[10px] sm:text-[11px] text-emerald-200 block truncate">{{ __('messages.your_rank') }}</span>
+                            <span class="text-sm sm:text-lg font-bold">#{{ $userStats['rank'] ?? '-' }}</span>
                         </div>
-                        <div class="bg-white/10 rounded-xl p-2.5 backdrop-blur-sm">
-                            <span class="text-[11px] text-emerald-200 block">Lencana Pembaca</span>
-                            <a href="{{ route('anggota.profile') }}" class="text-xs font-bold text-amber-300 hover:text-white inline-flex items-center gap-1 mt-1">
-                                Lihat Lencana
+                        <div class="bg-white/10 rounded-xl p-2 sm:p-2.5 backdrop-blur-sm">
+                            <span class="text-[10px] sm:text-[11px] text-emerald-200 block truncate">{{ __('messages.reader_badge') }}</span>
+                            <a href="{{ route('anggota.profile') }}" class="text-[11px] sm:text-xs font-bold text-amber-300 hover:text-white inline-flex items-center gap-1 mt-0.5 sm:mt-1">
+                                {{ __('messages.view_badges') }}
                             </a>
                         </div>
                     </div>
@@ -111,11 +111,11 @@
                                 </svg>
                             </span>
                             <div>
-                                <h3 class="text-sm font-bold text-gray-900">Top Pembaca Bulan Ini</h3>
-                                <p class="text-[11px] text-gray-500">Anggota paling aktif meminjam buku</p>
+                                <h3 class="text-sm font-bold text-gray-900">{{ __('messages.top_readers_month') }}</h3>
+                                <p class="text-[11px] text-gray-500">{{ __('messages.top_readers_desc') }}</p>
                             </div>
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">Leaderboard</span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">{{ __('messages.leaderboard') }}</span>
                     </div>
 
                     <div class="space-y-2 mt-2">
@@ -127,7 +127,7 @@
                                     </span>
                                     <div class="w-7 h-7 rounded-full bg-[#0f4c3a] text-white flex items-center justify-center text-xs font-bold shrink-0 overflow-hidden">
                                         @if($userTop['foto'])
-                                            <img src="{{ $userTop['foto'] }}" class="w-full h-full object-cover">
+                                             <img src="{{ $userTop['foto'] }}" class="w-full h-full object-cover">
                                         @else
                                             {{ $userTop['initials'] }}
                                         @endif
@@ -138,19 +138,19 @@
                                     </div>
                                 </div>
                                 <span class="text-xs font-bold text-[#0f4c3a] shrink-0 bg-white px-2 py-0.5 rounded-lg border border-gray-100">
-                                    {{ $userTop['total_pinjam'] }} buku
+                                    {{ $userTop['total_pinjam'] }} {{ __('messages.books_unit') }}
                                 </span>
                             </div>
                         @empty
-                            <p class="text-xs text-gray-400 text-center py-4">Belum ada data peminjaman</p>
+                            <p class="text-xs text-gray-400 text-center py-4">{{ __('messages.no_history') }}</p>
                         @endforelse
                     </div>
                 </div>
 
                 <div class="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                    <span class="text-[11px] text-gray-500">Tingkatkan terus pinjamanmu!</span>
+                    <span class="text-[11px] text-gray-500">{{ __('messages.keep_reading_sub') }}</span>
                     <a href="{{ route('anggota.profile') }}" class="text-xs font-bold text-[#0f4c3a] hover:underline">
-                        Profil & Lencana
+                        {{ __('messages.profile_badges') }}
                     </a>
                 </div>
             </div>
@@ -159,7 +159,7 @@
         {{-- ========================================================= --}}
         {{-- FEATURE 6: LIVE SEARCH, CATEGORY PILLS & AVAILABILITY FILTER --}}
         {{-- ========================================================= --}}
-        <div class="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm mb-6">
+        <div class="rounded-2xl border border-gray-100 bg-white p-4 sm:p-5 shadow-sm mb-6">
             
             {{-- Top Controls: Search Bar, Availability Toggle, Sort --}}
             <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-4">
@@ -171,7 +171,7 @@
                         </svg>
                     </span>
                     <input type="text" id="katalog-search"
-                        placeholder="Ketik judul buku, penulis, ISBN, atau sinopsis..."
+                        placeholder="{{ __('messages.quick_search') }}"
                         value="{{ request('search') }}"
                         class="w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-10 py-2.5 text-sm font-medium outline-none transition-all focus:border-[#0f4c3a] focus:bg-white focus:ring-2 focus:ring-[#0f4c3a]/15"
                         autocomplete="off" />
@@ -185,43 +185,46 @@
                     </span>
                 </div>
 
-                {{-- Toggle: Hanya Buku Tersedia --}}
-                <label class="flex items-center gap-2.5 px-3 py-2 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-gray-100/60 cursor-pointer select-none transition-colors shrink-0">
-                    <input type="checkbox" id="filter-tersedia" class="w-4 h-4 rounded text-[#0f4c3a] focus:ring-[#0f4c3a] border-gray-300">
-                    <span class="text-xs font-semibold text-gray-700">Hanya Tersedia</span>
-                </label>
+                <div class="flex items-center gap-2.5">
+                    {{-- Toggle: Hanya Buku Tersedia --}}
+                    <label class="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-gray-100/60 cursor-pointer select-none transition-colors shrink-0 flex-1 sm:flex-initial justify-center">
+                        <input type="checkbox" id="filter-tersedia" class="w-4 h-4 rounded text-[#0f4c3a] focus:ring-[#0f4c3a] border-gray-300">
+                        <span class="text-xs font-semibold text-gray-700 whitespace-nowrap">{{ __('messages.available_only') }}</span>
+                    </label>
 
-                {{-- Sort Dropdown --}}
-                <div class="relative w-full md:w-44 shrink-0">
-                    <select id="filter-sort"
-                        class="w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/50 px-3.5 py-2.5 pr-8 text-xs font-semibold text-gray-700 outline-none transition-all focus:border-[#0f4c3a] focus:bg-white">
-                        <option value="terbaru">Terbaru</option>
-                        <option value="terlama">Terlama</option>
-                        <option value="az">Judul (A - Z)</option>
-                        <option value="za">Judul (Z - A)</option>
-                    </select>
-                    <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
-                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
+                    {{-- Sort Dropdown --}}
+                    <div class="relative flex-1 sm:w-44 shrink-0">
+                        <select id="filter-sort"
+                            class="w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/50 px-3.5 py-2.5 pr-8 text-xs font-semibold text-gray-700 outline-none transition-all focus:border-[#0f4c3a] focus:bg-white">
+                            <option value="terbaru">{{ __('messages.sort_newest') }}</option>
+                            <option value="terlama">{{ __('messages.sort_oldest') }}</option>
+                            <option value="az">{{ __('messages.sort_az') }}</option>
+                            <option value="za">{{ __('messages.sort_za') }}</option>
+                        </select>
+                        <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
                     </div>
-                </div>
 
-                {{-- Reset Button --}}
-                <button type="button" onclick="window.resetKatalogFilter()"
-                    class="rounded-xl border border-gray-200 px-3.5 py-2.5 text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors shrink-0 flex items-center justify-center gap-1.5">
-                    <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    <span>Reset</span>
-                </button>
+                    {{-- Reset Button --}}
+                    <button type="button" onclick="window.resetKatalogFilter()"
+                        class="rounded-xl border border-gray-200 px-3 py-2.5 text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors shrink-0 flex items-center justify-center gap-1.5"
+                        title="{{ __('messages.reset_filter') }}">
+                        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span class="hidden sm:inline">{{ __('messages.reset_filter') }}</span>
+                    </button>
+                </div>
             </div>
 
             {{-- Category Filter Pills --}}
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1 no-scrollbar">
                 <button type="button" data-kategori=""
                     class="kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-sm">
-                    Semua
+                    {{ __('messages.all_categories') }}
                 </button>
                 @foreach($kategori as $kat)
                     <button type="button" data-kategori="{{ $kat->nama_kategori }}"
@@ -233,10 +236,10 @@
 
             {{-- Result Count & Active Filters Indicator --}}
             <div class="mt-3 flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-100">
-                <span id="katalog-count">Menampilkan koleksi buku perpustakaan</span>
+                <span id="katalog-count">{{ __('messages.showing_catalog_count') }}</span>
                 <span class="flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Live Search Aktif</span>
+                    <span>{{ __('messages.live_search_active') }}</span>
                 </span>
             </div>
         </div>
@@ -318,14 +321,14 @@
 
                                     {{-- Info Grid --}}
                                     <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600 py-2 border-y border-gray-100">
-                                        <div><span class="font-medium text-gray-500">Penerbit:</span> <span id="modal-penerbit" class="font-bold text-gray-800"></span></div>
-                                        <div><span class="font-medium text-gray-500">Tahun:</span> <span id="modal-tahun" class="font-bold text-gray-800"></span></div>
-                                        <div class="col-span-2"><span class="font-medium text-gray-500">ISBN:</span> <span id="modal-isbn" class="font-mono text-gray-800"></span></div>
+                                        <div><span class="font-medium text-gray-500">{{ __('messages.publisher') }}:</span> <span id="modal-penerbit" class="font-bold text-gray-800"></span></div>
+                                        <div><span class="font-medium text-gray-500">{{ __('messages.year') }}:</span> <span id="modal-tahun" class="font-bold text-gray-800"></span></div>
+                                        <div class="col-span-2"><span class="font-medium text-gray-500">{{ __('messages.isbn') }}:</span> <span id="modal-isbn" class="font-mono text-gray-800"></span></div>
                                     </div>
 
                                     {{-- Synopsis --}}
                                     <div class="mt-3">
-                                        <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">Sinopsis Ringkas</h4>
+                                        <h4 class="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">{{ __('messages.synopsis') }}</h4>
                                         <div id="modal-sinopsis" class="text-xs text-gray-700 leading-relaxed max-h-32 overflow-y-auto pr-1"></div>
                                     </div>
                                 </div>
@@ -334,7 +337,7 @@
                                 <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between gap-3">
                                     <a id="modal-detail-btn" href="#"
                                         class="rounded-xl border border-gray-200 px-4 py-2 text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors">
-                                        Lihat Halaman Penuh
+                                        {{ __('messages.view_detail') }}
                                     </a>
 
                                     <div id="modal-action-container">

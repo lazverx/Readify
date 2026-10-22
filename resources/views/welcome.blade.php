@@ -67,25 +67,24 @@
     <section id="fitur" class="py-16 md:py-24 bg-white relative overflow-hidden">
         <div class="container mx-auto px-6">
             <!-- Top Header (Badge & Tagline) -->
+            <!-- Top Header (Badge & Tagline) -->
             <div
                 class="reveal-on-scroll flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                 <div class="px-8 py-2 rounded-full bg-[#084734] text-white font-medium text-sm">
-                    Fitur
+                    {{ __('messages.features_badge') }}
                 </div>
                 <p class="text-[#3F3D56] font-semibold text-sm md:text-base">
-                    Semua yang Kamu Butuhin, Tanpa Drama.
+                    {{ __('messages.features_tagline') }}
                 </p>
             </div>
 
             <!-- Headline & Description -->
             <div class="reveal-on-scroll delay-100 max-w-4xl mb-16">
                 <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 text-[#3F3D56]">
-                    Nikmati <span class="text-[#87D800]">semua aktivitas bacamu di satu tempat.</span> Gak perlu
-                    repot-repot tanya petugas lagi.
+                    {{ __('messages.features_headline_1') }} <span class="text-[#87D800]">{{ __('messages.features_headline_2') }}</span> {{ __('messages.features_headline_3') }}
                 </h2>
-                <p class="text-gray-600 text-lg md:text-xl leading-relaxed">
-                    Dengan fitur manajemen yang otomatis, kamu bisa fokus langsung ke hal favorit: nemuin buku
-                    kece dan nikmati setiap halamaninya.
+                <p class="text-gray-600 text-base md:text-xl leading-relaxed">
+                    {{ __('messages.features_description') }}
                 </p>
             </div>
 
@@ -97,10 +96,9 @@
                     <div
                         class="reveal-on-scroll delay-200 bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-[#87D800] transition group min-h-[220px] flex flex-col justify-between">
                         <div>
-                            <h3 class="text-lg font-bold text-[#084734] mb-1">Booking Fisik</h3>
-                            <h3 class="text-lg font-bold text-[#87D800] mb-4">Real-Time</h3>
+                            <h3 class="text-lg font-bold text-[#084734] mb-3">{{ __('messages.feat_booking_title') }}</h3>
                             <p class="text-gray-500 text-sm leading-relaxed">
-                                Amankan buku yang kamu incar langsung dari HP. Stok selalu update nonstop 24/7.
+                                {{ __('messages.feat_booking_desc') }}
                             </p>
                         </div>
                         <div class="w-full h-0.5 bg-[#87D800] rounded-full mt-4"></div>
@@ -110,10 +108,9 @@
                     <div
                         class="reveal-on-scroll delay-300 bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-[#87D800] transition group min-h-[220px] flex flex-col justify-between">
                         <div>
-                            <h3 class="text-lg font-bold text-[#3F3D56] mb-4">Kartu Anggota<br>Digital</h3>
+                            <h3 class="text-lg font-bold text-[#3F3D56] mb-3">{{ __('messages.feat_card_title') }}</h3>
                             <p class="text-gray-500 text-sm leading-relaxed">
-                                Gak perlu bawa kartu fisik ribet. Tunjukin Code kamu ke Petugas, langsung bawa
-                                bukunya.
+                                {{ __('messages.feat_card_desc') }}
                             </p>
                         </div>
                         <div class="w-full h-0.5 bg-[#87D800] mt-4"></div>
@@ -123,10 +120,9 @@
                     <div
                         class="reveal-on-scroll delay-400 bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-[#87D800] transition group min-h-[220px] flex flex-col justify-between">
                         <div>
-                            <h3 class="text-lg font-bold text-[#3F3D56] mb-4">Smart Fine<br>Tracker</h3>
+                            <h3 class="text-lg font-bold text-[#3F3D56] mb-3">{{ __('messages.feat_fine_title') }}</h3>
                             <p class="text-gray-500 text-sm leading-relaxed">
-                                Lihat status pinjam dengan transparan. Dapat notifikasi sebelum jatuh tempo biar kamu
-                                bebas denda.
+                                {{ __('messages.feat_fine_desc') }}
                             </p>
                         </div>
                         <div class="w-full h-0.5 bg-[#87D800] mt-4"></div>
@@ -136,10 +132,9 @@
                     <div
                         class="reveal-on-scroll delay-500 bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:border-[#87D800] transition group min-h-[220px] flex flex-col justify-between">
                         <div>
-                            <h3 class="text-lg font-bold text-[#87D800] mb-4">Dashboard<br>Personal</h3>
+                            <h3 class="text-lg font-bold text-[#87D800] mb-3">{{ __('messages.feat_dashboard_title') }}</h3>
                             <p class="text-gray-500 text-sm leading-relaxed">
-                                Cek progres baca, genre favorit, dan koleksi wishlist kamu dalam satu tampilan yang
-                                aesthetic.
+                                {{ __('messages.feat_dashboard_desc') }}
                             </p>
                         </div>
                         <div class="w-full h-0.5 bg-[#87D800] mt-4"></div>
@@ -160,8 +155,8 @@
         <div class="container mx-auto px-6">
             <!-- Header -->
             <div class="reveal-on-scroll text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#084734] mb-3">Cara Pinjam</h2>
-                <p class="text-xl text-[#3F3D56] font-medium">Cuma 3 Langkah Siap Ambil Buku Favoritmu.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-[#084734] mb-3">{{ __('messages.how_title') }}</h2>
+                <p class="text-lg md:text-xl text-[#3F3D56] font-medium">{{ __('messages.how_subtitle') }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -171,11 +166,11 @@
                     <div class="md:w-1/2 flex flex-col items-start text-left">
                         <span
                             class="inline-block px-6 py-2 rounded-full border border-gray-300 text-gray-500 text-sm font-medium mb-6 bg-white group-hover:border-[#87D800] group-hover:text-[#084734] transition-colors">
-                            Langkah 1
+                            {{ __('messages.step_1_badge') }}
                         </span>
-                        <h3 class="text-2xl md:text-3xl font-bold text-[#084734] mb-4">Registrasi & Verifikasi</h3>
-                        <p class="text-gray-600 leading-relaxed text-lg">
-                            Daftar online dan upload ID kamu. Tim kami akan aktivasi akun kamu dalam waktu singkat.
+                        <h3 class="text-2xl md:text-3xl font-bold text-[#084734] mb-4">{{ __('messages.step_1_title') }}</h3>
+                        <p class="text-gray-600 leading-relaxed text-base md:text-lg">
+                            {{ __('messages.step_1_desc') }}
                         </p>
                     </div>
                     <div class="md:w-1/2 flex justify-center md:justify-end">
@@ -189,11 +184,11 @@
                     class="reveal-on-scroll delay-200 bg-[#F9FCF8] border border-[#E4F5E0] rounded-[2.5rem] p-8 md:p-12 flex flex-col items-start h-full group hover:shadow-lg transition-all duration-300">
                     <span
                         class="inline-block px-6 py-2 rounded-full border border-gray-300 text-gray-500 text-sm font-medium mb-6 bg-white group-hover:border-[#87D800] group-hover:text-[#084734] transition-colors">
-                        Langkah 2
+                        {{ __('messages.step_2_badge') }}
                     </span>
-                    <h3 class="text-2xl font-bold text-[#084734] mb-4">Pilih & Booking</h3>
+                    <h3 class="text-2xl font-bold text-[#084734] mb-4">{{ __('messages.step_2_title') }}</h3>
                     <p class="text-gray-600 leading-relaxed mb-8">
-                        Cari buku di katalog, klik 'Pinjam', dan sistem otomatis kunci stok buku itu buat kamu.
+                        {{ __('messages.step_2_desc') }}
                     </p>
                     <div class="w-full flex justify-center mt-auto">
                         <img src="{{ asset('img/cara-pinjam-2.svg') }}" alt="Booking"
@@ -206,11 +201,11 @@
                     class="reveal-on-scroll delay-300 bg-[#F9FCF8] border border-[#E4F5E0] rounded-[2.5rem] p-8 md:p-12 flex flex-col items-start h-full group hover:shadow-lg transition-all duration-300">
                     <span
                         class="inline-block px-6 py-2 rounded-full border border-gray-300 text-gray-500 text-sm font-medium mb-6 bg-white group-hover:border-[#87D800] group-hover:text-[#084734] transition-colors">
-                        Langkah 3
+                        {{ __('messages.step_3_badge') }}
                     </span>
-                    <h3 class="text-2xl font-bold text-[#084734] mb-4">Ambil & Baca</h3>
+                    <h3 class="text-2xl font-bold text-[#084734] mb-4">{{ __('messages.step_3_title') }}</h3>
                     <p class="text-gray-600 leading-relaxed mb-8">
-                        Datang ke perpustakaan, kasih Code ke petugas, dan bawa pulang petualangan barumu.
+                        {{ __('messages.step_3_desc') }}
                     </p>
                     <div class="w-full flex justify-center mt-auto">
                         <img src="{{ asset('img/cara-pinjam-3.svg') }}" alt="Pick Up"
@@ -234,16 +229,16 @@
         <div class="container mx-auto px-6 relative z-10">
             <!-- Header & Search -->
             <div class="reveal-on-scroll text-center max-w-4xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4">Mau cari apa nih hari ini?</h2>
-                <p class="text-[#CEF17B]/80 text-lg mb-10">Ketik judul, penulis, atau buku yang lagi kamu pengen baca.</p>
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">{{ __('messages.catalog_section_title') }}</h2>
+                <p class="text-[#CEF17B]/80 text-base md:text-lg mb-10">{{ __('messages.catalog_section_subtitle') }}</p>
 
-                <!-- Search component -->
+                <!-- Search component (Responsive on Mobile) -->
                 <form action="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}" method="GET" class="bg-white p-2 rounded-full shadow-2xl flex items-center max-w-2xl mx-auto">
-                    <!-- Category Indicator -->
-                    <div class="relative group">
+                    <!-- Category Indicator (hidden on small mobile screens to keep input spacious) -->
+                    <div class="relative group hidden sm:block">
                         <a href="#katalog"
                             class="flex items-center gap-2 px-6 py-3 text-gray-700 font-medium hover:bg-gray-50 rounded-full transition-colors">
-                            <span>Katalog</span>
+                            <span>{{ __('messages.bottom_nav_catalog') }}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -252,22 +247,22 @@
                         </a>
                     </div>
 
-                    <div class="h-8 w-px bg-gray-200 mx-2"></div>
+                    <div class="h-8 w-px bg-gray-200 mx-2 hidden sm:block"></div>
 
                     <!-- Search Input -->
-                    <div class="flex-1 flex items-center px-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mr-3" fill="none"
+                    <div class="flex-1 flex items-center px-3 sm:px-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mr-2 sm:mr-3 shrink-0" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <input type="text" name="search" placeholder="Cari judul, penulis, atau topik buku..."
-                            class="w-full py-2 text-gray-700 focus:outline-none placeholder-gray-400 bg-transparent">
+                        <input type="text" name="search" placeholder="{{ __('messages.hero_search_placeholder') }}"
+                            class="w-full py-2 text-sm text-gray-700 focus:outline-none placeholder-gray-400 bg-transparent">
                     </div>
 
                     <button type="submit"
-                        class="px-6 py-3 bg-[#004236] text-white text-xs font-bold rounded-full hover:bg-[#00362b] transition shadow-md">
-                        Cari
+                        class="px-5 sm:px-6 py-2.5 sm:py-3 bg-[#004236] text-white text-xs font-bold rounded-full hover:bg-[#00362b] transition shadow-md shrink-0">
+                        {{ __('messages.action_search') }}
                     </button>
                 </form>
             </div>
@@ -278,10 +273,10 @@
                 <div
                     class="reveal-on-scroll delay-100 bg-[#CEF17B] rounded-3xl p-6 relative overflow-hidden h-64 md:h-72 flex items-center group">
                     <div class="relative z-10 w-1/2 flex flex-col items-start justify-center h-full">
-                        <h3 class="text-2xl font-bold text-[#084734] mb-1 leading-tight">Baru<br>Datang.</h3>
+                        <h3 class="text-2xl font-bold text-[#084734] mb-1 leading-tight">{{ __('messages.card_new_arrivals') }}</h3>
                         <a href="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}"
                             class="mt-6 px-5 py-2.5 bg-[#8FA75B] text-white text-xs font-bold rounded-lg hover:bg-[#7d924d] transition shadow-lg inline-block">
-                            Pinjam Sekarang
+                            {{ __('messages.action_borrow') }}
                         </a>
                     </div>
                     <div class="absolute right-4 top-4 bottom-4 w-1/2 flex items-center justify-center">
@@ -294,10 +289,10 @@
                 <div
                     class="reveal-on-scroll delay-200 bg-[#87D800] rounded-3xl p-6 relative overflow-hidden h-64 md:h-72 flex items-center group">
                     <div class="relative z-10 w-1/2 flex flex-col items-start justify-center h-full">
-                        <h3 class="text-2xl font-bold text-[#084734] mb-1 leading-tight">Lagi<br>Viral.</h3>
+                        <h3 class="text-2xl font-bold text-[#084734] mb-1 leading-tight">{{ __('messages.card_trending') }}</h3>
                         <a href="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}"
                             class="mt-6 px-5 py-2.5 bg-[#4F7F00] text-white text-xs font-bold rounded-lg hover:bg-[#3d6300] transition shadow-lg inline-block">
-                            Pinjam Sekarang
+                            {{ __('messages.action_borrow') }}
                         </a>
                     </div>
                     <div class="absolute right-4 top-4 bottom-4 w-1/2 flex items-center justify-center">
@@ -310,10 +305,10 @@
                 <div
                     class="reveal-on-scroll delay-300 bg-brand-600 rounded-3xl p-6 relative overflow-hidden h-64 md:h-72 flex items-center group border border-[#87D800]/20">
                     <div class="relative z-10 w-1/2 flex flex-col items-start justify-center h-full">
-                        <h3 class="text-2xl font-bold text-white mb-1 leading-tight">Rekomendasi</h3>
+                        <h3 class="text-2xl font-bold text-white mb-1 leading-tight">{{ __('messages.card_recommended') }}</h3>
                         <a href="{{ auth()->check() ? route('anggota.dashboard') : route('login') }}"
                             class="mt-6 px-5 py-2.5 bg-[#CEF17B] text-[#084734] text-xs font-bold rounded-lg hover:bg-[#b8d96b] transition shadow-lg inline-block">
-                            Pinjam Sekarang
+                            {{ __('messages.action_borrow') }}
                         </a>
                     </div>
                     <div class="absolute right-4 top-4 bottom-4 w-1/2 flex items-center justify-center">
@@ -327,19 +322,18 @@
             <div
                 class="reveal-on-scroll delay-400 bg-[#FAFFF3] border border-[#ECEDF0] rounded-[2.5rem] p-8 md:p-12 flex flex-col md:flex-row items-center gap-12 text-[#084734]">
                 <div class="w-full md:w-1/3 flex justify-center md:justify-start">
-                    <!-- Using existing illustration -->
                     <img src="{{ asset('img/katalog-buku-1.svg') }}" alt="Illustration"
                         class="h-48 md:h-64 object-contain">
                 </div>
                 <div class="w-full md:w-2/3 text-center">
-                    <p class="text-gray-600 font-medium mb-4">Bergabung bersama civitas perpustakaan Readify untuk akses katalog dan peminjaman buku yang lebih terorganisir.</p>
-                    <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-tight">
-                        Daftar gratis, verifikasi cepat,<br>bisa langsung booking buku incaran.
+                    <p class="text-gray-600 font-medium mb-4">{{ __('messages.welcome_cta_desc') }}</p>
+                    <h2 class="text-2xl md:text-4xl font-bold mb-8 leading-tight">
+                        {{ __('messages.welcome_cta_title') }}
                     </h2>
                     <div class="flex justify-center">
                         <a href="{{ auth()->check() ? route('anggota.dashboard') : route('register') }}"
                             class="bg-[#084734] text-white px-8 py-3 rounded-lg font-bold hover:bg-brand-600 transition shadow-lg inline-block">
-                            Mulai Sekarang
+                            {{ __('messages.welcome_cta_button') }}
                         </a>
                     </div>
                 </div>
@@ -352,8 +346,8 @@
         <div class="container mx-auto px-6">
             <!-- Header -->
             <div class="reveal-on-scroll flex flex-col md:flex-row justify-between items-start mb-16 gap-4">
-                <h2 class="text-3xl md:text-5xl font-bold text-[#084734]">Layanan Kami</h2>
-                <p class="text-xl text-[#3F3D56] font-medium">Lebih Dari Sekedar Peminjaman.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-[#084734]">{{ __('messages.services_title') }}</h2>
+                <p class="text-xl text-[#3F3D56] font-medium">{{ __('messages.services_subtitle') }}</p>
             </div>
 
             <!-- Layanan Cards -->
@@ -361,11 +355,10 @@
                 <!-- Card 1: Request Buku -->
                 <div
                     class="reveal-on-scroll delay-100 bg-white border-2 border-[#87D800] rounded-[2.5rem] p-8 flex flex-col items-center text-center h-full group hover:shadow-xl transition-all duration-300">
-                    <h3 class="text-2xl font-bold text-[#3F3D56] mb-2">Request Buku</h3>
+                    <h3 class="text-2xl font-bold text-[#3F3D56] mb-2">{{ __('messages.service_1_title') }}</h3>
                     <div class="w-16 h-1 bg-[#87D800] rounded-full mb-6"></div>
                     <p class="text-gray-600 text-sm leading-relaxed mb-auto">
-                        Buku yang kamu mau belum ada di koleksi? Saranin ke tim kami, nanti kita prioritaskan buat
-                        koleksi berikutnya.
+                        {{ __('messages.service_1_desc') }}
                     </p>
                     <div class="mt-8 h-48 w-full flex items-end justify-center">
                         <img src="{{ asset('img/layanan-1.svg') }}" alt="Request Buku"
@@ -373,30 +366,30 @@
                     </div>
                 </div>
 
-                <!-- Card 2: Loket Mandiri -->
+                <!-- Card 2: Loket Cepat -->
                 <div
                     class="reveal-on-scroll delay-200 bg-[#084734] rounded-[2.5rem] p-8 flex flex-col items-center text-center h-full hover:shadow-xl transition-all duration-300 relative overflow-hidden">
-                    <h3 class="text-2xl font-bold text-white mb-2">Loket Mandiri</h3>
+                    <h3 class="text-2xl font-bold text-white mb-2">{{ __('messages.service_2_title') }}</h3>
                     <div class="w-16 h-1 bg-white/20 rounded-full mb-6"></div>
                     <p class="text-white/80 text-sm leading-relaxed mb-auto">
-                        Ambil buku yang udah di-booking lewat loket otomatis tanpa harus antre. Gak perlu lama-lama!
+                        {{ __('messages.service_2_desc') }}
                     </p>
                     <div class="mt-8 h-48 w-full flex items-end justify-center">
-                        <img src="{{ asset('img/layanan-2.svg') }}" alt="Loket Mandiri"
+                        <img src="{{ asset('img/layanan-2.svg') }}" alt="Loket Cepat"
                             class="h-40 w-auto object-contain brightness-0 invert">
                     </div>
                 </div>
 
-                <!-- Card 3: Ruang Baca & Coworking -->
+                <!-- Card 3: Komunitas -->
                 <div
                     class="reveal-on-scroll delay-300 bg-white border-2 border-[#87D800] rounded-[2.5rem] p-8 flex flex-col items-center text-center h-full group hover:shadow-xl transition-all duration-300">
-                    <h3 class="text-2xl font-bold text-[#3F3D56] mb-2">Komunitas & Forum Diskusi</h3>
+                    <h3 class="text-2xl font-bold text-[#3F3D56] mb-2">{{ __('messages.service_3_title') }}</h3>
                     <div class="w-16 h-1 bg-[#87D800] rounded-full mb-6"></div>
                     <p class="text-gray-600 text-sm leading-relaxed mb-auto">
-                        Bergabung di forum diskusi online, tukar rekomendasi buku, dan ikut event virtual.
+                        {{ __('messages.service_3_desc') }}
                     </p>
                     <div class="mt-8 h-48 w-full flex items-end justify-center">
-                        <img src="{{ asset('img/layanan-3.svg') }}" alt="Ruang Baca" class="h-40 w-auto object-contain">
+                        <img src="{{ asset('img/layanan-3.svg') }}" alt="Komunitas" class="h-40 w-auto object-contain">
                     </div>
                 </div>
             </div>
@@ -552,21 +545,21 @@
 
                 <!-- Links 1 -->
                 <div>
-                    <h4 class="font-bold text-[#084734] mb-6">Platform</h4>
+                    <h4 class="font-bold text-[#084734] mb-6">{{ __('messages.footer_platform') }}</h4>
                     <ul class="space-y-4 text-gray-500 text-sm font-medium">
-                        <li><a href="#tentang-kami" class="hover:text-[#87D800] transition">Tentang Kami</a></li>
-                        <li><a href="#fitur" class="hover:text-[#87D800] transition">Fitur & Layanan</a></li>
-                        <li><a href="#katalog" class="hover:text-[#87D800] transition">Koleksi Buku</a></li>
-                        <li><a href="#cara-pinjam" class="hover:text-[#87D800] transition">Panduan Peminjaman</a></li>
+                        <li><a href="#tentang-kami" class="hover:text-[#87D800] transition">{{ __('messages.nav_about') }}</a></li>
+                        <li><a href="#fitur" class="hover:text-[#87D800] transition">{{ __('messages.nav_features') }}</a></li>
+                        <li><a href="#katalog" class="hover:text-[#87D800] transition">{{ __('messages.nav_catalog') }}</a></li>
+                        <li><a href="#cara-pinjam" class="hover:text-[#87D800] transition">{{ __('messages.nav_how_it_works') }}</a></li>
                     </ul>
                 </div>
 
                 <!-- Links 2 -->
                 <div>
-                    <h4 class="font-bold text-[#084734] mb-6">Bantuan</h4>
+                    <h4 class="font-bold text-[#084734] mb-6">{{ __('messages.footer_support') }}</h4>
                     <ul class="space-y-4 text-gray-500 text-sm font-medium">
-                        <li><a href="#tentang-kami" class="hover:text-[#87D800] transition">Hubungi Kami</a></li>
-                        <li><a href="#cara-pinjam" class="hover:text-[#87D800] transition">Cara Pinjam</a></li>
+                        <li><a href="#tentang-kami" class="hover:text-[#87D800] transition">{{ __('messages.footer_contact') }}</a></li>
+                        <li><a href="#cara-pinjam" class="hover:text-[#87D800] transition">{{ __('messages.nav_how_it_works') }}</a></li>
                         <li><a href="#beranda" class="hover:text-[#87D800] transition">Syarat & Ketentuan</a></li>
                         <li><a href="#beranda" class="hover:text-[#87D800] transition">Kebijakan Privasi</a></li>
                     </ul>
@@ -574,7 +567,7 @@
 
                 <!-- Contact -->
                 <div>
-                    <h4 class="font-bold text-[#084734] mb-6">Hubungi Kami</h4>
+                    <h4 class="font-bold text-[#084734] mb-6">{{ __('messages.footer_contact') }}</h4>
                     <ul class="space-y-5 text-gray-500 text-sm font-medium">
                         <li class="flex gap-3 items-start">
                             <span class="text-[#084734] mt-0.5 shrink-0">

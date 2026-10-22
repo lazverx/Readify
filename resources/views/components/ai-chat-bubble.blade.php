@@ -16,6 +16,38 @@
         overflow: hidden;
     }
 
+    .readify-chat-toggle-wrap {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Mobile Sheet Mode & Position Above Mobile Bottom Nav */
+    @media (max-width: 639px) {
+        .readify-chat-toggle-wrap {
+            bottom: 76px !important;
+            right: 16px !important;
+        }
+
+        .readify-chat-window {
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100vw !important;
+            height: 88vh !important;
+            max-height: 88vh !important;
+            border-radius: 24px 24px 0 0 !important;
+            border-bottom: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25) !important;
+        }
+    }
+
     /* Pastikan saat display: none diterapkan Alpine, window benar-benar sembunyi */
     .readify-chat-window[style*="display: none"],
     .readify-chat-window[style*="display:none"] {
@@ -206,7 +238,7 @@
 <div x-data="readifyAiChat()" class="font-sans" style="position: relative; z-index: 999999;">
 
     <!-- FLOATING TOGGLE BUTTON (BOTTOM RIGHT) -->
-    <div style="position: fixed; bottom: 24px; right: 24px; z-index: 999999; display: flex; align-items: center; gap: 12px;">
+    <div class="readify-chat-toggle-wrap">
         
         <!-- Floating Prompt Tooltip Pill -->
         <div x-show="!isOpen && showGreeting"
@@ -214,12 +246,12 @@
             style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 8px 14px; border-radius: 9999px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15); border: 1px solid #d1fae5; font-size: 12px; font-weight: 600; color: #1f2937; cursor: pointer;"
             @click.stop="toggleChat()">
             <span style="display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background-color: #10b981; animation: pulse 2s infinite;"></span>
-            <span>Tanya Pustakawan AI</span>
-            <button type="button" @click.stop="showGreeting = false" style="background: none; border: none; color: #9ca3af; cursor: pointer; padding: 0 2px; font-size: 14px; line-height: 1;" title="Tutup">×</button>
+            <span>{{ __('messages.ai_prompt_pill') }}</span>
+            <button type="button" @click.stop="showGreeting = false" style="background: none; border: none; color: #9ca3af; cursor: pointer; padding: 0 2px; font-size: 14px; line-height: 1;" title="{{ __('messages.close') }}">×</button>
         </div>
 
         <!-- Main Circular Floating Button -->
-        <button @click.stop="toggleChat()" type="button" aria-label="Tanya AI Pustakawan Readify"
+        <button @click.stop="toggleChat()" type="button" aria-label="{{ __('messages.ai_prompt_pill') }}"
             style="width: 58px; height: 58px; border-radius: 9999px; background: linear-gradient(135deg, #004236 0%, #00705a 100%); color: #ffffff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 30px -5px rgba(0, 66, 54, 0.45); transition: all 0.2s ease; outline: none;"
             onmouseover="this.style.transform='scale(1.06)'"
             onmouseout="this.style.transform='scale(1)'">
@@ -256,12 +288,12 @@
                 </div>
                 <div>
                     <div style="display: flex; align-items: center; gap: 6px;">
-                        <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.02em;">Readify AI</span>
-                        <span style="font-size: 10px; font-weight: 700; background: rgba(16, 185, 129, 0.35); color: #a7f3d0; padding: 1px 6px; border-radius: 9999px;">Pustakawan</span>
+                        <span style="font-size: 14px; font-weight: 700; letter-spacing: 0.02em;">{{ __('messages.ai_title') }}</span>
+                        <span style="font-size: 10px; font-weight: 700; background: rgba(16, 185, 129, 0.35); color: #a7f3d0; padding: 1px 6px; border-radius: 9999px;">{{ __('messages.ai_librarian_badge') }}</span>
                     </div>
                     <p style="margin: 0; font-size: 11px; color: rgba(209, 250, 229, 0.85); display: flex; align-items: center; gap: 4px;">
                         <span style="display: inline-block; width: 6px; height: 6px; border-radius: 9999px; background-color: #34d399;"></span>
-                        Online • 134+ Koleksi Buku
+                        {{ __('messages.ai_online_status') }}
                     </p>
                 </div>
             </div>
@@ -269,7 +301,7 @@
             <!-- Header Actions -->
             <div style="display: flex; align-items: center; gap: 6px;">
                 <!-- Tombol Bersihkan Chat (Trash) -->
-                <button type="button" @click.stop="clearMessages()" title="Bersihkan Percakapan" aria-label="Bersihkan Percakapan"
+                <button type="button" @click.stop="clearMessages()" title="{{ __('messages.ai_clear_chat') }}" aria-label="{{ __('messages.ai_clear_chat') }}"
                     style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: none; border: none; border-radius: 8px; color: rgba(255, 255, 255, 0.85); cursor: pointer; transition: background 0.15s ease;"
                     onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='#ffffff';"
                     onmouseout="this.style.background='none'; this.style.color='rgba(255,255,255,0.85)';">
@@ -280,7 +312,7 @@
                 </button>
 
                 <!-- Tombol Tutup Window Chat (X) -->
-                <button type="button" @click.stop="isOpen = false" title="Tutup Chat" aria-label="Tutup Chat"
+                <button type="button" @click.stop="isOpen = false" title="{{ __('messages.ai_close_chat') }}" aria-label="{{ __('messages.ai_close_chat') }}"
                     style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: none; border: none; border-radius: 8px; color: rgba(255, 255, 255, 0.85); cursor: pointer; transition: background 0.15s ease;"
                     onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='#ffffff';"
                     onmouseout="this.style.background='none'; this.style.color='rgba(255,255,255,0.85)';">
@@ -302,36 +334,28 @@
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 8px; max-width: 86%;">
                         <div style="border-radius: 16px; border-top-left-radius: 4px; background: #ffffff; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #f3f4f6; font-size: 12px; color: #1f2937; line-height: 1.55;">
-                            Halo! Saya <strong>Readify AI</strong>, asisten pustakawan virtual perpustakaan Readify.
-                            <br><br>
-                            Ada yang bisa saya bantu tentang koleksi <strong>134+ buku</strong> (54 Manga, Novel Klasik, Pemrograman), lokasi rak buku, atau aturan peminjaman & denda?
+                            {{ __('messages.ai_greeting') }}
                         </div>
 
                         <!-- Quick Suggestion Chips -->
                         <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-                            <button type="button" @click="sendQuickPrompt('Rekomendasi manga terbaik di Readify')"
+                            <button type="button" @click="sendQuickPrompt('{{ __('messages.ai_quick_q1') }}')"
                                 style="border-radius: 9999px; border: 1px solid #a7f3d0; background: #ecfdf5; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #065f46; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#d1fae5'"
                                 onmouseout="this.style.background='#ecfdf5'">
-                                Rekomendasi Manga Populer
+                                {{ __('messages.ai_quick_q1') }}
                             </button>
-                            <button type="button" @click="sendQuickPrompt('Rekomendasi novel klasik atau buku fiksi terbaik')"
-                                style="border-radius: 9999px; border: 1px solid #a7f3d0; background: #ecfdf5; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #065f46; cursor: pointer; text-align: left; transition: all 0.15s ease;"
-                                onmouseover="this.style.background='#d1fae5'"
-                                onmouseout="this.style.background='#ecfdf5'">
-                                Novel Klasik Terbaik
-                            </button>
-                            <button type="button" @click="sendQuickPrompt('Bagaimana aturan peminjaman dan denda di Readify?')"
+                            <button type="button" @click="sendQuickPrompt('{{ __('messages.ai_quick_q2') }}')"
                                 style="border-radius: 9999px; border: 1px solid #bfdbfe; background: #eff6ff; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #1e40af; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#dbeafe'"
                                 onmouseout="this.style.background='#eff6ff'">
-                                Aturan Pinjam & Denda
+                                {{ __('messages.ai_quick_q2') }}
                             </button>
-                            <button type="button" @click="sendQuickPrompt('Bagaimana cara anggota mengusulkan buku baru?')"
+                            <button type="button" @click="sendQuickPrompt('{{ __('messages.ai_quick_q3') }}')"
                                 style="border-radius: 9999px; border: 1px solid #fde68a; background: #fffbeb; padding: 5px 10px; font-size: 11px; font-weight: 600; color: #92400e; cursor: pointer; text-align: left; transition: all 0.15s ease;"
                                 onmouseover="this.style.background='#fef3c7'"
                                 onmouseout="this.style.background='#fffbeb'">
-                                Cara Usulkan Buku Baru
+                                {{ __('messages.ai_quick_q3') }}
                             </button>
                         </div>
                     </div>
@@ -415,7 +439,7 @@
         <div style="padding: 10px 14px; background: #ffffff; border-top: 1px solid #f3f4f6; flex-shrink: 0;">
             <form @submit.prevent="sendMessage()" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                 <input type="text" x-model="userInput" x-ref="chatInput"
-                    placeholder="Tanya buku, lokasi rak, aturan pinjam..."
+                    placeholder="{{ __('messages.ai_input_placeholder') }}"
                     :disabled="isLoading"
                     style="flex: 1; border-radius: 14px; border: 1px solid #e5e7eb; background: #f9fafb; padding: 9px 14px; font-size: 12px; color: #111827; outline: none; transition: all 0.2s ease;"
                     onfocus="this.style.background='#ffffff'; this.style.borderColor='#004236';"
@@ -431,7 +455,7 @@
                 </button>
             </form>
             <p style="margin: 6px 0 0 0; font-size: 10px; text-align: center; color: #9ca3af;">
-                Readify AI • Khusus menjawab seputar buku & perpustakaan
+                {{ __('messages.ai_librarian_badge') }} • Readify AI Assistant
             </p>
         </div>
 

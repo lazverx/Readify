@@ -83,12 +83,14 @@
             <!-- app header start -->
             @include('layouts.app-header')
             <!-- app header end -->
-            <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6 mt-[70px]">
+            <div class="p-3.5 sm:p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6 mt-[70px] pb-24 xl:pb-6">
                 @yield('content')
             </div>
         </div>
 
     </div>
+
+    @include('layouts.mobile-bottom-nav')
 
     <!-- Global Success Notification Modal -->
     @if(session('success') && !Str::contains(strtolower(session('success')), ['hapus', 'delete']))

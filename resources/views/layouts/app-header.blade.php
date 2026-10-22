@@ -66,8 +66,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-sm font-semibold text-white">Menunggu Verifikasi</h3>
-                                <p class="text-xs text-yellow-100">Akun Anda sedang diverifikasi</p>
+                                <h3 class="text-sm font-semibold text-white">{{ __('messages.waiting_verification') }}</h3>
+                                <p class="text-xs text-yellow-100">{{ __('messages.account_under_review') }}</p>
                             </div>
                         </div>
 
@@ -81,16 +81,15 @@
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <div>
-                                        <p class="text-sm font-medium text-gray-900 mb-1">Akun Anda Menunggu Verifikasi</p>
-                                        <p class="text-xs text-gray-600 mb-3">Mohon menunggu, admin akan memverifikasi akun
-                                            Anda segera. Anda akan mendapatkan notifikasi ketika akun telah disetujui.</p>
+                                        <p class="text-sm font-medium text-gray-900 mb-1">{{ __('messages.waiting_verification') }}</p>
+                                        <p class="text-xs text-gray-600 mb-3">{{ __('messages.verification_desc') }}</p>
                                         <div class="flex items-center gap-2 text-xs text-gray-500">
                                             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                                                 </path>
                                             </svg>
-                                            <span>Daftar: {{ Auth::user()->dibuat_pada->format('d M Y') }}</span>
+                                            <span>{{ __('messages.registered_at') }}: {{ Auth::user()->dibuat_pada->format('d M Y') }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +153,7 @@
                     x-transition:leave="transition ease-in duration-150"
                     x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
                     x-transition:leave-end="transform opacity-0 scale-95 translate-y-2"
-                    class="absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
+                    class="absolute right-0 mt-3 w-[calc(100vw-24px)] max-w-sm sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 overflow-hidden"
                     style="display: none;">
 
                     <!-- Header -->
@@ -165,11 +164,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                             </svg>
-                            <h3 class="text-sm font-semibold text-white">Notifikasi</h3>
+                            <h3 class="text-sm font-semibold text-white">{{ __('messages.notifications') }}</h3>
                             @if($notifCount > 0)
                                 <span
                                     class="px-2 py-0.5 text-xs font-bold bg-white/30 text-white rounded-full">{{ $notifCount }}
-                                    baru</span>
+                                    {{ __('messages.new_notifications') }}</span>
                             @endif
                         </div>
                         @if($notifCount > 0)
@@ -178,7 +177,7 @@
                                 @method('PATCH')
                                 <button type="submit"
                                     class="text-xs text-white/80 hover:text-white transition-colors underline">
-                                    Tandai semua dibaca
+                                    {{ __('messages.mark_all_read') }}
                                 </button>
                             </form>
                         @endif
@@ -200,13 +199,13 @@
                                             </svg>
                                         </div>
                                         <div>
-                                            <p class="text-sm font-semibold text-gray-900">Anggota Menunggu Verifikasi</p>
-                                            <p class="text-xs text-yellow-600">{{ $pendingAnggotaCount }} anggota baru</p>
+                                            <p class="text-sm font-semibold text-gray-900">{{ __('messages.pending_members_title') }}</p>
+                                            <p class="text-xs text-yellow-600">{{ __('messages.pending_members_count', ['count' => $pendingAnggotaCount]) }}</p>
                                         </div>
                                     </div>
                                     <a href="{{ route('admin.verifikasi-anggota.index') }}"
                                         class="text-xs text-yellow-600 hover:text-yellow-700 font-medium">
-                                        Verifikasi Sekarang →
+                                        {{ __('messages.verify_now') }} →
                                     </a>
                                 </div>
                             </div>
@@ -292,8 +291,8 @@
                                             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                     </svg>
                                 </div>
-                                <p class="text-sm font-medium text-gray-400">Tidak ada notifikasi</p>
-                                <p class="text-xs text-gray-300 mt-1">Semua sudah dibaca</p>
+                                <p class="text-sm font-medium text-gray-400">{{ __('messages.no_notifications') }}</p>
+                                <p class="text-xs text-gray-300 mt-1">{{ __('messages.all_notifications_read') }}</p>
                             </div>
                         @endforelse
                     </div>
@@ -301,7 +300,7 @@
                     <!-- Footer -->
                     @if($notifList->count() > 0)
                         <div class="px-4 py-2.5 border-t border-gray-100 bg-gray-50/50 text-center">
-                            <p class="text-xs text-gray-400">Menampilkan {{ $notifList->count() }} notifikasi terbaru</p>
+                            <p class="text-xs text-gray-400">{{ __('messages.showing_recent_notif', ['count' => $notifList->count()]) }}</p>
                         </div>
                     @endif
                 </div>
@@ -358,7 +357,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
-                                My Profile
+                                {{ __('messages.profile') }}
                             </a>
                         </li>
                     </ul>
@@ -371,7 +370,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                Log Out
+                                {{ __('messages.nav_logout') }}
                             </button>
                         </form>
                     </div>

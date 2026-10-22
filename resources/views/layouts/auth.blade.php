@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
@@ -50,14 +50,14 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             /* Slightly more transparent */
             backdrop-filter: blur(15px);
             /* Stronger glass effect */
             -webkit-backdrop-filter: blur(15px);
             border-radius: 20px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             padding: 2.5rem;
             width: 90%;
             max-width: 800px;
@@ -65,6 +65,17 @@
             position: relative;
             z-index: 10;
             margin: auto;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+            .glass-card {
+                padding: 1.5rem 1.25rem;
+                width: 100%;
+                border-radius: 16px;
+            }
         }
 
         .form-control-glass {
@@ -181,6 +192,20 @@
 
 <body>
     <!-- Background is handled by body::before -->
+
+    <!-- Language Switcher -->
+    <div class="fixed top-3 right-3 sm:top-4 sm:right-4 z-50">
+        <div class="inline-flex items-center rounded-xl bg-white/80 backdrop-blur-md p-1 shadow-md border border-white/50">
+            <a href="{{ route('lang.switch', 'id') }}"
+               class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all {{ app()->getLocale() === 'id' ? 'bg-[#0f4c3a] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
+                ID
+            </a>
+            <a href="{{ route('lang.switch', 'en') }}"
+               class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all {{ app()->getLocale() === 'en' ? 'bg-[#0f4c3a] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
+                EN
+            </a>
+        </div>
+    </div>
 
     <div class="glass-card">
         @yield('content')
