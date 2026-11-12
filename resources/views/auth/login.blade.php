@@ -11,7 +11,7 @@
     };
 @endphp
 
-<div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-white" x-data="{
+<div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-[#FAF8F5]" x-data="{
     username: '{{ old('nama_pengguna') }}',
     password: '',
     showPassword: false,
@@ -104,7 +104,7 @@
     {{-- ========================================================= --}}
     {{-- SISI KANAN (45% FULL-PAGE BLEED 100VH): FORM LOGIN BERSIH --}}
     {{-- ========================================================= --}}
-    <div class="lg:col-span-6 xl:col-span-5 min-h-screen flex items-center justify-center p-6 sm:p-12 xl:p-16 bg-white overflow-y-auto">
+    <div class="lg:col-span-6 xl:col-span-5 min-h-screen flex items-center justify-center p-6 sm:p-12 xl:p-16 bg-[#FAF8F5] overflow-y-auto">
         <div class="w-full max-w-md mx-auto my-auto py-8">
             
             {{-- Top Navigation & Mobile Brand --}}
@@ -234,7 +234,7 @@
             </form>
 
             {{-- Bottom: Quick Demo Pills & Register --}}
-            <div class="mt-8 pt-6 border-t border-gray-100 space-y-4">
+            <div class="mt-8 pt-6 border-t border-[#EFECE6] space-y-4">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                     <span class="text-xs font-bold text-gray-500">Akses Cepat Demo:</span>
                     <div class="flex items-center gap-1.5 flex-wrap">

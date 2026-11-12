@@ -49,6 +49,14 @@ layer(base);
     --color-white: #ffffff;
     --color-black: #101828;
 
+    /* Warm Editorial Paper & Canvas Tokens */
+    --color-paper-canvas: #faf8f5;
+    --color-paper-card: #ffffff;
+    --color-paper-border: #efece6;
+    --color-paper-subtle: #f3efea;
+    --color-paper-muted: #e8e4dc;
+    --color-paper-text: #1c1917;
+
     /* Rebranding Colors */
     --color-brand-primary: #084734; /* Green Bottle */
     --color-brand-secondary: #ceedb2; /* Pale Green */
@@ -81,19 +89,20 @@ layer(base);
     --color-blue-light-900: #0b4a6f;
     --color-blue-light-950: #062c41;
 
-    --color-gray-25: #fcfcfd;
-    --color-gray-50: #f9fafb;
-    --color-gray-100: #f2f4f7;
-    --color-gray-200: #e4e7ec;
-    --color-gray-300: #d0d5dd;
-    --color-gray-400: #98a2b3;
-    --color-gray-500: #667085;
-    --color-gray-600: #475467;
-    --color-gray-700: #344054;
-    --color-gray-800: #1d2939;
-    --color-gray-900: #101828;
-    --color-gray-950: #0c111d;
-    --color-gray-dark: #1a2231;
+    /* Warm Editorial Stone Grayscale */
+    --color-gray-25: #fdfcfb;
+    --color-gray-50: #faf8f5;
+    --color-gray-100: #efece6;
+    --color-gray-200: #e5e0d8;
+    --color-gray-300: #d5cfc4;
+    --color-gray-400: #a39c91;
+    --color-gray-500: #78716c;
+    --color-gray-600: #57534e;
+    --color-gray-700: #44403c;
+    --color-gray-800: #292524;
+    --color-gray-900: #1c1917;
+    --color-gray-950: #12100e;
+    --color-gray-dark: #1c1917;
 
     --color-orange-25: #fffaf5;
     --color-orange-50: #fff6ed;
@@ -218,7 +227,9 @@ layer(base);
         cursor: pointer;
     }
     body {
-        @apply relative font-normal font-outfit z-1 bg-gray-50;
+        @apply relative font-normal font-outfit z-1;
+        background-color: #faf8f5;
+        color: #1c1917;
     }
 }
 

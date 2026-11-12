@@ -110,9 +110,9 @@
     {{-- ========================================================= --}}
     {{-- 2. TAB NAVIGATION BAR --}}
     {{-- ========================================================= --}}
-    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar rounded-2xl border border-gray-100 bg-white p-2 shadow-xs">
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar rounded-2xl border border-[#EFECE6] bg-white p-2 shadow-xs">
         <button type="button" @click="activeTab = 'preferensi'"
-            :class="activeTab === 'preferensi' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'"
+            :class="activeTab === 'preferensi' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-[#F3EFEA]'"
             class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all shrink-0 min-h-[44px]">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -121,7 +121,7 @@
         </button>
 
         <button type="button" @click="activeTab = 'profil'"
-            :class="activeTab === 'profil' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'"
+            :class="activeTab === 'profil' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-[#F3EFEA]'"
             class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all shrink-0 min-h-[44px]">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -130,7 +130,7 @@
         </button>
 
         <button type="button" @click="activeTab = 'prestasi'"
-            :class="activeTab === 'prestasi' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'"
+            :class="activeTab === 'prestasi' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-[#F3EFEA]'"
             class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all shrink-0 min-h-[44px]">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -139,7 +139,7 @@
         </button>
 
         <button type="button" @click="activeTab = 'kartu'"
-            :class="activeTab === 'kartu' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'"
+            :class="activeTab === 'kartu' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900 hover:bg-[#F3EFEA]'"
             class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-bold transition-all shrink-0 min-h-[44px]">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
@@ -182,7 +182,7 @@
             </div>
 
             {{-- 1. Favorite Genres Selection --}}
-            <div class="rounded-2xl border border-gray-100 bg-white p-5 sm:p-6 shadow-xs">
+            <div class="rounded-2xl border border-[#EFECE6] bg-white p-5 sm:p-6 shadow-xs">
                 <div class="flex items-center justify-between mb-2">
                     <div>
                         <h4 class="text-sm font-bold text-gray-900">{{ __('messages.pref_genres_label') }}</h4>
@@ -199,7 +199,7 @@
                             class="px-4 py-2 rounded-xl text-xs font-bold border transition-all inline-flex items-center gap-2 min-h-[44px]"
                             :class="selectedCategories.includes({{ $kat->id_kategori }})
                                 ? 'bg-[#004236] text-white border-[#004236] shadow-xs'
-                                : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'">
+                                : 'bg-[#FAF8F5] text-gray-700 border-[#EFECE6] hover:bg-[#F3EFEA]'">
                             <span x-show="selectedCategories.includes({{ $kat->id_kategori }})" class="w-3.5 h-3.5 inline-flex items-center justify-center">
                                 <svg class="w-3.5 h-3.5 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
@@ -214,15 +214,15 @@
             </div>
 
             {{-- 2. Monthly Reading Goal Tracker --}}
-            <div class="rounded-2xl border border-gray-100 bg-white p-5 sm:p-6 shadow-xs">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-100">
+            <div class="rounded-2xl border border-[#EFECE6] bg-white p-5 sm:p-6 shadow-xs">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#EFECE6]">
                     <div>
                         <h4 class="text-sm font-bold text-gray-900">{{ __('messages.pref_reading_goal') }}</h4>
                         <p class="text-xs text-gray-500 mt-0.5">{{ __('messages.pref_goal_hint') }}</p>
                     </div>
 
                     {{-- Stepper Control --}}
-                    <div class="inline-flex items-center gap-3 bg-gray-50 p-1.5 rounded-xl border border-gray-200 self-start sm:self-center">
+                    <div class="inline-flex items-center gap-3 bg-[#FAF8F5] p-1.5 rounded-xl border border-[#EFECE6] self-start sm:self-center">
                         <button type="button" @click="targetCount = Math.max(1, targetCount - 1)"
                             class="w-8 h-8 rounded-lg bg-white text-gray-700 border border-gray-200 font-bold flex items-center justify-center hover:bg-gray-100 min-h-[32px]">-</button>
                         <input type="number" name="target_baca_bulanan" x-model="targetCount" min="1" max="50"

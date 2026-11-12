@@ -8,7 +8,7 @@
     @endphp
 
     <nav aria-label="Mobile Navigation"
-        class="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-gray-200/90 bg-white/95 px-2 py-1.5 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] backdrop-blur-md xl:hidden">
+        class="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around border-t border-[#EFECE6] bg-[#FAF8F5]/95 px-2 py-1.5 shadow-[0_-4px_20px_rgba(28,25,23,0.05)] backdrop-blur-md xl:hidden">
         
         @if($isAnggota)
             {{-- 1. Katalog --}}

@@ -25,18 +25,18 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
-            color: #0f172a;
+            background-color: #FAF8F5;
+            color: #1C1917;
         }
 
         .auth-input {
             width: 100%;
             border-radius: 14px;
-            border: 1px solid #e2e8f0;
-            background-color: #f8fafc;
+            border: 1px solid #EFECE6;
+            background-color: #FFFFFF;
             padding: 13px 16px;
             font-size: 0.875rem;
-            color: #0f172a;
+            color: #1C1917;
             outline: none;
             transition: all 0.2s ease;
             box-sizing: border-box;
@@ -80,7 +80,7 @@
 <body class="min-h-screen w-full flex flex-col bg-white antialiased">
     <!-- Language Switcher Pill (Top Right) -->
     <div class="fixed top-4 right-4 z-50">
-        <div class="inline-flex items-center rounded-xl bg-white/90 backdrop-blur-md p-1 shadow-sm border border-gray-200">
+        <div class="inline-flex items-center rounded-xl bg-white/90 backdrop-blur-md p-1 shadow-sm border border-[#EFECE6]">
             <a href="{{ route('lang.switch', 'id') }}"
                class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all {{ app()->getLocale() === 'id' ? 'bg-[#004236] text-white shadow-xs' : 'text-gray-600 hover:text-gray-900' }}">
                 ID

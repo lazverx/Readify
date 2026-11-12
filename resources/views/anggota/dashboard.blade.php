@@ -234,7 +234,7 @@
         {{-- ========================================================= --}}
         {{-- FEATURE 6: LIVE SEARCH, CATEGORY PILLS & AVAILABILITY FILTER --}}
         {{-- ========================================================= --}}
-        <div class="rounded-2xl border border-gray-100 bg-white p-4 sm:p-5 shadow-sm mb-6">
+        <div class="rounded-2xl border border-[#EFECE6] bg-white p-4 sm:p-5 shadow-xs mb-6">
             
             {{-- Top Controls: Search Bar, Availability Toggle, Sort --}}
             <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-4">
@@ -248,7 +248,7 @@
                     <input type="text" id="katalog-search"
                         placeholder="{{ __('messages.quick_search') }}"
                         value="{{ request('search') }}"
-                        class="w-full rounded-xl border border-gray-200 bg-gray-50/50 pl-11 pr-10 py-2.5 text-sm font-medium outline-none transition-all focus:border-[#0f4c3a] focus:bg-white focus:ring-2 focus:ring-[#0f4c3a]/15"
+                        class="w-full rounded-xl border border-[#EFECE6] bg-[#FAF8F5]/80 pl-11 pr-10 py-2.5 text-sm font-medium outline-none transition-all focus:border-[#0f4c3a] focus:bg-white focus:ring-2 focus:ring-[#0f4c3a]/15"
                         autocomplete="off" />
                     
                     {{-- Spinner --}}
@@ -262,7 +262,7 @@
 
                 <div class="flex items-center gap-2.5">
                     {{-- Toggle: Hanya Buku Tersedia --}}
-                    <label class="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-gray-100/60 cursor-pointer select-none transition-colors shrink-0 flex-1 sm:flex-initial justify-center">
+                    <label class="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-[#EFECE6] bg-[#FAF8F5]/80 hover:bg-[#F3EFEA] cursor-pointer select-none transition-colors shrink-0 flex-1 sm:flex-initial justify-center">
                         <input type="checkbox" id="filter-tersedia" class="w-4 h-4 rounded text-[#0f4c3a] focus:ring-[#0f4c3a] border-gray-300">
                         <span class="text-xs font-semibold text-gray-700 whitespace-nowrap">{{ __('messages.available_only') }}</span>
                     </label>
@@ -270,7 +270,7 @@
                     {{-- Sort Dropdown --}}
                     <div class="relative flex-1 sm:w-44 shrink-0">
                         <select id="filter-sort"
-                            class="w-full appearance-none rounded-xl border border-gray-200 bg-gray-50/50 px-3.5 py-2.5 pr-8 text-xs font-semibold text-gray-700 outline-none transition-all focus:border-[#0f4c3a] focus:bg-white">
+                            class="w-full appearance-none rounded-xl border border-[#EFECE6] bg-[#FAF8F5]/80 px-3.5 py-2.5 pr-8 text-xs font-semibold text-gray-700 outline-none transition-all focus:border-[#0f4c3a] focus:bg-white">
                             <option value="terbaru">{{ __('messages.sort_newest') }}</option>
                             <option value="terlama">{{ __('messages.sort_oldest') }}</option>
                             <option value="az">{{ __('messages.sort_az') }}</option>
@@ -285,7 +285,7 @@
 
                     {{-- Reset Button --}}
                     <button type="button" onclick="window.resetKatalogFilter()"
-                        class="rounded-xl border border-gray-200 px-3 py-2.5 text-xs font-semibold text-gray-600 hover:bg-gray-100 transition-colors shrink-0 flex items-center justify-center gap-1.5"
+                        class="rounded-xl border border-[#EFECE6] bg-[#FAF8F5]/80 px-3 py-2.5 text-xs font-semibold text-gray-600 hover:bg-[#F3EFEA] transition-colors shrink-0 flex items-center justify-center gap-1.5"
                         title="{{ __('messages.reset_filter') }}">
                         <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -298,12 +298,12 @@
             {{-- Category Filter Pills --}}
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1 no-scrollbar">
                 <button type="button" data-kategori=""
-                    class="kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-sm">
+                    class="kat-pill px-3 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 bg-[#0f4c3a] text-white shadow-xs">
                     {{ __('messages.all_categories') }}
                 </button>
                 @foreach($kategori as $kat)
                     <button type="button" data-kategori="{{ $kat->nama_kategori }}"
-                        class="kat-pill px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                        class="kat-pill px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 bg-[#F3EFEA] text-[#1C1917] hover:bg-[#EAE6DF] border border-[#EFECE6]">
                         {{ $kat->nama_kategori }}
                     </button>
                 @endforeach

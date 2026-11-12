@@ -65,7 +65,7 @@
             $store.sidebar.isExpanded = true;
         }
     };
-    window.addEventListener('resize', checkMobile);" class="dark:bg-slate-950">
+    window.addEventListener('resize', checkMobile);" class="bg-[#FAF8F5] text-[#1C1917] antialiased dark:bg-slate-950">
 
     {{-- preloader --}}
     <x-common.preloader />

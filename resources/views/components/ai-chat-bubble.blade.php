@@ -7,10 +7,10 @@
         width: min(420px, calc(100vw - 32px));
         height: min(590px, 80vh);
         max-height: 80vh;
-        background: #ffffff;
+        background: #FAF8F5;
         border-radius: 24px;
-        box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
-        border: 1px solid #e5e7eb;
+        box-shadow: 0 25px 60px -15px rgba(28, 25, 23, 0.2);
+        border: 1px solid #EFECE6;
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -359,7 +359,7 @@
         </div>
 
         <!-- MESSAGES SCROLLABLE CONTAINER -->
-        <div id="readify-ai-messages" style="background-color: #f9fafb; padding: 14px;">
+        <div id="readify-ai-messages" style="background-color: #FAF8F5; padding: 14px;">
             <div style="display: flex; flex-direction: column; gap: 14px; min-height: 100%;">
 
                 <!-- Welcome Greeting Bubble -->
@@ -368,7 +368,7 @@
                         AI
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 8px; max-width: 86%;">
-                        <div style="border-radius: 16px; border-top-left-radius: 4px; background: #ffffff; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); border: 1px solid #f3f4f6; font-size: 12px; color: #1f2937; line-height: 1.55;">
+                        <div style="border-radius: 16px; border-top-left-radius: 4px; background: #ffffff; padding: 12px 14px; box-shadow: 0 1px 3px rgba(28,25,23,0.04); border: 1px solid #EFECE6; font-size: 12px; color: #1C1917; line-height: 1.55;">
                             {{ __('messages.ai_greeting') }}
                         </div>
 
@@ -471,14 +471,14 @@
         </div>
 
         <!-- INPUT FORM -->
-        <div style="padding: 10px 14px; background: #ffffff; border-top: 1px solid #f3f4f6; flex-shrink: 0;">
+        <div style="padding: 10px 14px; background: #FAF8F5; border-top: 1px solid #EFECE6; flex-shrink: 0;">
             <form @submit.prevent="sendMessage()" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                 <input type="text" x-model="userInput" x-ref="chatInput"
                     placeholder="{{ __('messages.ai_input_placeholder') }}"
                     :disabled="isLoading"
-                    style="flex: 1; border-radius: 14px; border: 1px solid #e5e7eb; background: #f9fafb; padding: 9px 14px; font-size: 12px; color: #111827; outline: none; transition: all 0.2s ease;"
+                    style="flex: 1; border-radius: 14px; border: 1px solid #EFECE6; background: #ffffff; padding: 9px 14px; font-size: 12px; color: #1C1917; outline: none; transition: all 0.2s ease;"
                     onfocus="this.style.background='#ffffff'; this.style.borderColor='#004236';"
-                    onblur="this.style.background='#f9fafb'; this.style.borderColor='#e5e7eb';">
+                    onblur="this.style.background='#ffffff'; this.style.borderColor='#EFECE6';">
 
                 <button type="submit" :disabled="isLoading || !userInput.trim()"
                     style="width: 36px; height: 36px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px; background-color: #004236; color: #ffffff; border: none; cursor: pointer; transition: all 0.2s ease; outline: none;"

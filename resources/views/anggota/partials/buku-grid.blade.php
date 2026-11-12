@@ -1,6 +1,6 @@
 @forelse($buku as $item)
     <a href="{{ route('anggota.buku.detail', $item->id_buku) }}"
-        class="group flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:-translate-y-1 overflow-hidden cursor-pointer relative"
+        class="group flex flex-col rounded-xl border border-[#EFECE6] bg-white shadow-xs transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden cursor-pointer relative"
         title="Lihat detail: {{ $item->judul_buku }}">
 
         {{-- Image & Badges --}}

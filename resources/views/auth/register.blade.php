@@ -36,7 +36,7 @@
     }
 @endphp
 
-<div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-white" x-data="{
+<div class="w-full min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-[#FAF8F5]" x-data="{
     step: 1,
     submitting: false,
     showPassword: false,
@@ -292,11 +292,11 @@
     {{-- ========================================================= --}}
     {{-- SISI KANAN (60% DESKTOP): FORM & WIZARD INTERAKTIF        --}}
     {{-- ========================================================= --}}
-    <div class="lg:col-span-8 xl:col-span-8 min-h-screen flex flex-col justify-between p-6 sm:p-10 xl:p-12 bg-white overflow-y-auto">
+    <div class="lg:col-span-8 xl:col-span-8 min-h-screen flex flex-col justify-between p-6 sm:p-10 xl:p-12 bg-[#FAF8F5] overflow-y-auto">
         
         <div class="w-full max-w-3xl mx-auto">
             {{-- Top Bar Navigation --}}
-            <div class="flex items-center justify-between pb-6 border-b border-gray-100 mb-8">
+            <div class="flex items-center justify-between pb-6 border-b border-[#EFECE6] mb-8">
                 <div class="flex items-center gap-3">
                     <a href="/" class="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-gray-900 transition min-h-[36px]">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -471,7 +471,7 @@
                     </div>
 
                     {{-- Next Button --}}
-                    <div class="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div class="mt-8 pt-4 border-t border-[#EFECE6] flex items-center justify-between">
                         <span class="text-xs text-gray-500">
                             Semua kolom bertanda bintang (*) wajib diisi.
                         </span>
@@ -535,7 +535,7 @@
                                 class="p-4 rounded-2xl border text-left transition-all relative flex flex-col justify-between min-h-[96px] group cursor-pointer"
                                 :class="selectedCategories.includes({{ $kat->id_kategori }})
                                     ? 'bg-[#004236] text-white border-[#004236] shadow-md ring-2 ring-[#004236]/20'
-                                    : 'bg-white text-gray-800 border-gray-200 hover:border-gray-300 hover:bg-gray-50/70'">
+                                    : 'bg-white text-[#1C1917] border-[#EFECE6] hover:border-[#E8E4DC] hover:bg-[#F3EFEA]'">
                                 
                                 <div class="flex items-center justify-between w-full">
                                     <div class="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
@@ -562,9 +562,9 @@
                     </div>
 
                     {{-- Navigation Buttons --}}
-                    <div class="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div class="mt-8 pt-4 border-t border-[#EFECE6] flex items-center justify-between">
                         <button type="button" @click="prevStep()"
-                            class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 transition min-h-[48px] inline-flex items-center gap-2">
+                            class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:text-gray-900 border border-[#EFECE6] bg-white hover:bg-[#F3EFEA] transition min-h-[48px] inline-flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
@@ -605,7 +605,7 @@
                             class="px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border min-h-[38px]"
                             :class="activeCategoryFilter === 'all'
                                 ? 'bg-[#004236] text-white border-[#004236]'
-                                : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'">
+                                : 'bg-white text-[#1C1917] border-[#EFECE6] hover:bg-[#F3EFEA]'">
                             Semua Rekomendasi
                         </button>
 
@@ -614,7 +614,7 @@
                                 class="px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border min-h-[38px]"
                                 :class="activeCategoryFilter === catId
                                     ? 'bg-[#004236] text-white border-[#004236]'
-                                    : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100'"
+                                    : 'bg-white text-[#1C1917] border-[#EFECE6] hover:bg-[#F3EFEA]'"
                                 x-text="categoriesMap[catId] || ('Kategori #' + catId)">
                             </button>
                         </template>
@@ -624,7 +624,7 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-h-[480px] overflow-y-auto p-1">
                         <template x-for="buku in filteredBooks" :key="buku.id_buku">
                             <div class="rounded-2xl border p-3 flex flex-col justify-between transition-all bg-white hover:shadow-md"
-                                :class="starterBooks.includes(buku.id_buku) ? 'border-[#004236] ring-1 ring-[#004236]' : 'border-gray-200'">
+                                :class="starterBooks.includes(buku.id_buku) ? 'border-[#004236] ring-1 ring-[#004236]' : 'border-[#EFECE6]'">
                                 
                                 <div>
                                     {{-- Book Cover --}}
@@ -680,9 +680,9 @@
                     </div>
 
                     {{-- Navigation Buttons --}}
-                    <div class="mt-8 pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div class="mt-8 pt-4 border-t border-[#EFECE6] flex items-center justify-between">
                         <button type="button" @click="prevStep()"
-                            class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 transition min-h-[48px] inline-flex items-center gap-2">
+                            class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:text-gray-900 border border-[#EFECE6] bg-white hover:bg-[#F3EFEA] transition min-h-[48px] inline-flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
@@ -729,7 +729,7 @@
                             class="p-5 rounded-2xl border text-left transition-all relative flex flex-col justify-between cursor-pointer"
                             :class="readingGoal === 2
                                 ? 'bg-emerald-50/60 border-[#004236] ring-2 ring-[#004236]/20'
-                                : 'bg-white border-gray-200 hover:border-gray-300'">
+                                : 'bg-white border-[#EFECE6] hover:border-[#E8E4DC]'">
                             <div>
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-gray-100 text-gray-700">
@@ -755,7 +755,7 @@
                             class="p-5 rounded-2xl border text-left transition-all relative flex flex-col justify-between cursor-pointer"
                             :class="readingGoal === 3
                                 ? 'bg-emerald-50/60 border-[#004236] ring-2 ring-[#004236]/20'
-                                : 'bg-white border-gray-200 hover:border-gray-300'">
+                                : 'bg-white border-[#EFECE6] hover:border-[#E8E4DC]'">
                             <div>
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#004236] text-white">
@@ -781,7 +781,7 @@
                             class="p-5 rounded-2xl border text-left transition-all relative flex flex-col justify-between cursor-pointer"
                             :class="readingGoal === 5
                                 ? 'bg-emerald-50/60 border-[#004236] ring-2 ring-[#004236]/20'
-                                : 'bg-white border-gray-200 hover:border-gray-300'">
+                                : 'bg-white border-[#EFECE6] hover:border-[#E8E4DC]'">
                             <div>
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
@@ -804,7 +804,7 @@
                     </div>
 
                     {{-- Comprehensive Recap Card --}}
-                    <div class="rounded-2xl border border-gray-200 bg-gray-50/70 p-5 mb-8">
+                    <div class="rounded-2xl border border-[#EFECE6] bg-[#F3EFEA]/80 p-5 mb-8">
                         <div class="flex items-center gap-2 mb-3">
                             <svg class="w-4 h-4 text-[#004236]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -815,19 +815,19 @@
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div class="p-3 bg-white rounded-xl border border-gray-200/80">
+                            <div class="p-3 bg-white rounded-xl border border-[#EFECE6]">
                                 <span class="text-gray-400 block text-[11px] font-semibold">Identitas Anggota</span>
                                 <span class="font-bold text-gray-900 text-sm block mt-0.5" x-text="formData.nama_lengkap || '-'"></span>
                                 <span class="text-gray-500 block text-[11px]" x-text="'@' + (formData.nama_pengguna || '-') + ' • ' + (formData.email || '-')"></span>
                             </div>
 
-                            <div class="p-3 bg-white rounded-xl border border-gray-200/80">
+                            <div class="p-3 bg-white rounded-xl border border-[#EFECE6]">
                                 <span class="text-gray-400 block text-[11px] font-semibold">Ritme & Koleksi Awal</span>
                                 <span class="font-bold text-[#004236] text-sm block mt-0.5" x-text="readingGoal + ' Buku per Bulan'"></span>
                                 <span class="text-gray-500 block text-[11px]" x-text="starterBooks.length + ' buku awal akan disimpan ke koleksi Anda'"></span>
                             </div>
 
-                            <div class="sm:col-span-2 p-3 bg-white rounded-xl border border-gray-200/80">
+                            <div class="sm:col-span-2 p-3 bg-white rounded-xl border border-[#EFECE6]">
                                 <span class="text-gray-400 block text-[11px] font-semibold mb-1.5">Topik & Genre Terpilih</span>
                                 <div class="flex flex-wrap gap-1.5">
                                     <template x-for="name in getSelectedCategoryNames()" :key="name">
@@ -840,9 +840,9 @@
                     </div>
 
                     {{-- Navigation & Final Submit --}}
-                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div class="pt-4 border-t border-[#EFECE6] flex items-center justify-between">
                         <button type="button" @click="prevStep()" :disabled="submitting"
-                            class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 transition min-h-[48px] inline-flex items-center gap-2">
+                            class="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-600 hover:text-gray-900 border border-[#EFECE6] bg-white hover:bg-[#F3EFEA] transition min-h-[48px] inline-flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
@@ -875,7 +875,7 @@
         </div>
 
         {{-- Footer --}}
-        <div class="mt-12 pt-6 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400 max-w-3xl mx-auto w-full">
+        <div class="mt-12 pt-6 border-t border-[#EFECE6] flex items-center justify-between text-xs text-gray-400 max-w-3xl mx-auto w-full">
             <span>&copy; {{ date('Y') }} Readify Digital Library. Hak cipta dilindungi.</span>
             <div class="flex items-center gap-4">
                 <a href="#" class="hover:text-gray-600 transition">Panduan</a>
