@@ -180,7 +180,8 @@
 
                         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-                        const response = await fetch('/api/ai/chat', {
+                        // Gunakan endpoint /ai/chat yang kompatibel dengan server lokal & Vercel serverless
+                        const response = await fetch('/ai/chat', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

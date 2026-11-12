@@ -24,6 +24,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'api/*',
+            'ai/*',
         ]);
 
         $middleware->redirectUsersTo(function () {

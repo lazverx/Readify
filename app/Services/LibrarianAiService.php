@@ -16,11 +16,19 @@ class LibrarianAiService
     {
         $userMessage = trim($userMessage);
 
-        // 1. Ekstrak buku-buku relevan dari database Readify (RAG Lite)
-        $relevantBooks = $this->findRelevantBooks($userMessage);
+        // 1. Ekstrak buku-buku relevan dari database Readify (RAG Lite) dengan penanganan error database
+        try {
+            $relevantBooks = $this->findRelevantBooks($userMessage);
+        } catch (\Throwable $e) {
+            $relevantBooks = collect();
+        }
 
         // 2. Susun System Prompt berpengetahuan penuh tentang Readify
-        $systemPrompt = $this->buildSystemPrompt($relevantBooks);
+        try {
+            $systemPrompt = $this->buildSystemPrompt($relevantBooks);
+        } catch (\Throwable $e) {
+            $systemPrompt = "Kamu adalah Readify AI, asisten pustakawan virtual cerdas untuk Perpustakaan Readify.";
+        }
 
         // 3. Format riwayat chat untuk AI
         $messages = [

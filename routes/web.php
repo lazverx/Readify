@@ -157,7 +157,8 @@ Route::middleware('auth')->group(function () {
 
 // API Routes for AJAX calls
 Route::get('/api/buku/search', [\App\Http\Controllers\Api\BukuApiController::class, 'search'])->name('api.buku.search');
-Route::post('/api/ai/chat', [\App\Http\Controllers\Api\AiChatController::class, 'chat'])->name('api.ai.chat');
+Route::match(['get', 'post'], '/api/ai/chat', [\App\Http\Controllers\Api\AiChatController::class, 'chat'])->name('api.ai.chat');
+Route::match(['get', 'post'], '/ai/chat', [\App\Http\Controllers\Api\AiChatController::class, 'chat'])->name('ai.chat');
 
 // Pengajuan Buku - Form Publik (bisa diakses anggota yang sudah login)
 Route::middleware('auth')->group(function () {
