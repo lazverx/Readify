@@ -340,26 +340,35 @@ class LibrarianAiService
                 'parts' => [['text' => $userMessage]]
             ];
 
-            $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" . urlencode($apiKey);
+            $candidateModels = ['gemini-flash-lite-latest', 'gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'];
 
-            $response = Http::timeout(2.5)
-                ->withHeaders(['Content-Type' => 'application/json'])
-                ->post($url, [
-                    'system_instruction' => [
-                        'parts' => [['text' => $systemPrompt]]
-                    ],
-                    'contents' => $contents,
-                    'generationConfig' => [
-                        'temperature' => 0.4,
-                        'maxOutputTokens' => 600,
-                    ]
-                ]);
+            foreach ($candidateModels as $model) {
+                try {
+                    $url = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . urlencode($apiKey);
 
-            if ($response->successful()) {
-                $data = $response->json();
-                $reply = $data['candidates'][0]['content']['parts'][0]['text'] ?? null;
-                if (!empty($reply)) {
-                    return trim($reply);
+                    $response = Http::timeout(3.5)
+                        ->withHeaders(['Content-Type' => 'application/json'])
+                        ->post($url, [
+                            'system_instruction' => [
+                                'parts' => [['text' => $systemPrompt]]
+                            ],
+                            'contents' => $contents,
+                            'generationConfig' => [
+                                'temperature' => 0.4,
+                                'maxOutputTokens' => 600,
+                            ]
+                        ]);
+
+                    if ($response->successful()) {
+                        $data = $response->json();
+                        $reply = $data['candidates'][0]['content']['parts'][0]['text'] ?? null;
+                        if (!empty($reply)) {
+                            return trim($reply);
+                        }
+                    }
+                } catch (\Throwable $te) {
+                    // Coba model berikutnya jika timeout
+                    continue;
                 }
             }
         } catch (\Throwable $e) {
