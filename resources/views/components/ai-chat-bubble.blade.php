@@ -179,9 +179,9 @@
                         }));
 
                         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                        const chatEndpoint = "{{ route('ai.chat') }}";
 
-                        // Gunakan endpoint /ai/chat yang kompatibel dengan server lokal & Vercel serverless
-                        const response = await fetch('/ai/chat', {
+                        const response = await fetch(chatEndpoint, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
