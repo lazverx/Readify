@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\Kategori;
+use App\Models\KoleksiPribadi;
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,15 @@ class AuthController extends Controller
         $totalAnggota = Pengguna::where('level_akses', 'anggota')->count();
         $kategoriSemua = Kategori::orderBy('nama_kategori')->get();
 
-        return view('auth.register', compact('totalKoleksi', 'totalAnggota', 'kategoriSemua'));
+        // Ambil buku starter terkurasi untuk onboarding personalisasi
+        $bukuStarter = Buku::with('kategori')
+            ->where('stok', '>', 0)
+            ->select('id_buku', 'judul_buku', 'penulis', 'sampul', 'stok')
+            ->inRandomOrder()
+            ->limit(18)
+            ->get();
+
+        return view('auth.register', compact('totalKoleksi', 'totalAnggota', 'kategoriSemua', 'bukuStarter'));
     }
 
     public function login(Request $request)
@@ -86,6 +95,9 @@ class AuthController extends Controller
             'alamat' => ['required', 'string'],
             'preferensi_kategori' => ['nullable', 'array'],
             'preferensi_kategori.*' => ['integer', 'exists:kategori,id_kategori'],
+            'target_baca_bulanan' => ['nullable', 'integer', 'min:1', 'max:50'],
+            'starter_books' => ['nullable', 'array'],
+            'starter_books.*' => ['integer', 'exists:buku,id_buku'],
         ]);
 
         DB::beginTransaction();
@@ -100,20 +112,32 @@ class AuthController extends Controller
                 'status' => 'pending', // menunggu verifikasi admin
             ]);
 
-            Anggota::create([
+            $anggota = Anggota::create([
                 'id_pengguna' => $pengguna->id_pengguna,
                 'nama_lengkap' => $validated['nama_lengkap'],
                 'alamat' => $validated['alamat'],
                 'nomor_telepon' => $validated['nomor_telepon'],
                 'preferensi_kategori' => $request->preferensi_kategori ?? [],
-                'target_baca_bulanan' => 3,
+                'target_baca_bulanan' => $request->input('target_baca_bulanan', 3),
             ]);
+
+            // Benihkan buku starter ke koleksi pribadi jika ada yang dipilih
+            if (!empty($request->starter_books) && is_array($request->starter_books)) {
+                foreach ($request->starter_books as $idBuku) {
+                    KoleksiPribadi::firstOrCreate([
+                        'id_pengguna' => $pengguna->id_pengguna,
+                        'id_buku' => (int) $idBuku,
+                    ]);
+                }
+            }
+
+            \App\Models\LogAktivitas::catat('registrasi', "Anggota baru '{$pengguna->nama_pengguna}' berhasil mendaftar.", $pengguna->id_pengguna);
 
             DB::commit();
 
             Auth::login($pengguna);
 
-            return redirect()->route('anggota.dashboard');
+            return redirect()->route('anggota.dashboard')->with('success', 'Selamat datang di Readify! Beranda Anda telah dipersonalisasi sesuai minat baca.');
 
         } catch (\Exception $e) {
             DB::rollBack();
