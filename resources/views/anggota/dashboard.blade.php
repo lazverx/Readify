@@ -87,8 +87,9 @@
                             <span class="text-sm sm:text-lg font-bold">{{ $userStats['total_pinjam'] ?? 0 }} {{ __('messages.books_unit') }}</span>
                         </div>
                         <div class="bg-white/10 rounded-xl p-2 sm:p-2.5 backdrop-blur-sm">
-                            <span class="text-[10px] sm:text-[11px] text-emerald-200 block truncate">{{ __('messages.your_rank') }}</span>
-                            <span class="text-sm sm:text-lg font-bold">#{{ $userStats['rank'] ?? '-' }}</span>
+                            <span class="text-[10px] sm:text-[11px] text-emerald-200 block truncate">{{ __('messages.reading_goal_banner') }}</span>
+                            <span class="text-sm sm:text-lg font-bold text-amber-300">{{ $bukuDibacaBulanIni ?? 0 }}/{{ $targetBaca ?? 3 }}</span>
+                            <span class="text-[9px] text-emerald-200 block">({{ $persenTarget ?? 0 }}% selesai)</span>
                         </div>
                         <div class="bg-white/10 rounded-xl p-2 sm:p-2.5 backdrop-blur-sm">
                             <span class="text-[10px] sm:text-[11px] text-emerald-200 block truncate">{{ __('messages.reader_badge') }}</span>
@@ -155,6 +156,80 @@
                 </div>
             </div>
         </div>
+
+        {{-- ========================================================= --}}
+        {{-- FEATURE 5: DIPILIHKAN KHUSUS UNTUK ANDA (PERSONALISASI PEMBACA) --}}
+        {{-- ========================================================= --}}
+        @if(isset($bukuRekomendasi) && $bukuRekomendasi->isNotEmpty())
+            <div class="mb-6 rounded-2xl border border-gray-100 bg-white p-5 sm:p-6 shadow-xs">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-gray-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-50 text-[#004236] flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="text-sm sm:text-base font-extrabold text-gray-900">{{ __('messages.curated_for_you') }}</h3>
+                                @if(!empty($kategoriFavoritNama))
+                                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-[#004236] border border-emerald-200">
+                                        {{ __('messages.curated_based_on') }}: {{ implode(', ', array_slice($kategoriFavoritNama, 0, 2)) }}{{ count($kategoriFavoritNama) > 2 ? ' +' . (count($kategoriFavoritNama) - 2) : '' }}
+                                    </span>
+                                @endif
+                            </div>
+                            <p class="text-xs text-gray-500 mt-0.5">{{ __('messages.curated_for_you_sub') }}</p>
+                        </div>
+                    </div>
+
+                    <a href="{{ route('anggota.profile', ['tab' => 'preferensi']) }}"
+                        class="inline-flex items-center gap-1.5 text-xs font-bold text-[#004236] hover:text-emerald-950 transition shrink-0 self-start sm:self-center">
+                        <span>{{ __('messages.change_preferences') }}</span>
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+
+                {{-- Horizontal Grid of Curated Books --}}
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+                    @foreach($bukuRekomendasi as $bukuItem)
+                        <div class="group relative flex flex-col justify-between rounded-xl border border-gray-100 bg-gray-50/50 p-2.5 transition-all hover:bg-white hover:shadow-md hover:-translate-y-0.5">
+                            <div>
+                                <div class="relative aspect-3/4 w-full rounded-lg overflow-hidden bg-gray-200 mb-2 shadow-2xs">
+                                    @if($bukuItem->sampul)
+                                        <img src="{{ Storage::url($bukuItem->sampul) }}" alt="{{ $bukuItem->judul_buku }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center bg-emerald-100/60 text-[#004236]">
+                                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#004236]/90 text-white backdrop-blur-xs truncate max-w-[90%]">
+                                        {{ $bukuItem->kategori->first()?->nama_kategori ?? 'Umum' }}
+                                    </span>
+                                </div>
+                                <h4 class="text-xs font-bold text-gray-900 line-clamp-1 group-hover:text-[#004236] transition">
+                                    {{ $bukuItem->judul_buku }}
+                                </h4>
+                                <p class="text-[10px] text-gray-500 truncate mt-0.5">{{ $bukuItem->penulis }}</p>
+                            </div>
+
+                            <div class="mt-2.5 pt-2 border-t border-gray-100 flex items-center justify-between gap-1">
+                                <span class="text-[10px] font-bold {{ $bukuItem->stok > 0 ? 'text-emerald-700' : 'text-rose-600' }}">
+                                    {{ $bukuItem->stok > 0 ? 'Tersedia' : 'Habis' }}
+                                </span>
+                                <a href="{{ route('anggota.buku.detail', $bukuItem->id_buku) }}"
+                                    class="rounded-lg bg-[#004236] px-2 py-1 text-[10px] font-bold text-white shadow-2xs hover:bg-emerald-950 transition">
+                                    Detail
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
 
         {{-- ========================================================= --}}
         {{-- FEATURE 6: LIVE SEARCH, CATEGORY PILLS & AVAILABILITY FILTER --}}

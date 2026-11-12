@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\Buku;
+use App\Models\Kategori;
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,12 +16,20 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login');
+        $bukuPilihan = Buku::with('kategori')->where('stok', '>', 0)->inRandomOrder()->first();
+        $totalKoleksi = Buku::count();
+        $totalAnggota = Pengguna::where('level_akses', 'anggota')->count();
+
+        return view('auth.login', compact('bukuPilihan', 'totalKoleksi', 'totalAnggota'));
     }
 
     public function showRegisterForm()
     {
-        return view('auth.register');
+        $totalKoleksi = Buku::count();
+        $totalAnggota = Pengguna::where('level_akses', 'anggota')->count();
+        $kategoriSemua = Kategori::orderBy('nama_kategori')->get();
+
+        return view('auth.register', compact('totalKoleksi', 'totalAnggota', 'kategoriSemua'));
     }
 
     public function login(Request $request)
@@ -29,12 +39,12 @@ class AuthController extends Controller
             'kata_sandi' => ['required', 'string'],
         ]);
 
+        $remember = $request->boolean('ingat_saya') || $request->boolean('remember');
 
         $authCredentials = [
             'nama_pengguna' => $credentials['nama_pengguna'],
             'password' => $credentials['kata_sandi']
         ];
-
 
         if (filter_var($credentials['nama_pengguna'], FILTER_VALIDATE_EMAIL)) {
             $authCredentials = [
@@ -43,7 +53,7 @@ class AuthController extends Controller
             ];
         }
 
-        if (Auth::attempt($authCredentials)) {
+        if (Auth::attempt($authCredentials, $remember)) {
             $request->session()->regenerate();
             $user = Auth::user();
 
@@ -74,12 +84,14 @@ class AuthController extends Controller
             'kata_sandi' => ['required', 'string', 'min:8'],
             'nomor_telepon' => ['required', 'string', 'max:15'],
             'alamat' => ['required', 'string'],
+            'preferensi_kategori' => ['nullable', 'array'],
+            'preferensi_kategori.*' => ['integer', 'exists:kategori,id_kategori'],
         ]);
 
         DB::beginTransaction();
 
         try {
-            // Simpan data ke tabel pengguna dulu
+            // Simpan data ke tabel pengguna
             $pengguna = Pengguna::create([
                 'nama_pengguna' => $validated['nama_pengguna'],
                 'email' => $validated['email'],
@@ -93,6 +105,8 @@ class AuthController extends Controller
                 'nama_lengkap' => $validated['nama_lengkap'],
                 'alamat' => $validated['alamat'],
                 'nomor_telepon' => $validated['nomor_telepon'],
+                'preferensi_kategori' => $request->preferensi_kategori ?? [],
+                'target_baca_bulanan' => 3,
             ]);
 
             DB::commit();

@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 return [
     // Navbar & Global Navigation
@@ -376,5 +376,48 @@ return [
     'id_card_pending_desc' => 'Please wait, your account is being reviewed by library staff.',
     'id_card_pending_status' => 'Pending Verification',
     'id_card_registered_date' => 'Registration Date',
+
+    // Reader Personalization & Profile Revamp
+    'tab_preferences' => 'Interests & Personalization',
+    'tab_profile' => 'Profile & Security',
+    'tab_achievements' => 'Badges & Analytics',
+    'tab_card' => 'Digital Member Card',
+    'pref_title' => 'Reading Preferences',
+    'pref_desc' => 'Select your favorite genres to personalize book recommendations on the main page.',
+    'pref_genres_label' => 'Favorite Genres & Categories',
+    'pref_genres_hint' => 'Choose your favorite categories. Recommended books on your dashboard will adapt to your choices.',
+    'pref_reading_goal' => 'Monthly Reading Goal',
+    'pref_goal_hint' => 'Set how many books you aim to finish each month.',
+    'pref_books_per_month' => 'books / month',
+    'pref_current_progress' => 'This Month Progress',
+    'pref_books_read' => ':count of :target books finished (:percent%)',
+    'genre_analytics_title' => 'Reading Genre Distribution',
+    'genre_analytics_desc' => 'Based on your overall book borrowing history',
+    'genre_no_history' => 'No borrowing history available to analyze yet.',
+    'phone_number' => 'Phone Number',
+
+    // Main Page Curated Section
+    'curated_for_you' => 'Curated For You',
+    'curated_for_you_sub' => 'Curated recommendations matching your favorite genres',
+    'curated_based_on' => 'Based on interests',
+    'change_preferences' => 'Change Preferences',
+    'all_genres' => 'All Genres',
+    'reading_goal_banner' => 'Monthly Reading Target',
+
+    // Revamp Auth / Login
+    'login_hero_badge' => 'Digital Reading Room',
+    'login_hero_title' => 'Explore the World Through Every Page',
+    'login_hero_desc' => 'Sign in to access your personal bookshelf, track reading goals, and discover books tailored just for you.',
+    'book_of_the_day' => 'Featured Book of the Day',
+    'remember_me' => 'Remember me on this device',
+    'quick_demo_login' => 'Quick Demo Access:',
+    'demo_admin' => 'Admin',
+    'demo_officer' => 'Officer',
+    'demo_member' => 'Member',
+    'greeting_morning' => 'Good Morning',
+    'greeting_afternoon' => 'Good Afternoon',
+    'greeting_evening' => 'Good Evening',
+    'greeting_night' => 'Good Evening',
+    'caps_lock_active' => 'Caps Lock is active',
 ];
 

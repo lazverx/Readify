@@ -376,5 +376,48 @@ return [
     'id_card_pending_desc' => 'Mohon tunggu, akun Anda sedang diverifikasi oleh petugas.',
     'id_card_pending_status' => 'Menunggu Verifikasi',
     'id_card_registered_date' => 'Tanggal Daftar',
+
+    // Personalisasi Pembaca & Revamp Profil
+    'tab_preferences' => 'Minat & Personalisasi',
+    'tab_profile' => 'Data Diri & Keamanan',
+    'tab_achievements' => 'Lencana & Statistik',
+    'tab_card' => 'Kartu Anggota Digital',
+    'pref_title' => 'Preferensi Minat Membaca',
+    'pref_desc' => 'Pilih genre favorit Anda untuk menyesuaikan rekomendasi buku di halaman utama.',
+    'pref_genres_label' => 'Genre & Kategori Favorit',
+    'pref_genres_hint' => 'Pilih kategori favorit Anda. Buku rekomendasi di dashboard akan disesuaikan dengan pilihan ini.',
+    'pref_reading_goal' => 'Target Membaca Bulanan',
+    'pref_goal_hint' => 'Tentukan berapa buku yang ingin Anda baca setiap bulannya.',
+    'pref_books_per_month' => 'buku / bulan',
+    'pref_current_progress' => 'Progres Bulan Ini',
+    'pref_books_read' => ':count dari :target buku selesai (:percent%)',
+    'genre_analytics_title' => 'Distribusi Minat Membaca',
+    'genre_analytics_desc' => 'Berdasarkan akumulasi riwayat peminjaman buku Anda',
+    'genre_no_history' => 'Belum ada riwayat peminjaman untuk dianalisis.',
+    'phone_number' => 'Nomor Telepon',
+
+    // Main Page Curated Section
+    'curated_for_you' => 'Dipilihkan Khusus Untuk Anda',
+    'curated_for_you_sub' => 'Rekomendasi terkurasi berdasarkan minat genre Anda',
+    'curated_based_on' => 'Berdasarkan minat',
+    'change_preferences' => 'Ubah Minat',
+    'all_genres' => 'Semua Genre',
+    'reading_goal_banner' => 'Target Baca Bulan Ini',
+
+    // Revamp Auth / Login
+    'login_hero_badge' => 'Ruang Baca Digital',
+    'login_hero_title' => 'Jelajahi Dunia Lewat Setiap Lembar Buku',
+    'login_hero_desc' => 'Masuk untuk mengakses rak buku pribadi, melacak progres membaca, dan menemukan rekomendasi terkurasi khusus untuk Anda.',
+    'book_of_the_day' => 'Buku Pilihan Hari Ini',
+    'remember_me' => 'Ingat saya di perangkat ini',
+    'quick_demo_login' => 'Akses Demo Cepat:',
+    'demo_admin' => 'Admin',
+    'demo_officer' => 'Petugas',
+    'demo_member' => 'Anggota',
+    'greeting_morning' => 'Selamat Pagi',
+    'greeting_afternoon' => 'Selamat Siang',
+    'greeting_evening' => 'Selamat Sore',
+    'greeting_night' => 'Selamat Malam',
+    'caps_lock_active' => 'Caps Lock sedang aktif',
 ];
 

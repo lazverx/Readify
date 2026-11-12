@@ -57,7 +57,52 @@ class AnggotaController extends Controller
         };
 
         $buku = $query->paginate(12)->withQueryString();
-        $kategori = \App\Models\Kategori::all();
+
+        // Personalisasi Pembaca (Preferred Categories & Recommendations)
+        $user = Auth::user();
+        $anggota = $user->anggota;
+        $prefCategoryIds = (array) ($anggota?->preferensi_kategori ?? []);
+
+        // Rekomendasi Buku berdasarkan preferensi minat pembaca
+        $bukuRekomendasiQuery = Buku::with('kategori')->where('stok', '>', 0);
+        if (!empty($prefCategoryIds)) {
+            $bukuRekomendasiQuery->whereHas('kategori', function ($q) use ($prefCategoryIds) {
+                $q->whereIn('kategori.id_kategori', $prefCategoryIds);
+            });
+        }
+        $bukuRekomendasi = $bukuRekomendasiQuery->inRandomOrder()->limit(6)->get();
+
+        // Jika buku rekomendasi kurang dari 4, tambahkan buku populer lainnya
+        if ($bukuRekomendasi->count() < 4) {
+            $existingIds = $bukuRekomendasi->pluck('id_buku')->toArray();
+            $tambahan = Buku::with('kategori')
+                ->where('stok', '>', 0)
+                ->whereNotIn('id_buku', $existingIds)
+                ->orderBy('dibuat_pada', 'desc')
+                ->limit(6 - $bukuRekomendasi->count())
+                ->get();
+            $bukuRekomendasi = $bukuRekomendasi->concat($tambahan);
+        }
+
+        // Nama kategori preferensi untuk label di dashboard
+        $kategoriFavoritNama = !empty($prefCategoryIds)
+            ? \App\Models\Kategori::whereIn('id_kategori', $prefCategoryIds)->pluck('nama_kategori')->toArray()
+            : [];
+
+        // Progress Target Baca Bulanan
+        $targetBaca = max(1, (int) ($anggota?->target_baca_bulanan ?? 3));
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        $bukuDibacaBulanIni = Peminjaman::where('id_pengguna', $user->id_pengguna)
+            ->whereMonth('tgl_pinjam', $currentMonth)
+            ->whereYear('tgl_pinjam', $currentYear)
+            ->count();
+        $persenTarget = min(100, round(($bukuDibacaBulanIni / $targetBaca) * 100));
+
+        // Urutkan kategori: genre preferensi pengguna diutamakan di depan
+        $kategori = \App\Models\Kategori::all()->sortBy(function ($k) use ($prefCategoryIds) {
+            return in_array($k->id_kategori, $prefCategoryIds) ? 0 : 1;
+        })->values();
 
         // Jika AJAX request, kembalikan JSON partial
         if ($request->ajax() || $request->has('ajax')) {
@@ -78,7 +123,18 @@ class AnggotaController extends Controller
         $leaderboard = GamifikasiService::getLeaderboard(5);
         $userStats = GamifikasiService::getUserStats(Auth::id());
 
-        return view('anggota.dashboard', compact('buku', 'kategori', 'bukuJatuhTempo', 'leaderboard', 'userStats'));
+        return view('anggota.dashboard', compact(
+            'buku',
+            'kategori',
+            'bukuJatuhTempo',
+            'leaderboard',
+            'userStats',
+            'bukuRekomendasi',
+            'kategoriFavoritNama',
+            'targetBaca',
+            'bukuDibacaBulanIni',
+            'persenTarget'
+        ));
     }
 
     /**
@@ -325,7 +381,44 @@ class AnggotaController extends Controller
         $badges = GamifikasiService::getUserBadges($user->id_pengguna);
         $userStats = GamifikasiService::getUserStats($user->id_pengguna);
 
-        return view('anggota.profile', compact('user', 'anggota', 'badges', 'userStats'));
+        $kategoriSemua = \App\Models\Kategori::orderBy('nama_kategori')->get();
+
+        // Genre analytics dari riwayat peminjaman buku
+        $genreStats = DB::table('peminjaman')
+            ->join('buku', 'peminjaman.id_buku', '=', 'buku.id_buku')
+            ->join('buku_kategori', 'buku.id_buku', '=', 'buku_kategori.id_buku')
+            ->join('kategori', 'buku_kategori.id_kategori', '=', 'kategori.id_kategori')
+            ->where('peminjaman.id_pengguna', $user->id_pengguna)
+            ->select('kategori.nama_kategori', DB::raw('count(*) as total'))
+            ->groupBy('kategori.id_kategori', 'kategori.nama_kategori')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get();
+
+        $totalGenreCount = $genreStats->sum('total');
+
+        // Progress target baca bulan ini
+        $targetBaca = max(1, (int) ($anggota?->target_baca_bulanan ?? 3));
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        $bukuDibacaBulanIni = Peminjaman::where('id_pengguna', $user->id_pengguna)
+            ->whereMonth('tgl_pinjam', $currentMonth)
+            ->whereYear('tgl_pinjam', $currentYear)
+            ->count();
+        $persenTarget = min(100, round(($bukuDibacaBulanIni / $targetBaca) * 100));
+
+        return view('anggota.profile', compact(
+            'user',
+            'anggota',
+            'badges',
+            'userStats',
+            'kategoriSemua',
+            'genreStats',
+            'totalGenreCount',
+            'targetBaca',
+            'bukuDibacaBulanIni',
+            'persenTarget'
+        ));
     }
 
     public function updateProfile(Request $request)
@@ -338,8 +431,12 @@ class AnggotaController extends Controller
             'nama_pengguna' => 'required|unique:pengguna,nama_pengguna,' . $user->id_pengguna . ',id_pengguna',
             'nama_lengkap' => 'required|string|max:255',
             'alamat' => 'required|string',
+            'nomor_telepon' => 'nullable|string|max:20',
             'password' => 'nullable|min:6',
             'foto_profil' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048',
+            'preferensi_kategori' => 'nullable|array',
+            'preferensi_kategori.*' => 'integer|exists:kategori,id_kategori',
+            'target_baca_bulanan' => 'nullable|integer|min:1|max:50',
         ]);
 
         $user->email = $request->email;
@@ -364,12 +461,23 @@ class AnggotaController extends Controller
         /** @var \App\Models\Pengguna $user */
         $user->save();
 
-        $anggota->nama_lengkap = $request->nama_lengkap;
-        $anggota->alamat = $request->alamat;
-        /** @var \App\Models\Anggota $anggota */
-        $anggota->save();
+        if ($anggota) {
+            $anggota->nama_lengkap = $request->nama_lengkap;
+            $anggota->alamat = $request->alamat;
+            if ($request->filled('nomor_telepon')) {
+                $anggota->nomor_telepon = $request->nomor_telepon;
+            }
+            if ($request->has('preferensi_kategori')) {
+                $anggota->preferensi_kategori = array_map('intval', (array) $request->preferensi_kategori);
+            }
+            if ($request->filled('target_baca_bulanan')) {
+                $anggota->target_baca_bulanan = (int) $request->target_baca_bulanan;
+            }
+            /** @var \App\Models\Anggota $anggota */
+            $anggota->save();
+        }
 
-        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->back()->with('success', 'Profil dan preferensi bacaan Anda berhasil diperbarui.');
     }
 
     /**

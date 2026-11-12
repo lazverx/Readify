@@ -19,7 +19,14 @@ class Anggota extends Model
         'id_pengguna',
         'nama_lengkap',
         'alamat',
-        'nomor_telepon'
+        'nomor_telepon',
+        'preferensi_kategori',
+        'target_baca_bulanan',
+    ];
+
+    protected $casts = [
+        'preferensi_kategori' => 'array',
+        'target_baca_bulanan' => 'integer',
     ];
 
     public function pengguna()
