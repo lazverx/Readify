@@ -7,12 +7,13 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\KoleksiPribadi;
 use App\Models\Pengguna;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class OnboardingRegistrationTest extends TestCase
 {
+    use DatabaseTransactions;
     #[Test]
     public function halaman_registrasi_menampilkan_wizard_onboarding_dan_data_kategori()
     {
@@ -32,10 +33,10 @@ class OnboardingRegistrationTest extends TestCase
         $kategori2 = Kategori::firstOrCreate(['nama_kategori' => 'Sains']);
         $kategori3 = Kategori::firstOrCreate(['nama_kategori' => 'Teknologi']);
 
-        $buku1 = Buku::firstOrCreate(
+        $buku1 = Buku::first() ?? Buku::firstOrCreate(
             ['isbn' => '978-0000000001'],
             [
-                'judul_buku' => 'Buku Uji Personalisasi 1',
+                'judul_buku' => 'Koleksi Uji Personalisasi',
                 'penulis' => 'Penulis Uji',
                 'penerbit' => 'Penerbit Uji',
                 'stok' => 5,

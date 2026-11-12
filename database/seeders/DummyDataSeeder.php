@@ -29,29 +29,7 @@ class DummyDataSeeder extends Seeder
 
         $kategoriIds = Kategori::pluck('id_kategori')->toArray();
 
-        // 2. Data Buku Sampel
-        $bukuData = [
-            ['judul_buku' => 'Laskar Pelangi', 'penulis' => 'Andrea Hirata', 'stok' => 10],
-            ['judul_buku' => 'Bumi', 'penulis' => 'Tere Liye', 'stok' => 5],
-            ['judul_buku' => 'Sapiens', 'penulis' => 'Yuval Noah Harari', 'stok' => 3],
-            ['judul_buku' => 'Clean Code', 'penulis' => 'Robert C. Martin', 'stok' => 7],
-            ['judul_buku' => 'Atomic Habits', 'penulis' => 'James Clear', 'stok' => 12],
-        ];
-
-        foreach ($bukuData as $data) {
-            Buku::updateOrCreate(
-                ['judul_buku' => $data['judul_buku']],
-                [
-                    'isbn' => $faker->isbn13(),
-                    'penulis' => $data['penulis'],
-                    'penerbit' => $faker->company(),
-                    'stok' => $data['stok'],
-                    'id_kategori' => $kategoriIds[array_rand($kategoriIds)],
-                    'lokasi_rak' => 'Rak ' . strtoupper($faker->randomLetter()) . '-' . rand(1, 20),
-                ]
-            );
-        }
-
+        // 2. Ambil ID Buku yang Tersedia dari Katalog Nyata
         $bukuIds = Buku::pluck('id_buku')->toArray();
 
         // 3. Data Anggota

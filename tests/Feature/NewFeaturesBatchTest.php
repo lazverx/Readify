@@ -13,9 +13,12 @@ use App\Models\LogAktivitas;
 use App\Services\DueNotificationService;
 use App\Services\GamifikasiService;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class NewFeaturesBatchTest extends TestCase
 {
+    use DatabaseTransactions;
+
     protected $admin;
     protected $anggota;
     protected $buku;
@@ -56,8 +59,8 @@ class NewFeaturesBatchTest extends TestCase
             ]
         );
 
-        $this->buku = Buku::firstOrCreate(
-            ['judul_buku' => 'Test Buku QC Automated'],
+        $this->buku = Buku::first() ?? Buku::firstOrCreate(
+            ['judul_buku' => 'Koleksi Buku Pengujian Fitur'],
             [
                 'penulis' => 'Penulis QC',
                 'penerbit' => 'Penerbit QC',
@@ -182,11 +185,12 @@ class NewFeaturesBatchTest extends TestCase
         ]);
 
         // Live Search AJAX
+        $searchWord = explode(' ', $this->buku->judul_buku)[0];
         $searchResponse = $this->actingAs($this->anggota)
-            ->getJson(route('anggota.dashboard', ['search' => 'QC Automated', 'ajax' => 1]));
+            ->getJson(route('anggota.dashboard', ['search' => $searchWord, 'ajax' => 1]));
 
         $searchResponse->assertStatus(200);
         $searchResponse->assertJsonStructure(['html', 'pagination', 'total']);
-        $this->assertStringContainsString('Test Buku QC Automated', $searchResponse->json('html'));
+        $this->assertStringContainsString($this->buku->judul_buku, $searchResponse->json('html'));
     }
 }

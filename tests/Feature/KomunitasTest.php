@@ -10,8 +10,12 @@ use App\Models\PostinganKomunitas;
 use App\Models\KomentarKomunitas;
 use App\Models\LikePostingan;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class KomunitasTest extends TestCase
 {
+    use DatabaseTransactions;
+
     protected $anggota;
     protected $anggotaLain;
     protected $buku;
@@ -58,8 +62,8 @@ class KomunitasTest extends TestCase
             ]
         );
 
-        $this->buku = Buku::firstOrCreate(
-            ['judul_buku' => 'Buku Komunitas QC Test'],
+        $this->buku = Buku::first() ?? Buku::firstOrCreate(
+            ['judul_buku' => 'Koleksi Literasi Komunitas'],
             [
                 'penulis' => 'Penulis Komunitas',
                 'penerbit' => 'Penerbit Komunitas',

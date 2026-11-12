@@ -8,12 +8,13 @@ use App\Models\Kategori;
 use App\Models\Notifikasi;
 use App\Models\Pengguna;
 use App\Models\PengajuanBuku;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class PengajuanBukuTest extends TestCase
 {
+    use DatabaseTransactions;
     protected $admin;
     protected $anggota;
     protected $kategori;

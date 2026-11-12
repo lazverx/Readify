@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
         // Create users with different roles (admin, petugas, anggota)
         $this->call(UsersSeeder::class);
 
-        // Create dummy data for books, categories, etc.
-        $this->call(DummyDataSeeder::class);
-
-        // Tambah 120 buku baru (54 manga & 66 novel english)
+        // Tambah 120 buku terkurasi dengan sampul, sinopsis, dan kategori lengkap
         $this->call(Buku120Seeder::class);
+
+        // Buat data transaksi peminjaman & denda menggunakan buku nyata
+        $this->call(DummyDataSeeder::class);
     }
 }
